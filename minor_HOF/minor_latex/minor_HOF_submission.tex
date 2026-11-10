@@ -1,0 +1,19 @@
+% Submission version: Events 1 and 3 (class discussion) + two events chosen by the team.
+% Format required: per event, 1 page template + max 1 page justification; deliver as PDF.
+% Build: pdflatex minor_HOF_submission.tex (twice).
+\input{preamble}
+
+\newcommand{\TeamMembers}{Name Surname (ID) \quad Name Surname (ID) \quad Name Surname (ID)}
+\newcommand{\ReportScope}{Events 1 and 3 (completed and summarised from the class discussion) and two further events of the time-line (own analysis).}
+
+\begin{document}
+\input{frontmatter}
+
+\input{events/event1}
+\input{events/event3}
+% TODO(human): choose the two additional events (from 2, 4, 5, 6, 7, 8, 9)
+% and add them here with \input{events/eventN}, in time-line order with 1 and 3.
+
+% Optional cross-event page (remove if the report must contain only the event pages):
+% \input{synthesis}
+\end{document}

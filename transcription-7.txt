@@ -1,0 +1,205 @@
+Okay, good morning. Good to see you again. So, today we open up a new chapter in our journey. So far, we have mainly concentrated on the processes and the methods that we use for the coherent and joint design of safety performance, physical safety and security performance on one side and cybersecurity on the other, for mission-critical and safety-critical systems. But there is another key element that we actually mentioned at the very beginning of the course, when we introduced the concept of a socio-technical system: in those systems, we have to take into consideration also the human and organizational dimensions.
+
+So, there is a human and organizational dimension of the problem, not only a technical one. And this is exactly what we start discussing today. I think this is well known and particularly evident to all of us when it comes to cybersecurity, that the human element... [video] "Hi, I'm Patrick Wheeler, Director of Threat Intelligence at Proofpoint. Today's advanced technology is more on exploiting human flaws than system flaws. The 2017 Human Factor Report shows this overlooked aspect of enterprise threats and how they threaten the business bottom line.
+
+Here are four key highlights from this year's report. We know that today's business email compromise threats are increasing... the BEC messages rose from 1% to 42% of email-based financial fraud attacks... the vulnerabilities...
+
+Social media account phishing is happening... increasing by 160% in 2016... the response time is more crucial than ever. The longer it takes your... [inaudible]" [end of video]. Let's say that probably what is emphasized typically, also because in many cases we directly experience it ourselves,
+
+is the tens of emails we receive that are attempts at getting our credentials in many applications. So, what is typically emphasized is the contribution coming from the personal behavior of customers or professional users of certain IT applications. And that's true, of course, and it is an element, but we also know, and we will discuss in even more detail, that the human element is not only linked to personal behavior. It is there when the operator acts in isolation
+
+within her own or his own task, but also when people interact within teams or under specific organizational arrangements. So, when it comes to performing specific tasks or taking decisions within more articulated processes, or in the relations across different departments or divisions within an organization. Okay? This is the reason why we talk about the human and organizational sector. Okay?
+
+And if you want to understand this, it also applies when we move outside a single organization and look at the interactions between different organizations. Indeed, nowadays there is an emphasis on the importance of the cyber supply chain: how security and cybersecurity are ensured or put at risk due to weak or poor relations and collaborations in a cyber supply chain. And it also, to some extent, applies at a higher, social level, because of the regulations.
+
+We may discover that there are gray areas or inconsistencies or, in some cases, even conflicting requirements put forth by the different regulations or regulatory bodies that different organizations are exposed to. And then, we know that cybersecurity is also a matter of culture and awareness for citizens and consumers. Just to mention, for example, the DORA framework for financial institutions emphasizes how the role of the customers of banks and other financial institutions is an important element for cybersecurity, and that banks should protect not only company-sensitive data, but also consumer- and client-sensitive data.
+
+And so, we will hear in one of the testimonials we will have next month that some banks are including customers within the boundaries of their cybersecurity strategy and protection. Going back to organizational aspects, if you remember, we already introduced something when we discussed the alignment between the two processes that are used to design the safety features of the system and the security features of the system, and that achieving this alignment is not trivial. It's a matter of organizational arrangements, of how we ensure that there are proper information flows
+
+connecting and aligning the decisions taken by different teams in different departments of the same organization. So, this is an organization that may lead to better or to weaker safety and cybersecurity performance. What we want to do is to understand the mechanisms through which human behavior, human cognition if you want, and organizational arrangements may influence the dynamics of possible incidents or large catastrophic accidents in cyber-physical systems. So, we will depart from a general overview of what are frequently referred to as organizational accidents, to go deeper into the definition of human error and the way we can model and classify it.
+
+If you want to include the human element in our analysis, similarly to the definition of a failure of a technical item, we have to define what a failure is in order to investigate it, model it and then handle that phenomenon. Similarly, we have to define in our context what a human error is, and what the different phenotypes of human error are, so as to be able to discriminate, identify and then properly treat the different types of behavior that may put our system at risk. And we will see a couple of conceptual frameworks that on Thursday we will use to discuss a real case. In this course we stay at the qualitative level.
+
+We do not have time to go deeper into learning and applying quantitative and probabilistic models. But just to let you know, this is also part of the set of methods and tools we may use. Similarly to reliability engineering and probabilistic risk analysis applied to technical items, nowadays we do have methods for estimating human error probabilities, or human reliability, under specific tasks. So, to better understand how human and organizational factors interact with the safety performance and cybersecurity performance of a system, or the other way around, how they may influence and interact with the dynamics of an accident,
+
+we have to first look at the basic strategy that is currently adopted to embed safety features into cyber-physical systems. That is what we call the defense-in-depth principle. How do we protect our systems against physical hazards or cyber threats? By designing into our system a set of layers of defenses of different natures, of different types, that can be triggered through different logics and mechanisms. Some of them are fully automatic. Some of them are based on human decisions and actions.
+
+Some of them are a mix of the two. Some of these layers are purely organizational measures. So, let's consider a system that is operating under normal operating conditions. Normal operating conditions means that the state of the system that is providing the intended product or service, the current state of the system, is fully within the perimeter of the conditions intended by design. Then a failure, or any kind of disturbance.
+
+A failure is a type of disturbance that is triggered by the failure of one of the components or subsystems of our system. But a disturbance may also be triggered by external factors. So, here I wrote failure, but we may generalize, saying any kind of disturbance due to factors internal or external to the system, the socio-technical system, that may push our system outside the boundaries of normal operating conditions. So, let me say, our system enters the condition of off-normal operations.
+
+Typically, when we design the process, the physical process that undertakes the transformation of a set of inputs into the type of output we want to obtain from our system, which could be the production of a certain good or the delivery of a service, let's consider mobility or energy or the production of any kind of product, we design the process embedding some safety margins. Okay?
+
+So, it means that, to some extent, the physical process is generally able to absorb a certain amount of disturbance, just by design, because of the characteristics of the system, because of the safety margins we have. And so, in this case, we go through a transient that could be shorter or longer, depending on the type of disturbance.
+
+But in any case, thanks to this absorption capability, thanks to the safety margins, the system is able, autonomously, to recover and bounce back to the normal operating conditions without any additional intervention, either from a piece of technology that might be intended for that purpose or from any kind of direct human intervention. Okay? Simply because of the absorption capacity of the process itself. But, of course, there might be disturbances that are so intense that they go beyond the ability of the process to absorb them. And so, we enter what we call the loss of control, the loss of autonomous control, of the physical process.
+
+In this case, the second layer of protection is the safety systems. Okay? These are pieces of technology that are designed on purpose to be activated in case of severe off-normal conditions, to restore safe conditions when the system is altered in a severe way. It could be the automatic shutdown of the plant. It could be, for example, an additional heat removal system when the plant may reach too-high temperatures.
+
+Okay? And so, to protect the plant, the people and the environment, we add additional heat removal capabilities. Just to mention some examples. These are pieces of technology that are not used under normal operating conditions to obtain the proper production or service delivery we need.
+
+They are installed just to intervene under special unsafe conditions, and to recover from those conditions. In many cases, those kinds of safety systems are automatic. It means that there are sensors that trigger the intervention of those systems.
+
+In some cases, they may require the direct intervention of a human operator in the control room of the system, of the plant. So, through alarms, an operator receives a signal that says: by procedure, you know that based on this alarm you should start that system. And the system is started manually by an operator, not directly in the field, but from the control room. Luckily it's not frequent, but it's possible, it's plausible, that the disturbance is so severe that it exceeds also the ability of those systems. So, we have an additional protection layer that is called containment. We are not able to recover and to prevent the release of a certain amount of energy, or the release of a certain amount of toxic or poisonous substances, from our system.
+
+So, we enter a state of release, and so the next layer of defense is no longer of a preventive nature, it's of a protective nature. Okay? We try to limit the amount of release. So, this layer is called containment. And if this layer of defense is also not sufficient to limit the severity of the accident, typically the next layers are intended no longer to limit the release from the system, but to protect people and the environment from that release. We call them safety zones.
+
+Typically, for example, evacuation. Evacuation is a procedure. So, it's a layer of defense of a purely organizational nature, intended to protect people once we know that we cannot limit or contain the release of energy within a certain environment. Okay? So, this is the defense-in-depth principle. This principle is applied not only in the safety domain, but also in the security domain.
+
+Our IT systems, the architectures of our IT systems, are built according to the same logic. We have layers of barriers. Some of them are exactly called firewalls. Okay? Exactly because of this layered logic.
+
+Okay? We consider cyber-physical systems, and now, with the advent of AI, some of these layers can also be automated through, in some cases, more elaborate algorithms that support an automatic decision. So, for example, an AI agent that reads or receives information from a number of sensors, performs a diagnosis, and then takes a decision on what the proper action is. And then we can imagine that this kind of AI agent is connected in this chain of layered defenses as a substitution for the human action.
+
+So, we use the AI agent to substitute the task performed by the human agent, or the AI agent is developed and implemented as an advisor, to support more effective and faster decisions taken by a human agent. Just to give you some examples, we are currently involved in a large European research project funded by the European Commission, with more than 18 partners. We are involved in a small group where we are exploring the use of AI agents to support critical tasks currently performed by human operators, when it comes to air traffic management, to power grid protection against possible blackout conditions, and the third domain is railway network management. In these domains, we know there are some critical tasks that the operators have to carry out under specific conditions.
+
+On one side, there are colleagues in the consortium who are developing prototypes of AI agents to support a selected number of tasks within these domains. And then, we are exploring different ways of integrating those agents into the process. So, exactly comparing the safety margins, but also the cognitive workload for the operators, when we configure the interaction between the AI agent and the human agent in different ways. For example, with a handover: we split the entire task into a number of subtasks, and some of them are autonomously performed by the AI agent. So, there is a handover between the AI and the operator. Some pieces of the task are autonomously performed by the agent, and other tasks are performed by the operator. Or when they run in parallel.
+
+Okay? In that case, the operator performs all the tasks and takes all the intermediate decisions, but with additional support, with better information or a pre-diagnosis offered by the AI agent. Because the safety margins in these two configurations are not the same. We still do not have the results, because we are researching, but I'll let you know as soon as we learn something interesting. So, why is it important to refer to this defense-in-depth principle? Because we understand the role and the influence of human and organizational factors exactly in the way those factors alter, or may create, vulnerabilities in this layered defense strategy.
+
+This is called Reason's model of organizational accidents, from the name of the researcher who proposed it. It's a conceptual model. If you want, it's a method that says: okay, to protect our assets, we have targets here, tangible or intangible targets. They are something we want to safeguard because they are potentially exposed to physical hazards or cyber threats. And in order to protect our assets, our targets, we design, implement and operate a number of defenses according to this defense-in-depth principle. When engineers design those defenses, they design them to be 100% reliable. Okay?
+
+Maybe not in isolation. Exactly: we design more than one because we know that one may fail under certain conditions, and so we need additional ones. But overall, by design, we conceive this set of defenses as a proper way to protect our system. But in reality, there are some elements related to human behavior, human cognition and organizational dynamics that may create vulnerabilities, holes, in those barriers and defenses, which under specific circumstances may align in a way that allows the threat to pass through all the layers. Exactly because, due to human and organizational factors, those vulnerabilities are not independent but somehow interdependent, so they may open up the opportunity for a trajectory along which the threat may go through and reach our asset, our target.
+
+And because of this representation, this is also in many cases referred to as the Swiss cheese model. Okay? I think it's easy to understand why. So, Reason's model of organizational accidents, the Swiss cheese model. Reason identifies two types of human and organizational factors, which he classified into active failures and latent failures. What does he mean?
+
+Active failures are human and organizational factors that are synchronous in time with the occurrence of the accident, of the incident. So, the vulnerability is created at the same time the hazard or the threat is able to exploit it. It's contextual and synchronous in time with the event per se. While latent failures are vulnerabilities we have in the system that remain hidden. They are probably there for a long time, but they remain hidden until a hazard or a threat is able to exploit them and induce an event.
+
+Active failures are typically, though not necessarily, technical failures. It's quite typical that a failure in a component suddenly translates into an off-normal condition for the system, at least at a certain stage. Or human errors: a wrong action, or the omission of a required action under certain circumstances.
+
+Or a poor diagnosis or a wrong decision. So, different types of human errors. Each time the effectiveness of a certain defense is directly dependent on a human action, the defense is not automatic: it must be activated by an operator based on a certain alarm or signal that is readable on a desk, on a monitor, in the control room. Due to inattention, the operator may not see the alarm.
+
+And so, for example, activate the defense too late. Or it could be an attacker that is able to attack our system, whose defenses are vulnerable, and through a cyber attack creates holes in our defenses, so that we become vulnerable to a physical hazard. This is exactly the way Triton operates.
+
+Do you remember? We already talked about that. In this case, the cyber attack is not a direct threat, it's an indirect threat, because the purpose of the cyber attack is to create vulnerabilities in our physical defenses. It's not to steal data.
+
+It's not to shut down a system and create a disservice. It's to induce very hazardous conditions for critical systems. On the other side, latent failures are typically more of an organizational nature. Poor decisions taken during the design phase of the system: once we build and then start operating the system, we suffer the consequences of poor design decisions. Others are related to the processes that, during the operating life of the system, guarantee the availability of those barriers.
+
+As with any other piece of the system, they also require, for example, maintenance. So, poor maintenance policies or procedures may induce, over a certain period, unintended vulnerabilities in our defenses. Maintenance, in a broader sense, is relevant also for defenses that are of an organizational nature. What I mean is that exercises or simulations of evacuation plans, for example, could be considered a way of maintaining an organizational procedure that has a clear safety intent. As I mentioned at the very beginning this morning, we might also have latent conditions for unexpected vulnerabilities in our defenses that are induced by higher-level organizational or social effects.
+
+For example, conflicting requirements in regulations, where you have to design different layers according to different regulations, and those incoherences may induce dependent vulnerabilities between different layers of the defenses. Okay? All clear so far? All clear so far? Good.
+
+But, one note: we cannot decouple human and organizational factors as a contribution to accidents from human and organizational factors as key ingredients and capabilities we have to handle an incident and an accident. So, we have to treat them jointly. There is a duality.
+
+They are two faces of the same coin. From a system-thinking perspective, we cannot fully decouple these two types of contributions. We have to consider them jointly, and so design and implement our solutions to combine in the best possible way the two aspects. This is the reason why, when we tackle human and organizational risk factors, we have to consider the entire error handling process.
+
+So, how can we act to prevent human errors and organizational errors, but also, at the same time, how do our actions, strategies and resolutions enable us to enhance as much as possible error recovery and then emergency management for more severe events. For example, this is the reason why it's not true that, if a technology is more reliable than human action, then for safety purposes it's always better to go fully for automation and avoid any kind of human action. If at a certain point you need human involvement, because all your technological means are made vulnerable or destroyed by the hazard or the threat, then you need the human agents involved to be up to speed and aware of the situation. Okay?
+
+This can be achieved only if those operators are involved from the beginning. You give the operators the time to diagnose, to create the proper level of awareness. And so, automation may accelerate things and can be more reliable in 80% of conditions. But at a certain point, a fully automated approach could create the conditions in which your operators have no time to diagnose the situation, to create situational awareness, and so to take a proper and correct decision when they are called into play. Okay?
+
+So, it's always a balance between these three stages where the human and organizational factors are involved: error prevention, error recovery, and emergency management. Okay? So, in order to have a more systematic, detailed understanding of this kind of phenomena, we need some models and frameworks that enable us to represent the situation, to discriminate between different situations, and to support us in taking the proper design and operational decisions. The most elementary element we need is clarifying, in this context, what a human error is. As in the purely technical domain, we have to define what a failure is.
+
+Similarly, before building models and methods to handle the reliability of operations of technical systems, we have to define what a failure is. Similarly, in this domain, we have to define what an error is. Also because the human error is not the center of our interest. Similarly to the technical failure, a human error is simply the last mile of a long chain of mechanisms. For the sake of designing and building safety, we are much more interested in the underlying factors that may lead to a human error, similar to the underlying factors that may lead to a technical failure, which we know is always possible.
+
+So, we cannot concentrate only on the last mile. We have to understand what the underlying factors are and take proper decisions to handle all of them. And here it is the same. Okay? So, in our context, defining what a human error is is not intended for pointing fingers at one operator instead of another.
+
+It is the point of departure for achieving a proper modeling of all the influencing factors that may contribute to a human error. And those are exactly the factors that are of interest for us as engineers, as managers. Okay? So, we take this definition again from Reason. Actually, there are many possible definitions in the literature. In any case, an error will be taken as a generic term to encompass all those occasions in which a planned sequence of mental or physical activities...
+
+Okay? So, under this definition, an error is not just a wrong action, a physical action, pushing the wrong button. It also refers to the mental sequence and mental process that led the operator to push that button.
+
+Or simply a mental process that led the operator to make the wrong diagnosis. Even though the consequences of this wrong diagnosis can be seen, I mean, one hour, two days, or one month later. So: a sequence of mental or physical activities that fails to achieve its intended outcome, and when these failures cannot be attributed to the intervention of some chance agency.
+
+The last one is a disclaimer, in the sense that, if you are not able to achieve your intended outcome because you [inaudible], okay, this is an error. If you fail in achieving your aim just because you are hit by a piece of wall just outside the house, this is not under your control. So, this is a chance agency. But the point is: failing to achieve the intended outcome. This is also important because, in this case, we identify an error exactly because the mental or physical action is not coherent with what is needed to preserve safety conditions or cybersecurity conditions for our system under the specific prevailing circumstances.
+
+Okay? So, it's not defined against a procedure. It could be that a violation of a procedure is an error only in the case that the violation of the procedure produces unintended effects. So, the error is defined against the outcome, whether intended or not intended, of the process.
+
+Apart from the definition, we also have several different ways of classifying errors, to be able to distinguish different types of errors. One of the most common ones is the Swain and Guttman classification, also because it is, for us, the one that is easiest to translate into a human error classification. So, when we move toward probabilistic analysis, this classification is quite common. Why?
+
+Simply because it concentrates on what is observable. The observable part of an error, what we call the phenotype of an error. So, we distinguish between error of omission, error of commission, and violation.
+
+Error of omission means that the operator fails to perform a necessary action. So, the error is because a certain required action has not been implemented by the operator. While an error of commission occurs when an action is performed, but in an incorrect manner. For example, this also includes when you perform a different action from the correct one.
+
+Or you perform the action in a wrong manner. So, too late, too fast, in the reverse order. These are different types of errors of commission.
+
+The violation can actually be of an omission or commission nature. We are interested in identifying errors of omission or commission that can be defined as errors because they are not coherent with a clearly specified and stated procedure, for which the operator should also have been properly trained. It's important to underline that procedures also are not perfect. We might have conditions where the proper implementation of a procedure is a direct contribution to an accident.
+
+On Thursday, we will see this example. So, this is the reason why we cannot limit the identification and definition of errors only against the proper or improper implementation of a procedure. We know that procedures also are not perfect. Not necessarily.
+
+And so, through this kind of analysis, we are also able to identify places where our procedures can be improved. If we define errors only against procedures, the proper or improper implementation of a procedure, it implies that we are taking our current procedures as the Bible. The perfect, ideal work. Okay?
+
+While they are not. And so we are losing the opportunity to improve safety through continuous improvement also of our internal operating procedures. Another way of distinguishing between different types of human errors is a taxonomy, again proposed by James Reason, that distinguishes between mistakes, lapses and slips. And here the distinction is not based on what we observe, so commission, omission or violation.
+
+This distinction is not purely based on the phenotype of the error, but depends on the stage in the cognitive process where the error is triggered. So, in this view, we refer to a very, very simple, simplistic cognitive process that says: a human operator, first of all, sets an intention. Given the situation, what should I do, what am I expected to decide or to do? Setting the intention. Then she or he retrieves all the knowledge and information needed to translate the intention into a correct action.
+
+And then executes the action. Okay? Very, very simple. So, based on these three stages, Reason says that the error can have its origin in the intention per se.
+
+So, the operator identified an expected decision or action that was incorrect from the beginning. And so, the phenotype is an error, but by intention. Intention doesn't mean deliberately.
+
+It doesn't mean that the operator deliberately decided to implement the wrong action. Intention means that the error is rooted back in the stage where the operator tried to understand what he or she should decide on or do. Okay? And so, this is the mistake.
+
+Then there is the case where the intention was correct, but the error is in the retrieval from memory. In this case, the error is classified as a lapse. Okay? I realized what I should do, but I forgot some of the elements of the procedure that I should implement to execute the action in a proper way. Or the error is simply triggered at the execution
+
+stage. That is the slip. Okay? [inaudible]
+
+[inaudible] Identification means: I have to concentrate on the red light and not care about the other. There is no issue on the other side. Okay?
+
+Interpretation. What does this alarm mean? It is telling me that the temperature in that section of the plant is much higher than normal operating conditions. Evaluation. Is this a dangerous situation or not? Is this a source of concern or not?
+
+Okay? Meaning, interpretation and evaluation. And then, based on this, you decide or you identify what the task is. Should I do something? What am I expected to do given this situation?
+
+So, you plan. You see, the prior Reason classification starts at this stage, intention. But before intention, there are actually many other prior stages.
+
+From attention, activation, to intention. Intention. Planning. So, I decided what I have to do. Decide.
+
+Planning. What's the process I have to follow to take that decision? Which kind of information do I need? What kind of knowledge do I have to retrieve?
+
+To take that decision or to execute that action. And then, execution. Well, this is the entire process, considering human cognition as an information processing machine. Now, in different situations, our cognitive capability works in different ways. We might have several shortcuts. And the typical ones go from activation straight to execution. These are activities that we perform on skill.
+
+So, we are skilled to do certain actions, and an activation, an external stimulus, is enough for us to trigger that action. Consider the way you drive your car or your scooter. Many of those actions are skill-based.
+
+Some others are rule-based. You know the road code, and so you know that you have to stop at the red traffic light.
+
+And so, your action is based on an external stimulus, the red light. And then you do not go through identification, evaluation, task definition,
+
+and then planning and then execution. You see the red light, you recall the rule, and then you stop. So, there is a shortcut here.
+
+At the identification stage, you go directly to, in some cases, not necessarily planning, you go directly to execution. So, you push the pedal or activate your brakes. So, there are shortcuts at the skill-based level and the rule-based level. Or there are situations that are so novel, so complex, that they require from you the full activation and execution of your entire cognitive process.
+
+It's what we call the knowledge-based level. This is called the SRK model, skill-, rule- and knowledge-based, or step-ladder graphical representation. Okay? And so, in terms of human error classification, here we identify three types of errors: skill-based errors, rule-based errors, or knowledge-based errors. Again, this is a classification that is even more rooted in a genotype type of investigation of human involvement.
+
+This is interesting because, also in ergonomics, so the way we design human tasks in our systems, we typically follow this logic. How to engage or involve a human agent in routine situations? We want our operators to be able to operate under routine conditions through skill-based actions.
+
+So, education and training are intended to reinforce this: we create skills that give an automatic and very fast response to what is common, what occurs many, many times in a work shift. On the other side, we want our operators to have all the knowledge required to detect, diagnose, and then act coherently against unexpected or novel problems. That means very uncommon situations.
+
+Then there are mixed conditions, where typically we operate under rule-based actions. So, it's the area where we create procedures.
+
+And so, the identification of these three types of errors directly points at the strategies we adopted to design human tasks for certain conditions. There is a direct connection between the type of error we identified and the task design strategy we implemented. So, it's directly linked to our improvement opportunities. Okay? So, based on this general conceptual framework of what the types of human and organizational factors are,
+
+active and latent, how they affect our defense-in-depth strategy, and how we distinguish different types of human involvement and human error, these are translated into different types of methods: methods and techniques for human reliability analysis, for human error prediction, and for cognitive ergonomics.
+
+So, how do we design workplaces and work procedures, taking into consideration the needs of the human agent for operating reliably? The ergonomics of design is not only the physical arrangement of the workplace. It's also the informational environment and the relational environment; both deeply influence the reliability of the human agent. We may categorize the different methods and tools into two main categories. What we call behavioral analysis.
+
+In it, we limit our analysis to the phenotype of errors in human actions. What is observable. We do not look behind it into the underlying cognitive factors. The other is cognitive analysis. So, on one side it is macroscopic, on the other side it is microscopic, where our analysis is also based on the selection and adoption of a specific human cognition model. And so, we connect the human action, the correct action or the error, with physical, organizational and psychological aspects, not directly, but through the way they interact with human cognition.
+
+Here I just listed the most common, widely adopted methods. In our case, I will offer you two simplified declinations, and we will use them on Thursday on a case, just to understand the differences between the two approaches. If you are interested in learning more about all these methods and tools, just google some of these names and terms; you can freely find a lot of material.
+
+So, behavioral analysis. What does it mean? Ah, sorry. We will also apply this logic from a retrospective approach. That means we use those two logics and approaches to investigate an accident event and identify room for improvement.
+
+So, acting retrospectively. Something happened. I want to use this event as an opportunity for learning and for organizational improvement. But, of course, there are methods that also enable the same logic to be applied in a prospective way.
+
+So, basically, supporting the design of the system, the design of procedures, working according to an anticipatory logic. The two are not alternatives, they are complementary. Hopefully, we will adopt the retrospective approach investigating what we call near misses, rather than real and severe accidents, because in those cases we may not have a second chance.
+
+Near misses means real operating conditions where we observe the mechanism of an accident and, by chance, we didn't suffer any severe consequences. So, it's a near miss. And there are studies that demonstrate that there is a stable proportion between the number of near misses we may observe in the operating life of a system, so these are near misses,
+
+and the number of severe accidents. And this proportion is quite stable across different sectors. In the petrochemical sector, the proportion is 20 to one: we observe 20 similar near misses for one real accident based on the same mechanism. So, this is the reason why near misses are a really important gift we have.
+
+A very important learning opportunity we must not miss. And so, we should really exploit this gift: the opportunity to learn without any severe consequences. Okay. So...
+
+[Student] Thank you. A near miss... [inaudible] ...for example, if an event ended nearly as a loss, maybe it is considered a near miss if it happened during training? [Professor] Good. Very good question.
+
+It largely depends on the logic we use to classify different types of events. And this is very specific to different sectors. In some cases, also quite specific to the company. And this is the case where you set the difference between a near miss and a minor incident. So, there are companies or situations where your example is still considered a near miss, or is classified as a minor incident.
+
+That means we actually did not suffer an incident with severe consequences because of the effectiveness of the implemented countermeasures, but in the other classification it means it's an incident. Just to clarify that this distinction is not written in stone and applied homogeneously across sectors and companies. Also because these distinctions are quite arguable.
+
+And at the end of the day, what really matters is how coherently you select and apply your classification scheme to extract as much knowledge as you can for improvement. Use the classification you want. What really matters is the extent to which you squeeze lessons learned out of those kinds of events for the sake of continuous improvement. Okay? So, we depart from a real event. For the sake of simplicity, let's consider that this event now is the entire accident event.
+
+Because an accident event means that it took some time to fully develop. Typically, an accident is made of stages, of a sequence of substeps. Now, let's consider this holistically as the accident event.
+
+So, according to Reason's model, this event occurred because at least one of these two elements took place: a technical failure of a safety defense, barrier or any kind of safeguard, so a failure on the technical side of our socio-technical system; or an active error on the human side, so a wrong human action or decision.
+
+At least one of the two. Not necessarily both together. So, we have to clarify whether and what technical failures and human errors were involved in this accident event.
+
+To diagnose the underlying causes on both sides, we also have to specify the environmental operating conditions that might have had a role in a technical failure or a human error. So, local and external factors: weather conditions, any kind of external, local or environmental conditions that might have had a role in accelerating or creating that failure. Or, similarly, personal and other external factors that may contribute to the human error. So, yesterday night [inaudible], and so today at work I'm not really attentive.
+
+Okay? It's an example. Then, using reliability models or human error models, we go back to the root causes of that technical failure or that specific type of human error. And here we are entering the domain of latent factors.
+
+Conditions that are stable within the organization, either because of the design or maintenance processes over the technological part, or because of organizational arrangements, procedures, the assignment of roles and responsibilities, and so on and so forth. Okay? [inaudible]

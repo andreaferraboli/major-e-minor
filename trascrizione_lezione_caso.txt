@@ -1,0 +1,250 @@
+questo è ciò che è stato estratto dalla videolezione, fammi un file unico che spiega in maniera semplice le cose "*(Nota preliminare importante: il file video che hai caricato ha i segmenti **montati fuori ordine cronologico**. L'inizio effettivo della lezione si trova al minuto **29:50**, la parte centrale è al minuto **15:40**, mentre il video si apre a **00:00** con la parte finale della lezione. Per permetterti di incrociare comodamente le spiegazioni con il tuo pacchetto di slide, ho organizzato la guida seguendo **l'ordine logico delle slide (da 1.0 a 4.0)**, indicando per ciascuna i **minutaggi esatti** nel video).*
+
+
+
+---
+
+
+
+### INTRODUZIONE ALLA LEZIONE E INDICE
+
+**Slide:** *Titolo "Accident in a co-generation plant" & "Contents"*
+**Minutaggio video:** `29:50 - 31:00`
+**Spiegazione del Prof:** Il professore introduce il caso di studio relativo a un incidente avvenuto in un impianto di cogenerazione, spiegando che l'esercizio iniziato in aula costituirà la base per uno dei due *minor assignment* (un breve report facoltativo, le cui regole vengono spiegate a fine lezione). Chiede poi agli studenti se hanno letto il testo in anticipo e se sanno cosa sia il fenomeno del *"water hammer"* (colpo d'ariete).
+
+
+---
+
+
+
+### 1.0 CASE PRESENTATION
+
+
+
+#### Slide: *Simplified scheme of the system*
+
+**Minutaggio video:** `31:00 - 38:52`
+**Spiegazione del Prof:** 
+  * **Funzionamento dell'impianto di cogenerazione:** C'è una centrale termoelettrica a gas (*Power generation plant*) che produce elettricità tramite turbine a gas e a vapore. Alla fine del ciclo termodinamico rimane del calore residuo che deve essere rimosso tramite uno scambiatore di calore a bassa pressione, chiamato **condensatore** (perché il vapore in uscita dalla turbina, diminuendo di pressione e temperatura, condensa tornando liquido). In un impianto di cogenerazione, questo calore rimosso viene sfruttato per fornire il teleriscaldamento (*Heating distribution network - HDN*) a un quartiere residenziale.
+
+  * **Disaccoppiamento fisico e sale controllo:** La rete di distribuzione cittadina non è collegata direttamente alla centrale elettrica: c'è un circuito intermedio chiuso (*closed loop*), formato da una grande tubazione principale, che collega il condensatore della centrale agli scambiatori di calore della rete cittadina. Inoltre, la **sala controllo della rete di riscaldamento (HDN Control Room)** è fisicamente separata e distante dalla **sala controllo della centrale elettrica (Power Plant Control Room)**.
+
+  * **Le stazioni di pompaggio:** Sul circuito principale ci sono 3 stazioni di pompaggio:
+
+    1. Due stazioni regolano il **flusso/portata** (*Main feed pumps Station 1S* sulla linea di mandata e *Station 2S* sulla linea di ritorno).
+
+    2. Una stazione regola la **pressione** nel sistema (*Pressurising pump station - Pr*).
+
+    Il controllo del flusso e il controllo della pressione sono quindi **fisicamente disaccoppiati**.
+
+  * **Logica operativa (Come si segue la domanda):** La domanda di riscaldamento degli utenti varia durante il giorno e la settimana. Per seguire le variazioni della domanda (aumentare o diminuire il calore trasferito), **non si modifica la pressione** (che per design deve rimanere il più possibile costante), ma **si regola la portata (il flusso, *flow rate*)**. Maggiore domanda = maggiore portata d'acqua. Questa regolazione avviene quasi interamente in automatico tramite sensori. Gli operatori nella sala controllo sono abituati a vedere il flusso variare continuamente, mentre devono solo controllare che la pressione resti costante. L'incidente avviene esattamente in questo circuito chiuso principale.
+
+
+
+#### Slide: *"Water hammer" | thermo-hydraulic basics*
+
+**Minutaggio video:** `38:52 - 42:59`
+**Spiegazione del Prof:**
+  * **Fisica del colpo d'ariete (*Water hammer*):** In condizioni normali, nella tubazione deve esserci **solo liquido** (acqua) mantenuto ad alta pressione (superiore a quella atmosferica), il che permette di avere acqua a temperature superiori ai 100°C (oltre la temperatura di ebollizione standard) senza che evapori, trasferendo così più calore.
+
+  * Il problema nasce quando nel tubo chiuso si crea un **fluido bifase** (acqua liquida + vapore). Questo può accadere in due modi:
+
+    1. C'è vapore nel sistema che, a causa di una perdita di calore, condensa parzialmente in liquido.
+
+    2. C'è liquido ad alta pressione che subisce una **depressurizzazione** (*depressurization transient*): proprio come quando si apre la valvola di sfogo di una pentola a pressione, abbassando la pressione l'acqua surriscaldata bolle all'istante e si trasforma in vapore (*punto a*).
+
+  * **L'onda d'urto:** Quando coesistono acqua e vapore, il flusso crea delle onde che intrappolano delle "sacche di vapore" (*steam pockets/voids*) tra una cresta d'acqua e l'altra (*punto b*). Se a questo punto viene innescato improvvisamente un transitorio di pressurizzazione (ad esempio riaccendendo le pompe, *punto c*), poiché il liquido è molto più denso del vapore, queste sacche di vapore collassano istantaneamente. L'acqua che si scontra per riempire il vuoto genera un'onda d'urto localizzata ad altissima pressione (*shockwave*, *punto d*) che rimbalza lungo il tubo. L'energia liberata è enorme: può distruggere le pale delle pompe, danneggiare gli scambiatori di calore o, come accaduto in questo incidente, **spostare di quasi un metro una tubazione del diametro di oltre un metro**.
+
+  * **Il legame con la Cybersecurity (Sistemi Cyber-Fisici):** Perché studiare questa fisica se avete un background economico/manageriale? Perché mostra come gli operatori e un processo industriale possano essere **ingannati da informazioni incoerenti**. In questo caso reale, tutto è partito dal guasto tecnico di un sensore che ha inviato un falso segnale di alta pressione. Tuttavia, lo stesso identico scenario incidentale potrebbe essere innescato oggi da un **hacker** che penetra nel sistema IT/OT (magari con sale controllo remote a 100 km di distanza) e altera l'**integrità dei dati** (la "I" della triade CIA: *Confidentiality, Integrity, Availability*) provenienti dal sensore. Non basta proteggere il lato cyber/digitale; serve resilienza operativa anche sul lato fisico per riconoscere e gestire informazioni alterate o non disponibili.
+
+
+
+#### Slide: *Main time line of the accident*
+
+**Minutaggio video:** `42:59 - 43:52`
+**Spiegazione del Prof (rispondendo a una studentessa):** 
+  * **Perché il sensore di pressione si è guastato segnando 1.76 MPa (Evento 1)?** Il trasduttore di pressione era installato all'aperto (*outdoor*). Essendo esposto alle intemperie, era dotato di un circuito elettrico di riscaldamento per evitare che congelasse d'inverno. La *root cause* tecnica è stata il guasto di questo circuito di riscaldamento: durante una notte fredda (-5°C), il sensore si è congelato e ha iniziato a inviare un segnale falso di altissima pressione (1.76 MPa), mentre la pressione reale nel tubo era normale.
+
+  * **Reazione del sistema automatico (Defense in Depth):** Seguendo la logica della "difesa in profondità", la prima barriera è la capacità autonoma del sistema di controllo automatico (DCS - *Distributed Control System*) di autoregolarsi. Ricevuto il falso segnale di sovrapressione, il DCS ha avviato automaticamente un **transitorio di depressurizzazione** come misura di sicurezza: ha ridotto i giri delle pompe di pressurizzazione, ha fermato le pompe di circolazione principali e ha aperto le valvole di sfogo (*relief valves*) dei serbatoi di espansione.
+
+  * **Nota chiave per l'analisi:** Ricordate che gli operatori, per garantire la continuità del servizio, regolano il flusso (pompe di circolazione) e non la pressione. Questo spiega perché nei passaggi successivi si sono concentrati solo su un sottoinsieme di informazioni ignorandone altre.
+
+
+
+#### Slide: *Causal and contributing factors*
+
+**Minutaggio video:** `43:52 - 44:15`
+**Spiegazione del Prof:** 
+  * Lo schema mostra due fasi di depressurizzazione/vaporizzazione e due modalità di gestione dell'emergenza: prima **dalla sala controllo** (eventi 1, 2, 4) e poi **"sul campo" (*on the field*)** (eventi 3, 5, 6, 7, 8).
+
+  * **Perché sono dovuti passare "sul campo" (Evento 5 - ore 03:20)?** Perché l'acqua bollente scaricata dalle valvole ha allagato la sala pompe; il vapore ha fatto scattare il sistema antincendio che, per logica di sicurezza, ha **tagliato l'alimentazione elettrica anche al sistema di telecontrollo nella sala controllo**. Da quel momento gli operatori erano "ciechi" e senza comandi remoti: sono dovuti entrare fisicamente nella sala pompe, allagata con un metro e mezzo di acqua bollente, per azionare manualmente le pompe.
+
+  * **Seconda vaporizzazione (Eventi 6 e 8):** Nel frattempo, gli operatori della centrale elettrica hanno riavviato il recupero termico collegando lo scambiatore di calore (condensatore), immettendo ulteriore calore in un tubo che era già a bassa pressione e pieno di vapore. Quando infine gli operatori hanno riavviato le pompe di circolazione (Evento 7) bypassando le protezioni di bassa pressione, hanno innescato il colpo d'ariete finale (Evento 9).
+
+
+
+---
+
+
+
+### 2.0 QUESTIONS
+
+
+
+#### Slide: *Accident Analysis (Schema di Reason) & Testo Event 1 / Event 3*
+
+**Minutaggio video:** `44:15 - 45:39` (e richiamato a `05:17 - 05:45`)
+**Spiegazione del Prof:** Viene chiesto di applicare il modello comportamentale di Reason (diviso nel percorso dell'errore umano a sinistra e nel percorso dei guasti di sistema a destra) non all'intero incidente, ma a singoli sotto-eventi della timeline: **Event 1** ed **Event 3**. (A `05:17` il prof ricorda che questo schema parte dal *fenotipo* dell'errore, cioè come si manifesta l'evento, per risalire ai *genotipi*, ovvero le cause latenti e di contesto).
+
+
+---
+
+
+
+### 3.0 SOLUTION: EVENT 1
+
+
+
+#### Slide: *Solution - Event 1 ("Start of a transient de-pressurisation")*
+
+**Minutaggio video:** `45:39 - 46:55`, `15:40 - 26:45` e `02:00 - 04:56`
+**Spiegazione dettagliata blocco per blocco:**
+
+
+  1. **System factors pathway (Percorso Tecnico/Di Sistema - Destra):**
+
+     * **Failure in defence:** *Failure of the pressure transducer* (Il guasto del trasduttore di pressione).
+
+     * **External factors:** *Low external temperature (-5°C)* (La bassa temperatura esterna invernale).
+
+     * **Latent error (lato sistema) (`45:45 - 46:55` e `15:40 - 18:19`):** Il valore della pressione è un'informazione critica per la sicurezza. Collocare quella fonte di informazione all'esterno, esposta alle intemperie, è un **errore di progettazione nella localizzazione del sensore** (*Design error of pressure transducer - location*), anche se avevano previsto una resistenza elettrica di riscaldamento. Inoltre, come ci si protegge dalla perdita di integrità o disponibilità di un dato così critico?
+
+       * Creando **ridondanze** (fonti alternative, più sensori): qui mancavano (*Design error of control logic - redundancies*).
+
+       * Tramite la **triangolazione dei dati (*data triangulation*)**: verificare la correttezza di un dato confrontandolo con altre grandezze termodinamiche correlate (temperatura e portata). Per le leggi della termodinamica, una pressione di 1.76 MPa era totalmente incompatibile con la temperatura e la portata del fluido in quel momento. Il sistema di controllo non effettuava questo controllo incrociato.
+
+
+
+  2. **Human factors pathway (Percorso Fattori Umani - Sinistra) (`18:19 - 26:45`):**
+
+     * **Active error (`18:19 - 24:15`):** Qual è stato l'errore umano nell'Evento 1? Non possiamo pretendere che un operatore blocchi all'istante un ciclo automatico: se decidi di automatizzare una routine nel DCS, ti fidi della sua logica. L'errore attivo (che nella tassonomia di Reason è un **Mistake**, cioè un errore cognitivo/di comprensione) è che **gli operatori non hanno capito cosa stesse facendo la routine automatica del DCS** (*Operators did not understand DCS automatic routine*). Hanno perso l'opportunità di acquisire **consapevolezza situazionale (*situational awareness*)** fin dall'inizio.
+
+       * *Come lo sappiamo?* Dal *fenotipo* (l'azione visibile) nell'evento successivo (Evento 2): la primissima azione che hanno fatto è stata **tentare di riavviare manualmente le pompe di circolazione** (per ben due volte!) mentre le valvole di sfogo erano aperte, pompando così litri e litri d'acqua fuori dal sistema. Perché hanno fatto un'azione così palesemente sbagliata? Perché la loro priorità assoluta era **evitare disservizi** agli utenti; poiché il riscaldamento si regola tramite il flusso (pompe di circolazione), appena le hanno viste ferme le hanno riaccese d'impulso, senza fare alcuna diagnosi sul *perché* si fossero fermate e senza rendersi conto che il sistema aveva avviato un transitorio di depressurizzazione.
+
+     * **Local working conditions (`24:15 - 25:30`):** Perché non hanno capito cosa stava succedendo?
+
+       * *Poor automatic control system (HMI):* L'interfaccia uomo-macchina sui monitor era progettata male. Non c'era un quadro sinottico unico che mostrasse tutto l'impianto in una sola schermata, ma tante pagine separate. Era impossibile vedere tutti gli allarmi attivi in un colpo d'occhio; bisognava cercarli navigando tra le pagine.
+
+       * *Lack of procedures:* Mancavano procedure scritte specifiche e un addestramento mirato su come comportarsi in caso di attivazione del transitorio di depressurizzazione.
+
+     * **Latent error (in alto) (`25:30 - 26:45`):** *Design error of the control system* e *Design and maintenance error of electric circuit*. Il prof sottolinea che la manutenzione di una barriera di sicurezza non è solo tecnica (il circuito elettrico del sensore o il loop di controllo), ma è anche organizzativa e umana: non aver fornito procedure e addestramento significa non aver manutenuto adeguatamente la difesa costituita dalla *situational awareness* degli operatori.
+
+     * **Personal & External factors (lato umano) (`02:00 - 04:56`):** 
+
+       * *External factors:* **Turno di notte (*Night shift*) e bassa produzione (*low power production*)**. La notte non influisce solo sulla temperatura esterna (-5°C), ma ha un impatto enorme sul lato umano. Di notte gli utenti dormono, la domanda di riscaldamento è al minimo (*base load*) ed è stabilissima. A differenza del giorno (dove i picchi di domanda richiedono un'interazione continua tra operatore e sistema, mantenendo alta e aggiornata la *situational awareness*), di notte l'interazione è quasi nulla.
+
+       * *Personal factors:* **Basso livello di attenzione (*Low level of attention*)**. Durante un turno di notte in cui non c'è nulla da fare se non aspettare un allarme, probabilmente gli operatori stavano giocando a carte, schiacciando un pisolino o guardando la TV. Ci sono quindi aspetti fisici, fisiologici e psicologici che abbassano drasticamente la prontezza e la consapevolezza situazionale quando scatta l'emergenza.
+
+
+
+---
+
+
+
+### 3.0 SOLUTION: EVENT 3 & DOMANDE METODOLOGICHE DEGLI STUDENTI
+
+
+
+#### Slide: *Solution - Event 3 ("Flooding of the pumping room")*
+
+**Minutaggio video:** `26:45 - 29:49`, `35:05 - 43:35` e `00:00 - 01:52`
+**Spiegazione dettagliata blocco per blocco:**
+
+
+  1. **Dinamica dell'Evento 3 (`26:45 - 29:00`):** Poiché gli operatori hanno riattivato manualmente per due volte le pompe di circolazione (*External factors: Circulating pumps manually activated*) mentre le valvole di sfogo erano aperte, hanno spinto fuori dal sistema una quantità d'acqua enorme, con una portata 4 o 5 volte superiore a qualsiasi valore preso in considerazione dagli ingegneri. Il sistema di scarico e il serbatoio di raccolta (*overflow storage tank*) erano stati dimensionati solo per raccogliere la normale condensa del vapore che può uscire dalle valvole di sicurezza, non per gestire la portata massima delle pompe spinte a pieno regime! Pertanto il serbatoio ètraboccato (*Failure in defence: Overflow storage tank*) allagando la sala pompe.
+
+  2. **Allineamento tra Design Tecnico e Design Organizzativo (`29:00 - 29:49` e `00:50 - 01:45`):** 
+
+     * Mentre nell'Evento 1 il punto chiave era l'allineamento tra tecnologia operativa (OT) e flussi informativi, nell'Evento 3 il punto cardine è **l'allineamento tra le decisioni di progettazione tecnica e la progettazione organizzativa (procedure e addestramento)**.
+
+     * Il serbatoio di raccolta ha una dimensione finita (*Latent error: Design error in sizing discharge line and tank*, oltre al *Design error in isolating pump room*). Come si decide quanto farlo grande? Bisogna allineare la dimensione fisica del sistema di scarico con le procedure e l'addestramento degli operatori, in modo da essere sicuri che gli operatori riescano a individuare e risolvere il problema (chiudere le valvole) **prima** che il serbatoio si riempia del tutto. Se progettazione tecnica e comportamento umano restano disaccoppiati, nessuna dimensione del serbatoio sarà mai sufficiente.
+
+  3. **Active Errors e Local Working Conditions (lato umano):** Gli operatori hanno commesso due errori attivi: non hanno chiuso le valvole (*Omitted closure of valves - Mistake*) e non si sono accorti dell'alto livello dell'acqua nel serbatoio (*Failure to notice high level of water - Slip*, una svista), favoriti da una cattiva presentazione degli allarmi (*Local working conditions: Poor presentation of alarms*) derivante da errori di progettazione del sistema di allarme e della logica di emergenza (*Latent error: Design error of the alarm system / overflow emergency logic*).
+
+
+
+#### Domande degli Studenti (Aspetti Metodologici Cruciali):
+
+**Domanda 1: Perché nell'Evento 3 non mettiamo "mancanza di addestramento" (*lack of training*) tra i fattori umani? (`35:05 - 39:50`)**
+  * **Risposta del Prof (Modello Step-Ladder di Rasmussen):** In astratto si potrebbe citare la "mancanza di training" per qualsiasi errore umano, ma bisogna distinguere *quale tipo* di training richiamando i 3 livelli di attivazione cognitiva visti a lezione: **Skill-based** (basato sulle abilità automatiche), **Rule-based** (basato sulle regole/procedure) e **Knowledge-based** (basato sulla conoscenza/diagnosi).
+
+  * Nell'**Evento 1** la mancanza di training è fondamentale perché serviva operare a livello **Rule-based** (seguire procedure d'emergenza) e **Knowledge-based** (avere conoscenze termodinamiche per diagnosticare che il sistema automatico DCS stava sbagliando).
+
+  * Nell'**Evento 3**, invece, siamo a livello **Skill-based**: se vedi che le valvole di sfogo sono aperte, controllare se la pressione è davvero alta e chiudere le valvole prima di riaccendere le pompe è un'operazione basilare, elementare (come cambiare marcia quando guidi l'auto: non apri il manuale d'uso per sapere se devi cambiare marcia o fermarti). È una competenza di base che si acquisisce con l'addestramento iniziale di ingresso al ruolo (*entry-level training*) e con l'esperienza, e che deve essere supportata da un'interfaccia che mostri chiaramente gli allarmi. Tuttavia, il prof precisa che **non esiste un'unica analisi "perfetta"**: se uno studente vuole inserire il training nell'Evento 3 specificando che persino a livello *skill-based / entry-level* gli operatori si sono dimostrati inaffidabili, va benissimo. L'obiettivo dello strumento non è il dogmatismo, ma produrre un'analisi solida e utile per trarre raccomandazioni di miglioramento (il prof caricherà due soluzioni svolte da due team diversi proprio per mostrare che possono esserci piccole differenze interpretative).
+
+**Domanda 2: Come si distingue se mettere un fattore nei due box "Latent Errors" (a sinistra o a destra) oppure nel box più in alto delle "Organisational vulnerabilities"? (`42:25 - 43:35` e `00:00 - 01:45`)**
+  * **Risposta del Prof:** Dipende dalla **portata dell'influenza (*scope of the influence*)**:
+
+    * Se un fattore ha un ruolo circoscritto a **uno solo dei due percorsi** (cioè influenza solo le condizioni di lavoro locali/errore umano *oppure* influenza solo il guasto tecnico della difesa), allora va messo nel rispettivo box dei *Latent Errors* (a sinistra o a destra).
+
+    * Se invece dalla vostra analisi emerge che un fattore ha una portata più ampia e **influenza entrambi i lati (sia il sistema tecnico che il lato umano)**, allora deve essere collocato **in alto** (nelle *Organisational vulnerabilities*). Ad esempio, nell'Evento 3, la decisione progettuale congiunta (tecnica e organizzativa) di allineare il dimensionamento del sistema di scarico con le procedure e i tempi di intervento degli operatori ha giocato un ruolo su entrambi i fronti, quindi andrebbe collocata in alto.
+
+
+
+---
+
+
+
+### 4.0 DISCUSSION (E ISTRUZIONI PER L'ASSIGNMENT)
+
+
+
+#### Slide: *4.0 Discussion -> Accident analysis (Schema CREAM)*
+
+**Minutaggio video:** `05:00 - 05:25`
+**Spiegazione del Prof:** In entrambi gli eventi (1 e 3) è possibile adottare anche una prospettiva "microscopica" sul comportamento umano (usando la tassonomia CREAM mostrata martedì: osservazione, interpretazione, pianificazione, capacità fisiche, aspetti psicologici, esperienza). Il prof fornirà questa analisi aggiuntiva nei file di soluzione che caricherà online.
+
+
+#### Slide: *4.0 Discussion (Conseguenze reali dell'incidente e Sicurezza IT/OT)*
+
+**Minutaggio video:** `05:50 - 13:53`
+**Spiegazione del Prof:** 
+  * **Cosa è successo nell'organizzazione dopo questo incidente (avvenuto in una grande città italiana)? (`05:50 - 07:36`)**
+
+    1. **Modifiche fisiche e impiantistiche:** Riprogettazione e ristrutturazione delle stazioni di pompaggio; ricollocazione e **ridondanza** dei sensori; sostituzione quasi totale del sistema di controllo distribuito (DCS).
+
+    2. **Unificazione delle sale controllo:** La sala controllo è stata completamente riprogettata e hanno deciso di **unire nella stessa stanza e nello stesso edificio** la sala controllo della rete di teleriscaldamento (HDN) e quella della centrale elettrica (due aree di lavoro distinte ma nello stesso ambiente fisico, per garantire comunicazione immediata).
+
+    3. **Programma organizzativo:** Avviato un programma di 5 anni per riprogettare tutte le procedure e riaddestrare tutti gli operatori.
+
+  * **Conseguenze legali ed economiche (`07:36 - 10:55`):**
+
+    * **Responsabilità legali esterne (*Legal liabilities*):** L'azienda è stata molto fortunata perché non ci sono stati feriti, né morti, né contaminazione ambientale, né danni a proprietà di terzi. Di conseguenza, **non c'è stata alcuna responsabilità legale/penale verso l'esterno**.
+
+    * **Penali contrattuali per il disservizio:** Essendo avvenuto di notte (quando la domanda di riscaldamento è minima), le penali contrattuali che hanno dovuto pagare per l'interruzione del servizio sono state bassissime (se fosse successo di giorno, sarebbero state enormemente più alte).
+
+    * **Danni economici interni (sul budget/bilancio):** Il danno economico interno per l'integrità fisica dell'impianto è stato invece **enorme**. Oltre a riparare la tubazione principale, hanno dovuto smantellare e sostituire lo scambiatore di calore (condensatore) della centrale elettrica **5 anni prima della fine della sua vita utile** (una riduzione del 30% della vita utile su un asset che all'epoca costava circa **15 milioni di euro**).
+
+  * **Riflessione finale su Safety Engineering e IT/Cyber Security (`10:55 - 13:53`):**
+
+    * Il professore invita a riflettere sul fatto che l'intera dinamica discussa avrebbe potuto essere innescata da un'intrusione informatica (attacco cyber) capace di alterare i dati del sensore.
+
+    * Pertanto, l'allineamento tra **Safety Engineering** (ingegneria della sicurezza fisica) e **IT Security** (sicurezza informatica) non deve esistere solo in fase di progettazione, ma deve essere mantenuto durante **tutto il ciclo di vita operativo** del sistema. Non basta proteggere i dati lato IT; servono capacità operative di prevenzione, assorbimento, risposta e ripristino (*operational resilience*) per gestire in sicurezza il sistema anche quando si perde l'integrità o la disponibilità di informazioni critiche. Nella lezione di martedì prossimo si parlerà proprio di *High Reliability Organizations (HRO)* e di resilienza operativa, oltre a dedicare 30 minuti alla discussione del *major assignment*.
+
+
+
+#### Istruzioni per il Minor Assignment (Facoltativo)
+
+**Minutaggio video:** `13:53 - 15:40`
+**Cosa fare:** Preparare un breve report su base volontaria che contenga l'analisi di **4 eventi in totale**:
+  1. Completare e riassumere l'analisi e la discussione dell'**Evento 1** e dell'**Evento 3** (fatti insieme in aula).
+
+  2. Scegliere a piacere **altri 2 eventi** dalla timeline dell'incidente e svolgere la propria analisi.
+
+**Formato richiesto per ciascuno dei 4 eventi:**
+  * **1 pagina** con il template compilato (usando elenchi puntati e descrizioni brevi).
+
+  * **Massimo 1 pagina** di giustificazioni a corredo (spiegando quali informazioni sono state estratte dal documento di testo per compilare il template in quel modo).
+
+**Consegna:** Può essere preparato in Word o in PowerPoint (a scelta dello studente), ma deve essere **consegnato obbligatoriamente in formato PDF**.
+" 

@@ -1,0 +1,97 @@
+% Shared preamble for the HOF minor assignment (co-generation plant case)
+\documentclass[10pt]{article}
+\usepackage[a4paper,landscape,top=1.4cm,bottom=1.3cm,left=1.6cm,right=1.6cm,headheight=14pt,headsep=8pt,footskip=16pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{textcomp}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{polblue}{RGB}{0,51,153}
+\definecolor{redbox}{RGB}{249,211,211}
+\definecolor{redline}{RGB}{192,0,0}
+\definecolor{srcgray}{RGB}{110,110,110}
+\definecolor{rowgray}{RGB}{242,242,242}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\columnsep}{18pt}
+\setlength{\columnseprule}{0.3pt}
+\setlist{nosep,leftmargin=*,topsep=1pt}
+\setlist[itemize]{label=\textbullet}
+
+\titleformat{\section}{\color{polblue}\Large\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0pt}{4pt}
+\titleformat{\subsection}{\color{polblue}\normalsize\bfseries}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{5pt}{2pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyhead[L]{\small\color{polblue}Accident in a co-generation plant: HOF analysis}
+\fancyhead[R]{\small\color{polblue}TRG Minor Assignment}
+\fancyfoot[C]{\small\thepage}
+
+% ---------- macros ----------
+\newcommand{\ra}{\textrightarrow{}}
+\newcommand{\src}[1]{{\color{srcgray}\scriptsize[#1]}}
+\newcommand{\red}[1]{\colorbox{redbox}{\strut #1}}
+\newcommand{\boxname}[1]{\textbf{\color{polblue}#1}}
+
+% Template page: title, one-line event description, Mermaid diagram, key classification
+\newcommand{\eventtemplate}[5]{%
+  \clearpage
+  \section{Event #1 \textbar{} #2}
+  {\small #3}\par\vspace{2pt}
+  \begin{center}
+    \includegraphics[width=\linewidth,height=0.78\textheight,keepaspectratio]{diagrams/event#1.pdf}
+  \end{center}
+  \vfill
+  {\footnotesize\setlength{\fboxsep}{4pt}\fcolorbox{polblue}{white}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{#4}}}\par
+  {\scriptsize\color{srcgray}#5}
+}
+% Justification page header
+\newcommand{\justification}[1]{%
+  \clearpage
+  \section{Event #1 \textbar{} Justification of the template}
+}
+\newcommand{\legendline}{Red boxes: direct causal chain of the event (active error and/or failure in defence that produced it). White boxes: contributing conditions. Top box: latent factors influencing both pathways.}
+
+% CREAM block: context, cognitive function, individual factors, error mode, antecedents
+\newcommand{\cream}[6]{%
+  \subsection{Cognitive view (CREAM, Hollnagel 1998)}
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash\bfseries}p{2.9cm}X}
+    \toprule
+    Socio-technical context & #1\\
+    Cognitive function & #2\\
+    Individual factors & #3\\
+    Error mode & #4\\
+    General antecedents & #5\\
+    Specific antecedent & #6\\
+    \bottomrule
+  \end{tabularx}
+}
+% Error classification block
+\newcommand{\classification}[3]{%
+  \subsection{Classification of the active error}
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabularx}{\linewidth}{>{\raggedright\arraybackslash\bfseries}p{2.9cm}X}
+    \toprule
+    Phenotype (Swain \& Guttman) & #1\\
+    Reason's taxonomy & #2\\
+    SRK level (Rasmussen) & #3\\
+    \bottomrule
+  \end{tabularx}
+}

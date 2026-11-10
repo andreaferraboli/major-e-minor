@@ -1,0 +1,36 @@
+% ================= CROSS-EVENT SYNTHESIS (optional page) =================
+\clearpage
+\section{Cross-event synthesis: recurring latent factors}
+\newcommand{\y}{$\bullet$}
+\begin{multicols}{2}
+\renewcommand{\arraystretch}{1.25}
+\rowcolors{2}{rowgray}{white}
+\begin{tabularx}{\linewidth}{X*{9}{c}}
+  \toprule
+  \textbf{Latent factor} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9}\\
+  \midrule
+  Single, unvalidated pressure signal driving the control logic & \y & \y &  & \y &  &  &  &  & \y\\
+  HMI without overview, alarm flooding, no out-of-range alarm & \y & \y & \y & \y &  &  &  &  & \y\\
+  No emergency procedures & \y & \y & \y & \y & \y & \y & \y & \y & \y\\
+  On-the-job training only, no thermo-hydraulic knowledge & \y &  &  & \y &  & \y & \y & \y & \y\\
+  Two separate control rooms, no centralised control &  &  &  & \y &  & \y &  & \y & \y\\
+  Service continuity as first objective (goal conflict) &  & \y & \y &  &  &  & \y & \y & \y\\
+  Missing interlocks / protections designed in isolation &  & \y &  & \y & \y & \y & \y & \y & \y\\
+  Undersized discharge, pumping room not isolated &  &  & \y &  & \y &  &  &  & \\
+  Night shift, low attention, fatigue & \y & \y & \y & \y & \y & \y & \y & \y & \y\\
+  \bottomrule
+\end{tabularx}
+
+\vspace{4pt}
+{\footnotesize Mapping based on this report; \y{} = factor appears in the template or in the justification of the event.}
+
+\columnbreak
+\subsection{Key lessons}
+\begin{itemize}
+  \item \textbf{Dependent holes.} The same few latent factors (procedures, HMI, training, organisation of control rooms, service priority) reappear in almost every event: the barriers of the defence-in-depth were not independent, which is exactly what Reason's model predicts for organisational accidents.
+  \item \textbf{Integrity of information.} The whole sequence starts from a false but plausible signal. A cyber attack on the integrity of sensor data could produce the same scenario: safety engineering and IT/OT security must stay aligned during the whole operating life, not only at design \src{Class}.
+  \item \textbf{Automation and situational awareness.} The automatic routine acted without involving the operators; when they were called into play they lacked the awareness needed for a correct diagnosis. Error prevention, error recovery and emergency management must be designed together.
+  \item \textbf{Technical and organisational design.} Tank sizing, interlocks and alarms are effective only if aligned with procedures, training and response times (Event 3 discussion \src{Class}).
+  \item \textbf{After the accident.} Re-design of the pumping stations, relocated and redundant sensors, new DCS, a single control room for generation and network, and a five-year programme on procedures and retraining \src{Class}.
+\end{itemize}
+\end{multicols}

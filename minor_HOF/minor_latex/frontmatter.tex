@@ -1,0 +1,71 @@
+% ---------- Title page ----------
+\begin{titlepage}
+  \thispagestyle{empty}
+  \vspace*{1.6cm}
+  {\color{polblue}\rule{\linewidth}{1.2pt}}\par\vspace{0.6cm}
+  {\color{polblue}\fontsize{26}{32}\selectfont\bfseries Accident in a Co-generation Plant\par}
+  \vspace{0.3cm}
+  {\Large Analysis of the Human and Organisational Factors (HOF) involved\par}
+  \vspace{0.6cm}
+  {\color{polblue}\rule{\linewidth}{1.2pt}}\par\vspace{1.2cm}
+  {\large\bfseries Minor Assignment \textbar{} Technology Risk Governance\par}
+  \vspace{0.2cm}
+  {\large MSc in Cyber Risk Strategy and Governance \textbar{} Prof.\ Paolo Trucco\par}
+  \vspace{1.4cm}
+  {\large\bfseries Team members\par}
+  \vspace{0.2cm}
+  {\large \TeamMembers\par}
+  \vfill
+  {\normalsize \ReportScope\par}
+  \vspace{0.2cm}
+  {\normalsize \today\par}
+\end{titlepage}
+
+% ---------- Approach and reading key ----------
+\section{Approach and reading key}
+\begin{multicols}{2}
+\subsection{Method}
+Each event of the accident time-line is analysed with the \textbf{behavioural approach} (Reason's model of organisational accidents), starting from the \emph{phenotype} (how the event manifests) and going back to the \emph{genotypes} (local conditions and latent factors). For every event we report:
+\begin{itemize}
+  \item \textbf{one page} with the template compiled in bullet form, following the scheme used in class for Events 1 and 3: human factors pathway on the left, system factors pathway on the right, organisational latent errors on top;
+  \item \textbf{one page} of justification, explaining which information of the case text supports each box, the classification of the active error and a short \textbf{cognitive view (CREAM)} of the human contribution.
+\end{itemize}
+Events 1 and 3 reproduce and complete the solution discussed in class; the other events are our own analysis.
+
+\subsection{How to read the templates}
+\begin{itemize}
+  \item \textbf{Event}: the event occurs if at least one of the two is present: a failure of a technical defence, barrier or safeguard, or an active human error.
+  \item \red{Red boxes}: direct causal chain of the event (active error and/or failure in defence that produced it, with the technical latent error behind it). \textbf{White boxes}: contributing conditions.
+  \item \textbf{Top box vs.\ side boxes} (scope of influence): a latent factor that affects only one pathway goes into that pathway's box; a factor that affects both the human and the technical side goes on top.
+\end{itemize}
+
+\subsection{Sources}
+\src{\S x.y} section of the case document; \src{Fig.\,3} event time-line; \src{Class} discussion of the case in class; \src{Inf.} our inference, not stated explicitly in the case.
+
+\columnbreak
+\subsection{Event time-line and overview}
+\renewcommand{\arraystretch}{1.18}
+\rowcolors{2}{rowgray}{white}
+\begin{tabularx}{\linewidth}{c c X l}
+  \toprule
+  \textbf{\#} & \textbf{Time} & \textbf{Event} & \textbf{Dominant pathway}\\
+  \midrule
+  1 & 02.00 & Pressure transducer failure, start of de-pressurisation & System\\
+  2 & 02.04 & Manual activation of main circulation pumps & Human + system\\
+  3 & 02.41 & Opening of relief valves, overflow of storage tank, flooding of pumping room & Human + system\\
+  4 & 03.00 & Manual closure of relief valves (very late) & Human + system\\
+  5 & 03.20 & Fire protection intervention, remote control out of service & System\\
+  6 & 03.45 & Temperature increase at heat-exchanger outlet & Human + system\\
+  7 & 04.39 & Circulation pumps started by-passing low-pressure protection & Human (violation) + system\\
+  8 & 05.15 & Manual start-up of heat recovery from turbo-gas & Human + system\\
+  9 & 06.15 & Shock wave (water hammer) & Final event\\
+  \bottomrule
+\end{tabularx}
+
+\vspace{6pt}
+\subsection{Emergency phases (causal and contributing factors)}
+\begin{itemize}
+  \item \textbf{From the control room}: 1st de-pressurisation and vaporisation (Events 1, 2, with 4).
+  \item \textbf{On the field}, after the loss of remote control: 2nd de-pressurisation (3, 5), vaporisation due to heat exchange (4, 6, 8) and peak pressurisation (7), all converging on the shock wave (9).
+\end{itemize}
+\end{multicols}

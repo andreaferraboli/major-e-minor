@@ -1,0 +1,188 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(minor_HOF_all_events.tex
+LaTeX2e <2024-11-01> patch level 1
+L3 programming layer <2024-12-25>
+(preamble.tex
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2024/06/29 v1.4n Standard LaTeX document class
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\helvet.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype-pdf
+tex.def)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.cfg
+))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+))) (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+) (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colortbl.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/tools\multicol.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/titlesec\titlesec.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/base\textcomp.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
+keys.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
+ty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty)))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
+lestring.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+)))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.s
+ty) (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+) (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+) (C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
+.sty))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/base\atbegshi-ltx.sty))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/base\atveryend-ltx.sty)
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
+echeck.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
+ounter.sty))))
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\t1phv.fd)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def) (minor_HOF_all_events.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg)) (minor_HOF_all_events.out) (minor_HOF_all_events.out) (frontmatter.tex
+[1{C:/Users/andre/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/an
+dre/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}]
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1phv.fd)
+(C:\Users\andre\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg))
+(events/event1.tex
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.6 ...ses complete it with the class discussion.}
+                                                   [1]
+[2 <./diagrams/event1.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--38
+
+) (events/event2.tex
+[3]
+[4 <./diagrams/event2.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--38
+
+) (events/event3.tex
+[5]
+[6 <./diagrams/event3.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
+
+) (events/event4.tex
+[7]
+[8 <./diagrams/event4.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
+
+) (events/event5.tex
+[9]
+[10 <./diagrams/event5.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--38
+
+) (events/event6.tex
+[11]
+[12 <./diagrams/event6.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 29--30
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 37--38
+
+) (events/event7.tex
+[13]
+[14 <./diagrams/event7.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
+
+) (events/event8.tex
+[15]
+[16 <./diagrams/event8.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
+
+) (events/event9.tex
+[17]
+[18 <./diagrams/event9.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 39--40
+
+) (synthesis.tex
+[19])
+[20] (minor_HOF_all_events.aux) )
+(see the transcript file for additional information) <C:\Users\andre\AppData\Lo
+cal\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcss1000.pk> <C:\Users\andre\AppD
+ata\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcss0800.pk><C:/Users/andre
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Use
+rs/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pf
+b><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmsy8.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helveti
+c/uhvb8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helv
+etic/uhvr8a.pfb><C:/Users/andre/AppData/Local/Programs/MiKTeX/fonts/type1/urw/h
+elvetic/uhvro8a.pfb>
+Output written on minor_HOF_all_events.pdf (21 pages, 622178 bytes).
+Transcript written on minor_HOF_all_events.log.
