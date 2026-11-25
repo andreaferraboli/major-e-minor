@@ -1,0 +1,1149 @@
+                                                                                                                                                                                                                          1
+
+Credit Card Fraud Detection: a Realistic Modeling
+            and a Novel Learning Strategy
+
+         Andrea Dal Pozzolo, Giacomo Boracchi, Olivier Caelen, Cesare Alippi, and Gianluca Bontempi
+
+   Abstract—Detecting frauds in credit card transactions is per-              which transactions to authorize. Classiﬁers are typically em-
+haps one of the best testbeds for computational intelligence                  ployed to analyze all the authorized transactions and alert the
+algorithms. In fact, this problem involves a number of relevant               most suspicious ones. Alerts are then inspected by professional
+challenges, namely: concept drift (customers habits evolve and                investigators that contact the cardholders to determine the
+fraudsters change their strategies over time), class imbalance                true nature (either genuine or fraudulent) of each alerted
+(genuine transactions far outnumber frauds) and veriﬁcation                   transaction. By doing this, investigators provide a feedback
+latency (only a small set of transactions are timely checked by               to the system in the form of labeled transactions, which can
+investigators). However, the vast majority of learning algorithms             be used to train or update the classiﬁer, in order to preserve
+that have been proposed for fraud detection, relies on assump-                (or eventually improve) the fraud-detection performance over
+tions that hardly hold in a real-world Fraud Detection System                 time. The vast majority of transactions cannot be veriﬁed
+(FDS). This lack of realism concerns two main aspects: i) the                 by investigators for obvious time and cost constraints. These
+way and timing with which supervised information is provided                  transactions remain unlabeled until customers discover and
+and ii) the measures used to assess fraud-detection performance.              report frauds, or until a sufﬁcient amount of time has elapsed
+                                                                              such that non-disputed transactions are considered genuine.
+   This paper has three major contributions. First we propose,
+with the help of our industrial partner, a formalization of the                  Thus, in practice, most of supervised samples are provided
+fraud-detection problem which realistically describes the operat-             with a substantial delay, a problem known as veriﬁcation
+ing conditions of FDSs that everyday analyze massive streams of               latency [44]. The only recent supervised information made
+credit card transactions. We also illustrate the most appropriate             available to update the classiﬁer is provided through the alert-
+performance measures to be used for fraud-detection purposes.                 feedback interaction. Most papers in the literature ignore
+Second, we design and assess a novel learning strategy which                  the veriﬁcation latency [53] as well as the alert-feedback
+effectively address class imbalance, concept drift and veriﬁcation            interaction, and unrealistically assume that the label of each
+latency. Third, in our experiments we demonstrate the impact                  transaction is regularly made available to the FDS, e.g., on a
+of class unbalance and concept drift in a real-world data stream              daily basis (see, for instance [6], [8], [12], [23], [24], [28],
+containing more than 75 millions transactions, authorized over                [47], [55]). However, these aspects have to be considered
+a time window of three years.                                                 when designing a real-world FDS, since veriﬁcation latency
+                                                                              is harmful when concept drift occurs, and the alert-feedback
+   Index Terms—Credit Card Fraud Detection, Unbalanced Clas-                  interaction is responsible of a sort of sample selection bias
+siﬁcation, Concept Drift, Learning in nonstationary environ-                  (SSB) [19] that injects further differences between the distri-
+ments.                                                                        bution of training and test data.
+
+                          I. INTRODUCTION                                        Another important difference between what is typically done
+                                                                              in the literature and the real-world operating conditions of
+   Credit card fraud detection is a relevant problem that                     FDS concerns the measures used to assess the fraud-detection
+draws the attention of machine-learning and computational                     performance. Most often, global ranking measures [23], [24],
+intelligence communities, where large number of automatic                     [63], like the area under the ROC curve (AUC), or cost-based
+solutions have been proposed [1], [6], [8], [23], [24], [41],                 measures [6], [47], [55] are used, but these ignore the fact that
+[47], [55], [56], [66]. In fact, this problem appears to be                   only few alerts can be controlled everyday, and that companies
+particularly challenging from a learning persepctive, since it                are very concerned of the precision of the generated alerts.
+is characterized at the same time by class imbalance [21],
+[22], namely genuine transactions far outnumber frauds, and                      The main contributions of this paper are:
+concept drift [4], [35], namely transactions might change their
+statistical properties over time. These, however, are not the                    • We describe the mechanisms regulating a real-world FDS,
+only challenges characterizing learning problems in a real-                         and provide a formal model of the articulated classiﬁca-
+world Fraud-Detection System (FDS).                                                 tion problem to be addressed in fraud detection.
+
+   In a real-world FDS, the massive stream of payment re-                        • We introduce the performance measures that are consid-
+quests is quickly scanned by automatic tools that determine                         ered in a real-world FDS.
+
+      Andrea Dal Pozzolo and Gianluca Bontempi are with the Ma-                  • Within this sound and realistic model, we propose an
+chine Learning Group, Computer Science Department, Universite´ Libre                effective learning strategy for addressing the above chal-
+de Bruxelles, Brussels, Belgium. (email: {adalpozz, gbonte}@ulb.ac.be).             lenges, including the veriﬁcation latency and the alert-
+Giacomo Boracchi and Cesare Alippi are with the Dipartimento di Elet-               feedback interaction. This learning strategy is tested on
+tronica, Informazione e Bioingegneria, Politecnico di Milano, Italy. (email:        a large number of credit card transactions.
+{giacomo.boracchi, cesare.alippi}@polimi.it). Cesare Alippi is also with
+Universita` della Svizzera italiana, Switzerland. Olivier Caelen is with
+the R&D High Processing & Volume team, Worldline, Belgium. (email:
+olivier.caelen@worldline.com).
+                                                                    2
+
+   The paper is organized as follows. We ﬁrst detail the            AND unsecured website THEN deny the transaction”1. In
+operating conditions of a real-world FDS (Section II), and then     practice, several transaction-blocking rules are simultaneously
+(Section III) model the articulated fraud-detection problem and     executed, and transactions ﬁring any of these rules are blocked
+present the most suitable performance measures. In particular,      (though cards are not deactivated). Transaction-blocking rules
+we deem that it is most appropriate to assess the number of         are manually designed by the investigator and, as such, are
+detected fraudulent transactions (or cards) over the maximum        expert-driven components of the FDS. To guarantee real-time
+number of transactions (or cards) that investigators can check.     operations and avoid blocking many genuine transactions,
+The main challenges raising when training a classiﬁer for           blocking rules should be: i) quick to compute and ii) very
+fraud-detection purposes are then discussed in Section IV.          precise, namely should raise very few false alarms.
+Section V introduces the proposed learning strategy, which
+consists in separately training different classiﬁers from feed-        All transactions passing blocking rules are ﬁnally autho-
+backs and delayed supervised samples, and then aggregating          rized. However, the fraud detection activity continues after
+their predictions. This strategy, inspired by the different nature  having enriched transaction data with aggregated features
+of feedbacks and delayed supervised samples, is shown to            used to compare the current purchase against the previous
+be particularly effective in FDS using sliding window or            ones and the cardholder proﬁle. These aggregated features
+ensemble of classiﬁers. We validate our claims in experiments       include, for instance, the average expenditure, the average
+(Section VI) on more than 75 million e-commerce credit card         number of transactions in the same day or the location of
+transactions acquired over three years, which are also analyzed     the previous purchases. The process of computing aggregated
+to observe the impact of class imbalance and concept drift in       features is referred to as feature augmentation and is described
+real-world transaction streams.                                     in Section II-B. Augmented features and current transaction
+                                                                    data are stacked in a feature vector that is supposed to be
+   Our work builds upon our previous publication [20], which        informative for determining whether the authorized transaction
+we signiﬁcantly extend by describing in detail the real-world       is fraudulent or genuine. The following layers of the FDS
+operating conditions of a FDS and by analyzing the SSB              operate on this feature vector.
+introduced by the alert-feedback interaction. Furthermore, the
+experimental section has been largely updated and completed            3) Scoring Rules: Scoring rules are also expert-driven mod-
+by presenting additional analysis over two large datasets.          els that are expressed as if-then (-else) statements. However,
+                                                                    these operate on feature vectors and assign a score to each
+                       II. REAL-WORLD FDS                           authorized transaction: the larger the score, the more likely
+                                                                    the transaction to be a fraud. Scoring rules are manually
+   Here we describe the main peculiarities and the operating        designed by investigators, which arbitrarily deﬁne their as-
+conditions of a real-world FDS, inspired by the one routinely       sociated scores. An example of scoring rule can be “IF
+used by our industrial partner. Figure 1 illustrates the ﬁve        previous transaction in a different continent AND less than
+layers of control typically employed in a FDS: i) the Terminal,     one hour from the previous transaction THEN fraud score =
+ii) the Transaction Blocking Rules, iii) the Scoring Rules, iv)     0.95”1. Unfortunately, scoring rules can detect only fraudulent
+the Data Driven Model (DDM) and v) the Investigators.               strategies that have already been discovered by investigators,
+                                                                    and that exhibit patterns involving few components of the
+   Layers i) - iv) fully implement automatic controls, while the    feature vectors. Moreover, scoring rules are rather subjective,
+layer v) is the only one requiring human intervention.              since different experts design different rules.
+
+A. Layers of Controls in a FDS                                         4) Data Driven Model (DDM): This layer is purely data
+                                                                    driven and adopts a classiﬁer or another statistical model
+   1) Terminal: The terminal represents the ﬁrst control layer      to estimate the probability for each feature vector being a
+in a FDS and performs conventional security checks on all           fraud. This probability is used as the fraud score associated
+the payment requests [63]. Security checks include controlling      to the authorized transactions. Thus, the data-driven model
+the PIN code (possible only in case of cards provided with          is trained from a set of labeled transactions and can not be
+chip), the number of attempts, the card status (either active       interpreted or manually modiﬁed by investigators. An effective
+or blocked), the balance available and the expenditure limit.       data-driven model is expected to detect fraudulent patterns by
+In case of online transactions, these operations have to be         simultaneously analyzing multiple components of the feature
+performed in real time (response has to be provided in a few        vector, possibly through nonlinear expressions. Therefore, the
+milliseconds), during which the terminal queries a server of        DDM is expected to ﬁnd frauds according to rules that go
+the card issuing company. Requests that do not pass any of          beyond investigator experience, and that do not necessarily
+these controls are denied, while the others become transaction      correspond to interpretable rules.
+requests that are processed by the second layer of control.
+                                                                       This paper focuses on this component of the FDS and
+   2) Transaction-Blocking Rules: Transaction-blocking rules        proposes a strategy to design, train and update the DDM to
+are if-then (-else) statements meant to block transaction re-       improve fraud-detection performance. Transactions associated
+quests that are clearly perceived as frauds. These rules use        with feature vectors that have either received a large fraud
+the few information available when the payment is requested,        score or an high probability of being a fraud, generate alerts.
+without analyzing historical records or cardholder proﬁle. An
+example of blocking rule could be: “IF internet transactions             1These rules are conﬁdential and we cannot disclose any of them. Here
+                                                                    we provide a realistic example to illustrate which sort of information can be
+                                                                    used in these rules.
+                                                                                                                                           3
+
+Real Time                                                         Near Real Time                                  Offline
+
+                                                                                                          AlertsScoring
+                                                                      Authorized TransactionRules
+                                   Transaction Request
+Transaction Attempt  Transaction                                                                                      Investigators
+  Terminal           Blocking
+                                                                                                                  Feedback
+    Correct PIN?        Rules                                                                                                   Disputed
+Sufficient Balance?
+                                                                  Data Driven                                                Transactions
+  Active Account?                                                    Model                                          Human Supervision
+
+Transaction Denied   Transaction Denied
+
+                     Automatic Tools
+
+Expert Driven                         Data Driven                                                                 FDS part we Model
+
+Fig. 1. A scheme illustrating the layers of control in a FDS. Our focus is mainly on the data-driven model and the alert-feedback interaction, which regulates
+the way recent supervised samples are provided.
+
+Only a limited number of alerted transactions are reported to     of a DDM is to return precise alerts, as investigators might
+the investigators, which represent the ﬁnal layer of control.     ignore further alerts when too many false alarms are reported.
+
+   5) Investigators: Investigators are professionals experi-      B. Features Augmentation
+enced in analyzing credit card transactions and are responsible
+of the expert-driven layers of the FDS. In particular, investi-      Any transaction request is described by few variables such
+gators design transaction-blocking and scoring rules.             as the merchant ID, cardholder ID, purchase amount, date and
+                                                                  time. All transactions requests passing the blocking rules are
+   Investigators are also in charge of controlling alerts raised  entered in a database containing all recent authorized transac-
+by the scoring rules and the DDM, to determine whether            tions, where the feature-augmentation process starts. During
+these correspond to frauds or false alarms. In particular, they   feature augmentation, a speciﬁc set of aggregated features
+visualize all the alerted transactions in a case management       associated to each authorized transactions is computed, to
+tool, where all the information about the transaction is re-      provide additional information about the purchase and better
+ported, including the assigned scores/probabilities, which in     discriminate frauds from genuine transactions. Examples of
+practice indicate how risky each transaction is. Investigators    aggregated features are the average expenditure of the cus-
+call cardholders and, after having veriﬁed, assign the label      tomer every week/month, the average number of transactions
+“genuine” or “fraudulent” to the alerted transaction, and return  per day or in the same shop, the average transaction amount,
+this information to the FDS. In the following we refer to         the location of the last purchases [7], [8], [23], [41], [45], [66].
+these labeled transactions as feedbacks and use the term          Van Vlasselaer et al. [63] show that additional informative
+alert-feedback interaction to describe this mechanism yielding    features can be extracted from the social networks connecting
+supervised information in a real-world FDS.                       the cardholders with merchants/shops.
+
+   Any card that is found victim of a fraud is immediately           Aggregated features are very informative, as they summa-
+blocked, to prevent further fraudulent activities. Typically,     rize the recent cardholder activities. Thus, they allow to alert
+investigators check all the recent transactions from a com-       transactions that are not suspicious by themselves but might
+promised card, which means that each detected fraud can           be unusual compared to the shopping habits of the speciﬁc
+potentially generate more than one feedback, not necessar-        cardholder. Features augmentation can be computationally ex-
+ily corresponding to alerts or frauds. In a real-world FDS,       pensive, and aggregated features are often precomputed ofﬂine
+investigators can only check few alerts per day [45] as this      for each cardholder on the basis of historical transactions.
+process can be long and tedious. Therefore, the primary goal
+                                                                                                                                    4
+
+Aggregated features are stacked with the transaction data in      supervised transactions available up to day t−1. The classiﬁer
+the feature vector.                                               Kt−1 is then used to process the set of transactions Tt that
+                                                                  have been authorized at day t. We denote by PKt−1 (+|xi)
+C. Supervised Information                                         the posterior of Kt−1, namely the probability for xi to be a
+                                                                  fraud according to Kt−1. Investigators check only few, high-
+   Investigators’ feedbacks are the most recent supervised        risk, transactions. Thus, we model alerts as the k-most risky
+information made available to the FDS, but represent only
+a small fraction of the transactions processed every day [20].    transactions, namely
+Additional labeled transactions are provided by cardholders
+that directly dispute unauthorized transactions [20], [63]. The   At = {xi ∈ Tt s.t. r(xi) ≤ k},                                    (1)
+timing of disputed transactions can vary substantially, since
+cardholders have different habits when checking the transcript    where r(xi) ∈ {1, . . . , |Tt|} is the rank of xi according to
+of credit card sent by the bank. Moreover, checking disputed      PKt (+|xi), and k > 0 is the maximum number of alerts
+transactions entails some necessary administrative procedures     that can be checked by investigators2. As discussed in Sec-
+that might introduce substantial delays.
+                                                                  tion II-A5, investigators contact the cardholders and provide
+   All other transactions remain unlabeled: these can be either
+genuine transactions or frauds that were missed by the FDS        supervised samples to the FDS in the form of feedbacks. In
+and ignored by the cardholders. However, after a certain
+number of days have passed without cardholder dispute, all        particular, feedbacks include all recent transactions from the
+the unreported transactions are considered genuine by default,
+and inserted in the training set of the DDM.                      controlled cards, which we model as:
+
+   Overall, there are two types of supervised information: i)     Ft = {(xi, yi) s.t. xi is from cards(At)},                        (2)
+feedbacks provided by investigators which are limited in num-
+ber but refer to recent transactions, and ii) delayed supervised  where cards(At) denotes the set of cards having at least
+transactions, which are the vast majority for which the labels    a transaction in At. The number of feedbacks, i.e., |Ft|,
+become available after several days (e.g. one month). This        depends on the number of transactions associated with the
+latter includes both disputed and non-disputed transactions.      k controlled cards. After a certain veriﬁcation latency, the
+                                                                  labels of all the transactions are provided to the FDS, since,
+D. System Update                                                  as discussed in Section II-C, non-disputed transactions are
+                                                                  considered genuine. For the sake of simplicity, we assume
+   Customers’ spending behavior evolves and fraudsters con-       a constant veriﬁcation latency of δ days, such that at day t
+tinuously design new attacks, thus their strategies also change   the labels of all the transactions authorized at day t − δ are
+over time. It is then necessary to constantly update the          provided. We refer to these as delayed supervised samples:
+FDS to guarantee satisfactory performance. Expert-driven sys-
+tems are regularly updated by investigators who add ad-hoc        Dt−δ = {(xi, yi), xi ∈ Tt−δ}.                                     (3)
+(transaction-blocking or scoring) rules to counteract the onset
+of new fraudulent activities and remove those rules liable of     Note that Ft−δ ⊂ Dt−δ since transactions at day t−δ obviously
+too many false alerts. However, investigators can not modify      include those that have been alerted. Figure 2 illustrates the
+the DDM, since it is not interpretable and can be only updated
+(e.g. re-trained) on the basis of recent supervised information,  different types of supervised information available in a FDS.
+as shown in Figure 1. This operation typically requires a large
+number of labeled transactions, therefore, though investigators   It is worth mentioning that, despite our formal description
+steadily provide feedbacks during the day, the classiﬁer is
+usually updated/re-trained only once, notably at the end of       includes several aspects and details that have been so far
+the day, when a sufﬁcient number of feedbacks is available.
+                                                                  ignored in the fraud-detection literature, this is still a sim-
+                   III. PROBLEM FORMULATION
+                                                                  pliﬁed model. In fact, alerts in a real-world FDS are typically
+   Here, we model the classiﬁcation problem to be addressed
+in a real-world FDS, providing a formal description of the        raised online while transactions are being processed, without
+alert-feedback interaction and presenting suitable performance
+measures. The proposed learning strategy (Section V) and our      having to rank all transactions in Tt. Similarly, the delayed
+experiments (Section VI) are built upon this model.               supervised couples do not come all-at-once, as each disputed
+
+   Let xi denote the feature vector associated with the i-th      transactions might take less (or possibly more) than δ days.
+authorized transaction and yi ∈ {+, −} be the corresponding
+class, where + denotes a fraud and − a genuine transaction.       Notwithstanding, we deem that our formulation takes into
+To cope with the time-variant nature of the transaction stream,
+a classiﬁer K is updated (or newly retrained) every day. In       account the aspects of a real-world FDS that are the most
+particular, we denote by Kt−1 the classiﬁer that is trained on
+                                                                  important ones from a learning perspective, which include
+
+                                                                  alerts, alter-feedback interaction and veriﬁcation latency. We
+
+                                                                  further comment that in principle, since the classiﬁer analyzes
+
+                                                                  each feature vector xi independently, it does not alert cards
+                                                                  receiving several risky transactions until any of these enters
+
+                                                                  in the pool of the alerts (1). However, these situations are
+
+                                                                  particularly relevant for investigators, and can be handled
+
+                                                                  either by: i) suitable scoring rules or ii) feature augmentation,
+
+                                                                  adding for instance a component that keeps track of the scores
+
+                                                                  of recent transactions.
+
+                                                                  Fraud-detection performance can be conveniently assessed
+
+                                                                  in terms of the alert precision Pk(t), which is deﬁned as:
+
+                                                                                           Pk (t)  =  |TPk(t)|                      (4)
+                                                                                                          k
+
+                                                                  2Throughout the paper we denote by |·| the cardinality of a set.
+                                                                                                                                               5
+
+where TPk(t) = {(xi, yi) such that xi ∈ At, yi = +}. Thus,                      t −δ              t −1 t
+Pk(t) is the proportion of frauds in the alerts At. Though
+                                                                                Ft 8 Ft 7 Ft 6 Ft 5 Ft 4 Ft 3 Ft 2 Ft 1 Ft
+the classiﬁer independently process each feature vector, the
+
+alert precision would be more realistically measured in terms
+
+of cards rather than authorized transactions. In fact, multiple
+
+transactions in At from the same card should be counted as a                    Dt 8 Dt 7         Feedbacks)
+single alert, since investigators check all the recent transactions             Delayed)Samples)
+when contacting cardholders. This implies that k depends                                             All)fraudulent)transac6ons)of)a)day)
+                                                                                                     All)genuine)transac6ons)of)a)day)
+on the maximum number of cards that the investigators can                                            Fraudulent)transac6ons)in)the)feedbacks)
+                                                                                                     Genuine)transac6ons)in)the)feedbacks)
+control. In this context, it is more informative to measure the
+
+detection performance at the card level, such that multiple
+
+fraudulent transactions from the same card count as a single                    Fig. 2. The supervised samples available at the end of day t include: i)
+correct detection. Thus, we introduce CPk, the card precision,                  feedbacks (F(·)) and ii) delayed couples (D(·)) occurred before t − δ days.
+as the proportion of fraudulent cards detected in the k cards                   In this plot we have assumed δ = 7. Patterns indicate different labels, and
+
+controlled by the investigators:                                                the size of these regions indicates balanced / unbalanced class proportions.
+
+                             CPk (t)  =    |C+t | ,                   (5)
+                                             k
+
+where Ct+ denotes the set of fraudulent cards correctly detected                   Supervised methods are by far the most popular in fraud de-
+at day t, namely, fraudulent cards having reported at least one                 tection, and exploit labeled transactions for training a classiﬁer.
+                                                                                Frauds are detected by classifying feature vectors of the au-
+alert. To correctly account for those days where less than k                    thorized transactions or possibly by analyzing the posterior of
+cards are fraudulent, we deﬁne the normalized CPk(t) as:                        the classiﬁer [10]. Several classiﬁcation algorithms have been
+                                                                                tested on credit card transactions to detect frauds, including
+NCPk(t)  =       CPk (t)     with     Γ(t) =         1 if γt ≥ k      (6)       Neural Networks [1], [12], [28], Logistic Regression [41], As-
+                  Γ(t)                                 γt                       sociation Rules [56], Support Vector Machines [66], Modiﬁed
+                                                       k   if γt < k            Fisher Discriminant Analysis [47], and Decision Trees [6],
+                                                                                [24], [55]. Several studies have reported Random Forest to
+where Γ(t) is the maximum value of CPk(t) and γt is the                         achieve the best performance [8], [20], [23], [63], [66]: this
+                                                                                is one of the reasons why we adopt Random Forests in our
+number of fraudulent cards at day t. From (6) we have that                      experiments.
+
+NCPk(t) takes values in the range [0, 1], while CPk(t) is in                    B. Performance Measure for Fraud Detection
+                                           γt
+[0, 1]  when     γt  >    k  and  in  [0,  k   ]  otherwise.     For  example,     The typical performance measure for fraud-detection prob-
+                                                                                lems is the area under the ROC curve (AUC) [23], [24], [63].
+if at day t we have correctly detected 40 fraudulent cards                      AUC can be estimated by means of the Mann-Whitney statis-
+                                                                                tic [48] and its value can be interpreted as the probability that
+(|C+t | = 40) out of the k = 100 cards checked by investigators,                a classiﬁer ranks frauds higher than genuine transactions [37].
+                                                                                Another ranking measure frequently used in fraud detection is
+and the overall number of fraudulent cards is 50 (γt = 50),                     Average Precision (AP) [23], which corresponds to the area
+                                                  0.4                           under the precision-recall curve. While these measures are
+then    CPk (t)  =   0.4  while   NCPk(t)      =  0.5  =   0.8.                 widely used in detection problems, cost-based measures have
+                                                                                been speciﬁcally designed for fraud-detection purposes. Cost-
+Note that, since Γ(t) does not depend on the speciﬁc                            based measures [6], [47], [55] quantify the monetary loss of a
+                                                                                fraud by means of a cost matrix that associates a cost to each
+classiﬁer Kt−1 adopted, when the algorithm “A” is better than                   entry of the confusion matrix. Elkan [29] shows that a cost-
+                                                                                matrix may be misleading because the minimum/maximum
+algorithm “B” in terms of CPk, “A” is also better than “B”                      loss of the problem can change over time. To avoid this
+                                                                                problem, normalized cost [66] or savings [6] are used to asses
+in terms of NCPk. Moreover, because of veriﬁcation latency,                     the performance w.r.t. the maximum loss.
+
+the number of fraudulent cards in day t (i.e., γt), can be only                    We argue that performance measures should also account
+                                                                                for the investigators availability, as they have to check all the
+computed after few days, therefore NCPk cannot be computed                      alerts raised by the FDS. Given the limited time investigators
+                                                                                have, only a few alerts can be veriﬁed every day, thus an
+in real time. Thus we recommend using CPk for assessing the                     effective FDS should provide investigators a small number of
+                                                                                reliable alerts. This is the reason why we have introduced the
+running performance, while NCPk for backtesting e.g. when                       alert-precision measures described in Section III.
+
+testing different FDS conﬁgurations, as in Section VI-F.
+
+                        IV. RELATED WORKS
+
+A. Data-Driven Approaches in Credit Card Fraud Detection
+
+   Both supervised [8], [12], [15] and unsupervised [11],
+[14], [62] methods have been proposed for credit card fraud-
+detection purposes. Unsupervised methods consist in out-
+lier/anomaly detection techniques that consider as a fraud
+any transaction that does not conform with the majority.
+Remarkably, an unsupervised DDM in a FDS can be directly
+conﬁgured from unlabeled transactions. A well known method
+is Peer Group Analysis [65], which clusters customers ac-
+cording to their proﬁle and identiﬁes frauds as transactions
+departing from the typical cardholder’s behavior (see also the
+recent survey by Phua et al. [52]). The typical cardholder’s
+behavior have also been modeled by means of self-organizing
+maps [51], [54], [71].
+                                                                     6
+
+C. Major Challenges To Be Addressed in a Real-World FDS              Concept drift adaptation approaches can be divided in two
+                                                                     families: i) active adaptation and ii) passive adaptation.
+   As anticipated in Section I, the major challenges to be
+addressed when designing a FDS include: i) handling the                 Active approaches [4], [9], [34], [50], [60] use a change-
+class imbalance, since legitimate transactions far outnumber         detection test [3] or other statistical triggers to monitor the
+the fraudulent ones, ii) handling the concept drift since the        incoming data by analyzing the classiﬁcation error and/or the
+statistical properties of both frauds and genuine transactions       data distribution [2]. As soon as a change in the incoming
+evolve with time and iii) operating with a small number              data is detected, adaptation is activated and the classiﬁer
+of recent supervised transactions, provided in the form of           is updated/retrained on recent supervised samples that are
+investigators’ feedback.                                             considered to be coherent with the current state of the process.
+                                                                     As such, active approaches are mostly suited when the data
+   1) Class Imbalance: Class distribution is extremely unbal-        distribution changes abruptly, and the process generating the
+anced in credit card transactions, since frauds are typically less   data shifts through a sequence of stationary states.
+than 1% of the overall transactions, as shown in [24], [45] and
+in our analysis (see Table I). Learning under class imbalance           In passive approaches, the classiﬁer is continuously up-
+has lately received a lot of attention, since traditional learning   dated when new supervised samples become available, with-
+methods yield classiﬁers that are poorly performing on the           out involving any explicit triggering mechanism. Ensemble
+minority class, which is deﬁnitively the class of interest in        methods [23], [30], [43], [61], [72], and classiﬁers trained
+detection problems. Several techniques have been proposed to         over a sliding window of the recent supervised samples (like
+deal with class imbalance, and for a comprehensive overview          STAGGER [57] and FLORA [67]) are probably the most
+we refer the reader to [38]. The two main approaches for             extensively investigated passive solutions. Passive approaches
+dealing with class imbalance are: i) sampling methods and ii)        are the more suitable ones in gradually drifting environments,
+cost-based methods. Sampling methods are used to balance             and when the supervised information is provided in batches.
+the class distribution in the training set before running a tra-
+ditional learning algorithm, while cost-based methods modify            When data streams are characterized by both concept drift
+the learning algorithm to assign a larger misclassiﬁcation cost      and unbalanced distributions, adaptation is often achieved by
+to the minority class [29].                                          combining ensemble methods and resampling techniques [26],
+                                                                     [36], [64]. An alternative approach consists in propagating the
+   Sampling methods are divided in undersampling, which              training samples of the minority class over time [36], possibly
+balance the class proportions in the training set by removing        undersampling the majority class. Chen and He proposed
+samples from the majority class, and oversampling ones, which        REA [18] which only propagates examples from the minority
+achieve the same goal by replicating training samples of             class that belongs to the current concept.
+the minority class [21]. Advanced oversampling methods like
+SMOTE [17] generate synthetic training instances from the               3) Alert-Feedback Interaction and Sample Selection Bias:
+minority class by interpolation, instead of sample replication.      The majority of classiﬁers used for credit card fraud detection
+                                                                     in the literature (e.g. [11], [12], [15]) are tested in experiments
+   Cost-based methods do not need to balance the proportion          where transaction labels are supposed to be available the very
+of training data, as they take into account different losses         next day since the transaction is authorized. In a real-world
+for classiﬁcation errors on samples belonging to the minority        FDS (Section II-C) the only recent supervised information
+and majority class. In credit card fraud detection, the cost         are the feedbacks Ft, provided by investigators, while the
+of a missed fraud is often assumed to be proportional to the         vast majority of transactions authorized everyday does not
+transaction amount [6], [47], [55], and this assigns a larger        receive a label in a short time (|Ft| << |Tt|). Feedbacks are
+misclassiﬁcation cost to frauds, thus steering the classiﬁer to      not representative of the transactions processed everyday for
+prefer false alerts rather than taking the risk of missing a fraud.  two main reasons: i) feedbacks contain transactions that are
+As a consequence, these algorithms might generate many false         characterized by a high probability of being frauds, and ii)
+positives while investigators require precise alerts.                the proportion of frauds in the feedbacks is different from
+                                                                     the proportion of frauds occurring everyday. Thus, feedbacks
+   2) Concept Drift: There are two main factors introducing          represent a sort of biased training set: this problem evokes
+changes/evolutions in the stream of credit card transactions,        what is known in the literature as Sample Selection Bias
+which in the literature are typically referred to as concept         (SSB) [19].
+drift [27], [35]. At ﬁrst, genuine transactions evolve because
+cardholders typically change their spending behaviors over              A biased training set may hinder the performance of
+time (e.g., during holidays they purchase more and differently       learning algorithms, since training data do not match the
+from the rest of the year). Second, frauds change over time,         distribution of the test ones. The reader can refer to [49]
+since new fraudulent activities are perpetrated. In our experi-      for a survey on SSB. Here we simply mention that there are
+ments (see Section VI-D) we observe the evolving nature of           three different types of SSB: class-prior bias, feature bias (also
+credit card transactions in two large datasets of real-world e-      called covariate shift) and complete bias. A standard remedy
+commerce transactions. Learning under concept drift is one           to SSB is importance weighting [32], [69], [70], namely semi-
+of the major challenges that data-driven methods have to             supervised re-weighting techniques that assign larger weights
+face, since classiﬁers operating in these conditions have in         to those training samples that more closely resemble the data
+practice to autonomously identify the most relevant, up-to-          distribution in the test set. The main idea of importance
+date, supervised information while ignoring the obsolete one.        weighting is to reduce the inﬂuence of the most biased samples
+                                                                     in the learning process. Ensembles of classiﬁers have been also
+                                                                                                                         7
+
+proposed to correct SSB [31].                                      and a classiﬁer on delayed supervised samples
+   The interaction between the FDS (raising alerts) and the
+                                                                   Dt = TRAIN {Dt−δ, . . . , Dt−(δ+M−1)}                 (8)
+investigators (providing true labels) recalls the active learn-
+ing scenario [58], where it is possible to select few –very        and to detect frauds by the aggregation classiﬁer At, whose
+informative– samples and query their labels to an oracle           posterior probability is deﬁned as:
+which in the FDS would be the investigators. However, this is
+not feasible in a real-world FDS, since investigators have to               PAt (+|x) = αPFt (+|x) + (1 − α)PDt (+|x) (9)
+focus on the most suspicious transactions to detect the largest
+number of frauds. Requests to check (possibly genuine) trans-      where 0 ≤ α ≤ 1 is the weight parameter that balances the
+actions for obtaining informative samples would be ignored.        contribution of Ft and Dt. Thus, the posterior probability of
+Considering the limited number of transactions investigators       the classiﬁer Kt, which alerts the transactions authorized at
+can check, addressing these questions would necessarily imply      day t + 1, is given by (9).
+that some high-risk transaction is not being controlled, with
+the consequent loss in detection performance.                         The parameters Q and M , which respectively deﬁne how
+                                                                   many days of feedbacks and delayed supervised samples are
+V. THE PROPOSED LEARNING STRATEGY                                  used for training our classiﬁers, have to be deﬁned considering
+                                                                   the overall number of feedbacks and the percentage of frauds.
+   It is important to stress that feedbacks (Ft) and delayed       The training set of Ft approximately contains Q · |Ft| samples
+samples (Dt−δ) are very different sets of supervised samples.      (a different number of feedbacks might be provided everyday)
+The ﬁrst difference is quite evident: Ft provides recent, up-      and this has to be a sufﬁciently large number to train a
+to-date, information while Dt−δ might be already obsolete          classiﬁer addressing quite a challenging classiﬁcation problem
+for training a classiﬁer that is meant to analyze transactions     in high dimensions. However, Q can not be made arbitrarily
+                                                                   large, not to include old feedbacks. Similar considerations hold
+that will be authorized the next day. The second difference        when setting M , the considered number of days containing
+                                                                   delayed transactions, which have to include a sufﬁcient number
+concerns the percentage of frauds in Ft and Dt−δ: while            of frauds. Note that it is nevertheless possible to include in the
+the class proportion in Dt−δ is heavily skewed towards the         training set of Ft feedbacks received before δ days (Q ≥ δ)
+genuine class (see the proportions of frauds in Table I), the      and in particular in our experiments we used Q = δ + M .
+
+number of frauds in Ft actually depends on the detection              The rationale behind the proposed learning strategy is two-
+performance of Kt−1, and high precision values might even          fold. At ﬁrst, by training a classiﬁer (7) exclusively on feed-
+result in Ft skewed towards frauds. The third, and probably        backs, we guarantee larger relevance to these supervised sam-
+the most subtle, difference is that supervised couples in Ft are   ples, which would be otherwise outnumbered by the delayed
+not independently drawn, but are instead transactions from         supervised samples. Second, we alert only those transactions
+cards selected by Kt−1 as those that are most likely to have       that both Ft and Dt consider most probably frauds: this
+been frauded. As such, Ft is affected by SSB and any classiﬁer     follows from the fact that, in practice, because of the large
+trained on Ft would in principle learn how to label transactions   number of transactions processed everyday, alerts corresponds
+that are most likely to be fraudulent. Thus, this might not be in  to values of PAt that are very close to 1. Let us recall that
+                                                                   Ft, thus also At, is affected by SSB due to alert-feedback
+principle precise on the vast majority of genuine transactions.    interaction. The only training samples that are not affected
+                                                                   by SSB are the delayed supervised samples which, however,
+   Our intuition is that feedbacks and delayed samples are rep-    might be obsolete because of concept drift.
+
+resentative of two different classiﬁcation problems, thus they     A. Implementation of the Proposed Learning Strategy
+
+have to be separately handled. Therefore, our learning strategy    In our experiments we implement the proposed learning
+
+consists in training a classiﬁer exclusively on feedbacks (i.e.,   strategy in two different scenarios, which correspond to two
+Ft) and a classiﬁer exclusively on delayed supervised samples
+(i.e., Dt), and by aggregating their posterior probabilities when  mainstream approaches for learning Dt. In the former, Dt
+deﬁning PKt (+|xi) to determine which transactions to alert.
+                                                                   is a sliding window classiﬁer as in [62], [63], which we
+   In the following we detail the proposed learning strategy,
+                                                                   denote by WtD, while in the latter Dt is an ensemble of
+where adaptation is performed according to a passive approach      classiﬁers similar to [23], [36], which we denote by EtD. Both
+                                                                   the classiﬁers WtD and EtD are trained on delayed samples
+and the classiﬁer is updated everyday on a batch containing        {Dt−δ, . . . , Dt−(δ+M−1)}. However, while WtD employs a
+                                                                   unique model to this purpose, EtD is an ensemble of M
+the latest supervised couples available, either feedbacks or       classiﬁers {M1, M2, . . . , MM } where each individual clas-
+
+delayed samples. As in Section III, we consider a constant         siﬁer Mi is trained on delayed samples of a different day,
+veriﬁcation latency of δ days. In particular, to process the
+transactions authorized at day t + 1, we rely on Q days            i.e., Dt−δ−i, i = 0, . . . , M − 1. The posterior PEtD (+|x)
+of feedbacks {Ft, . . . , Ft−(Q−1)}, and M days of delayed         is obtained by averaging the posterior probabilities of the
+supervised samples {Dt−δ, . . . , Dt−(δ+M−1)}, and these latter
+obviously include the feedbacks received in the same days                                                     . M
+(i.e., Fi ⊂ Di, i ≤ t − δ). Our learning strategy, which
+is detailed in Algorithm 1, consists in separately training a                                                 i
+classiﬁer Ft on feedbacks                                          individual classiﬁers, i.e., PEtD (+|x) =  PMi (+|x)
+
+                                                                                                              M
+
+                                                                   In the sliding window case, the proposed learning strat-
+
+Ft = TRAIN {Ft, . . . , Ft−(Q−1)}  (7)                             egy consists in analyzing the posterior of the classiﬁer
+                                                                                                                                                        8
+
+Algorithm 1 Proposed Learning Strategy                                                                               TABLE I
+                                                                                                                     DATASETS
+Require: M and Q, i.e., the number of days of delayed
+   samples and feedbacks to use, respectively; Ft and Dt                               Id     Start day   End day    # Days    # Instances  # Features  % Fraud Trx
+   classiﬁers previously trained.                                                    2013    2013-09-05  2014-01-18    136     21’830’330        51         0.19%
+   Tt+1 ← transactions at day t + 1.                                              2014-2015  2014-08-05  2015-05-31    296     54’764’384        51         0.24%
+   for each transaction x ∈ Tt+1 do
+       compute PFt (+, x)                                                         to assess the effectiveness of the proposed learning strategy.
+       compute PDt (+, x)                                                         In the second experiment (Section VI-D) we analyze more
+       compute PAt (+, x) as in (9)                                               than 54 Millions of credit card transactions acquired over 10
+                                                                                  months, and show that this stream is seriously affected by
+   rank Tt+1 according to PAt (+, ·),                                             concept drift. Then, to investigate the adaptation ability of
+   generate alerts At.                                                            the proposed learning strategy, we synthetically introduce an
+   if update the classiﬁer then                                                   abrupt concept drift in speciﬁc locations of the transaction
+                                                                                  stream, and assess the classiﬁcation performance. In the third
+       Ft+1 ← feedbacks from cards alerted in At.                                 experiment (Section VI-E) we investigate the sample-selection
+       Ft+1 ← TRAIN({Ft+1, . . . , Ft−Q})                                         bias introduced by the alert-feedback interaction, and we show
+       Dt+1−δ ← transactions authorized at t + 1 − δ                              that importance weighting [19] – a conventional technique to
+       Dt+1 ← TRAIN({Dt+1−δ, . . . , Dt−(δ+M)})                                   correct SSB – is not effective on training sets of feedbacks.
+                                                                                  Finally, in Section VI-F we discuss the most important param-
+   return Ft, Dt and At deﬁned as in (9).                                         eters inﬂuencing the proposed learning strategy.
+
+AtW , which aggregates Ft and WtD,                       i.e.,   PAtW (+|x) =     A. Our Datasets
+                                                         (9).   The benchmark
+αPFt (+|x)  + (1 −   AαW t)PWistDth(+e |cxla)ssaisﬁeinr  Wt,                         We use two large dataset of online e-commerce transactions
+to compare  against                                             which is trained  from European credit card holders, provided by our industrial
+                                                                                  partner. Even though these transactions are not initiated from
+on all the supervised transactions referring to the same                          a physical terminal, they undergo the same process described
+                                                                                  in Figure 1. In Table I we provide all the information about
+time interval (thus mixing delayed samples and feedbacks):                        these datasets, which we denote as 2013 and 2014-2015,
+                                                                                  and in particular we stress the extreme class-imbalance since
+{Ft, . . . , Ft−(δ−1), Dt−δ, . . . , Dt−(δ+M−1)}.                                 frauds account for about 0.2% of all transactions. As shown
+   Similarly, in the ensemble case, the proposed learning                         in Figure 3, the number of frauds per day varies signiﬁcantly
+                                                                                  over time, and there are more fraudulent transactions than
+strategy consists in analyzing the posterior of the classiﬁer                     fraudulent cards, indicating that sometimes multiple frauds
+                                                                                  are perpetrated on the same card. The 2013 dataset has been
+AEt , which is obtained by aggregating the posteriors of Ft                       also used in [20] and part of this dataset have been suitably
+and EtD, i.e., PAtE (+|x) =                                                       anonymized and made publicly available for download [22].
+as in (9). The benchmark     αtPo Fcto(+m|pxa)re+a(g1a−insαt )APEtEtD  (+|x),
+                                                                       is the        To reliably assess the fraud-detection performance in terms
+                                                                                  of Pk, we have removed the CARD ID component from all the
+classiﬁer Et, whose individuals are {M1, M2, . . . , MM , Ft},                    feature vectors. This is very important when testing a classiﬁer
+                                                                                  on a dataset of historical transactions, since a classiﬁer that
+and whose posterior PEt (+|x) is estimated by averaging the                       receives in input the variable CARD ID might learn this as
+                                                                                  a discriminative feature to detect multiple frauds from the
+posterior probabilities of all its individuals, i.e., PEt (+|x) =                 same card in different days (thus providing too optimistic
+. M                                                                               performance). However, in a real-world FDS, it is not possible
+                                                                                  to have multiple frauds from the same card after having
+i                                                                                 detected the ﬁrst one since, as discussed in Section II, that card
+PMi (+|x)+PFt (+|x)                                                               is immediately blocked. A different option would be to remove
+                                                                                  all transactions of the same card after having detected the ﬁrst
+M +1                                                                              fraud. However, this would reduce the number of available
+In both aggregations AtW and AEt we set α = 0.5 to                                frauds, further worsening the class imbalance in our dataset.
+                                                                                  Therefore, we consider the CARD ID exclusively to compute
+give equal contribution to the feedback and delayed classi-                       the aggregated features, and do not include it in the feature
+                                                                                  vectors.
+ﬁer, as better discussed in Section VI-F. For all the base
+classiﬁers involved (i.e., Ft, WtD, Wt, Mi, i = 1, . . . , M ) we                 B. Experimental Settings
+adopt Random Forest (RF) [13] having 100 tree each. Each
+                                                                                     In agreement with our industrial partner, we assumed that
+tree is trained on a balanced bootstrap sample, obtained by                       investigators can check up to 100 cards alerted by the DDM
+
+randomly undersampling the majority class while preserving
+
+all the minority class samples in the corresponding training
+
+set. In this way, each tree is trained on randomly selected
+
+genuine transactions and on the same fraud examples. This
+
+undersampling strategy allows one to learn trees with balanced
+
+distribution and to exploit many subsets of the majority class.
+
+At the same time, the training times of these classiﬁers are
+
+reasonably low. A drawback of undersampling is that we
+
+potentially remove relevant training samples from the dataset,
+
+though this problem is mitigated by the fact that we learn 100
+
+different trees for each base classiﬁer.
+
+                         VI. EXPERIMENTS
+
+   Our experiments are organized as follows: in Section VI-A
+we describe datasets and in Section VI-B we detail the
+experimental settings. Section VI-C presents our ﬁrst exper-
+iment which uses the classiﬁers described in Section V-A
+                                                                                                                                                                 9
+
+Number of fraudulent transactions             2013                                      20142015               Dt 8 Dt 7 Ft 6 Ft 5 Ft 4 Ft 3 Ft 2 Ft 1 Ft
+
+                                   2500                                                                                              Wt
+
+                                   2000                                                                           (a) Pooling together all labeled transactions
+
+                                   1500                                                                                                    Rt
+
+                                   1000                                                                         Ft 8 Ft 7 Ft 6 Ft 5 Ft 4 Ft 3 Ft 2 Ft 1 Ft
+
+                                   500
+
+                                        0                                          Oct  Jan       Apr
+                                         Sep Oct Nov Dec Jan
+
+                                                                              Day
+
+                                         (a) Number of fraudulent transactions
+
+                                                                   2013                 20142015
+                                   300
+Number of fraudulent cards
+                                   200                                                                         Dt 8 Dt 7  Ft
+
+                                   100
+
+                                         Oct  Nov Dec                    Jan       Oct  Jan       Apr          WtD        AW t
+
+                                                                              Day                              (b) Separating feedbacks and delayed samples
+
+                                              (b) Number of fraudulent cards                           Fig. 4. Supervised information used by the classiﬁers considered in our
+                                                                                                       experiments. In this illustrative example we set δ = 7, M = 2 and
+Fig. 3. Number of fraudulent transactions and cards per day in the datasets                            Q = 7 + 2 = 9.
+described in Table I. It emerges that there are more fraudulent transactions
+than cards, meaning that some cards have received more than a fraud.
+
+                                                                                                                                TABLE II
+                                                                                                       CLASSIFIERS CONSIDERED IN OUR EXPERIMENTS.
+
+every day. Thus, Ft, is everyday trained over Q days contain-                                          Symbol  supervised samples   adaptation  # days training
+ing each alerted transactions from 100 different cardholders.                                                        feedbacks        sliding           Q
+Let us recall that feedbacks depend on the actual classiﬁer                                               F           delayed         sliding           M
+requesting the labels. As such, the training set of Ft might be                                         WD                            sliding
+different when used in At and when used standalone: in fact,                                             W     feedbacks + delayed    sliding        δ+M
+in the former case alerts depend also on the posterior of Dt,                                           AW     feedbacks + delayed    sliding       Q+M
+while in the latter, alerts are uniquely determined by Ft.
+                                                                                                          R        all the recent   ensemble             δ
+   We assess the overall fraud-detection performance in our                                              ED           delayed       ensemble            M
+                                                                                                          E                         ensemble         δ+M
+datasets both by averaging daily performance measures (Pk,                                               AE    feedbacks + delayed                  Q+M
+CPk and AUC) and also by analyzing the sum of classiﬁers’                                                      feedbacks + delayed
+ranks in each day. In particular, in each day j we rank the S
+                                                                                                       latency (δ = 7) and M = 8, such that the overall number
+tested classiﬁers from the best to the least performing one, and                                       of feedbacks used is Q = M + δ = 15. In Section VI-F
+denote by rK,j ∈ {1, . . . , S} the rank of the classiﬁer K on                                         we repeat the experiments considering a longer veriﬁcation
+day j: when K is the best classiﬁer its rank is maximum,                                               latency δ = 15 and M = 15, Q = 30.
+i.e., rK,j = S, while when it is the worst rK,j = 1. As
+recommended by Demsˇar [25], we perform a Friedman test                                                C. Separating Feedbacks From Delayed Supervised Samples
+
+[33] and reject the null hypothesis that all the classiﬁers                                               To assess the effectiveness of the proposed learning strategy,
+                                                                                                       we compare the performance of the proposed classiﬁers AW
+achieve the same performance. Then, we deﬁne a global                                                  (resp. AE) against the corresponding benchmarks introduced
+                                                                                                       in Section V-A and the classiﬁers used to deﬁne their posteri-
+ranking by summing all the daily ranks (see for instance Table                                         ors, i.e. F and WD (resp. ED). Figure 4 illustrates the training
+                                                                                                       set involved when using AW t and the related classiﬁers, while
+III): the larger the sum of ranks, the better the classiﬁer, and                                       Table II summarizes the most important parameters and the
+                                                                                                       training samples used by the considered classiﬁers.
+we use paired t-tests to determine whether the differences in
+                                                                                                          In this experiment we have also included the ideal classiﬁer
+the global ranking are signiﬁcant. In practice, for each pair                                          Rt which is trained on all transactions authorized between day
+of classiﬁers K and H a t-test is used to compare their ranks                                          t and t−δ. This classiﬁer is considered an ideal counterpart of
+over all days (i.e., rK,j − rH,j, j ∈ {1, . . . , J }), being J the                                    sliding window classiﬁers, which unrealistically assume that
+number of days3.                                                                                       investigators can everyday assign the correct label to each
+                                                                                                       authorized transaction. In particular, the training set of Rt is
+   Each experiment is repeated 10 times to reduce perfor-                                              not inﬂuenced by the alert-feedback interaction.
+
+mance’s variability, and when comparing classiﬁers on multi-                                              Table III shows the average Pk, CPk and AUC over all
+ple days we omit the index t from the classiﬁer notation. In                                           the batches for the two datasets separately. The columns
+
+most of our experiments we consider one week of veriﬁcation
+
+     3Since the training sets used in consecutive days are largely overlapping,
+the ranks are not independent and this might affect the signiﬁcance of the
+tests. In fact, when a classiﬁer is outperforming others in one day, it is also
+likely the same happens during the next few days. However, this is a standard
+post-hoc analysis for non-parametric tests, such as the Friedman test [25].
+                                                                                           10
+
+comparison report the results of the paired t-test on the ranks                                      CPk , 15 days averageC Pk
+described above. Classiﬁers having the same letter cannot
+be considered signiﬁcantly different. In both datasets, AW                                                                                   a)# of fraudulent cards
+outperforms W in terms of Pk and CPk, and this indicates that                        number of fraudulent cards, 15 days average
+separating feedbacks and delayed samples is indeed a good
+learning strategy. The same result holds for the considered                    200
+ensembles, i.e., AE and E. Since both AE and E average
+the posteriors of their individuals, their difference consists                 100
+only in the aggregation weights: in AE 50% of the total
+weight is assigned to PF (+|x) and the remaining 50% is                                                                                     b)
+equally distributed to the other individuals. In contrast, in
+E all the individuals contribute equally. The same relation         Fig. 5. a) The values of CPk for S, WD and AW on dataset 2014-2015;
+does not hold between AW and W, which are updated in                b) the number of fraudulent cards on the same period. For the visualization
+a sliding-window manner. However, also in this case we can          sake these values have averaged over a sliding window of 15 days. The peak
+conclude that feedbacks are very informative and need to be         of CPk in plot a) corresponds to the peak in number of fraudulent cards in
+carefully considered to increase the alert precision. This is also  plot b). This result conﬁrms that the classiﬁers become more precise in those
+conﬁrmed by the fact that F outperforms both WD and W.              days characterized by a large number of fraudulent cards.
+As a general comment, we notice that CPk is typically lower
+than Pk, since often, multiple frauds are perpetrated on the        over ten months and show that this stream is affected by
+same card.                                                          concept drift. To this purpose, we use a static classiﬁer St,
+                                                                    which is initially trained on M days and never updated (such
+   Table III reports also the results in terms of AUC, a global     that it initially coincides with WtD), and compare it against
+ranking measure that evaluates the classiﬁer’s posteriors over      WtD (which is instead regularly updated) and AtW (which
+all the instances and not only in the top k (differently from CPk   also leverages updated supervised samples). In a stationary
+and Pk). In terms of AUC the ideal classiﬁer R is signiﬁcantly      classiﬁcation problem, the two classiﬁers S and WD would
+better than AW and F is by far the worse, indicating that F         perform similarly. The fact that St outperforms WtD over
+is not effective when ranking all the transactions.                 time (see Figure 5.a) conﬁrms that this dataset is affected by
+                                                                    concept drift. While it might not sound surprising that the
+   We interpret these results as follows: when the goal is          stream of credit card transactions is nonstationary, ours is, to
+to obtain an accurate ranking of the most suspicious cards          the best of our knowledge, the ﬁrst analysis on the impact of
+(i.e., maximize CPk) we should assign larger weights to those       concept drift on such a large transaction dataset.
+transactions that are as risky as those we want to predict, hence
+using AW . On the contrary, a classiﬁer trained on all daily           Figure 5.a also shows that the proposed AW always
+transactions (which are mostly genuine) is better at ranking all    achieves superior performance in terms of CPk, demonstrating
+the transactions, as it emerges from the AUC of R. In Table III     a better adaptation to concept drift. It is worth noting that the
+we can also see that R outperforms WD in terms of Pk, CPk           performance of all the classiﬁers in Figure 5.a ﬂuctuate quite
+and AUC. This result suggests that the stream of credit card        heavily and report a peak during February 2015. This is indeed
+transactions is nonstationary. In fact, both the training sets of   the month having the largest number of fraudulent cards in our
+R and WD contain all transactions authorized in δ = 7 and           dataset (which is reported in Figure 5.b). In contrast, during
+M = 8 consecutive days, respectively. Their major difference        October 2014 (the period exhibiting the lowest number of
+is that R is trained on the most recent transactions, while         fraudulent cards in our dataset) all the classiﬁers achieve low
+transactions in WD come with a lag of δ days. The fact that         values of CPk. Thus, Figure 5 conﬁrms that the alert precision
+R outperforms WD indicates that the most recent transactions        heavily depends on the number of fraudulent cards in a day.
+are more informative to detect frauds in the next days, thus
+that the distribution of transaction is nonstationary.                 To further investigate the adaptation performance of AW in
+                                                                    nonstationary environments, we assess its adaptation abilities
+   The standard deviations of Pk and CPk, reported in Table         with respect to an artiﬁcially introduced concept drift. In par-
+III, are rather high in particular if compared to those of the      ticular, we artiﬁcially introduce changes at known locations,
+AUC. As we discussed in Section III, and as shown in Figure         adding an abrupt drift on top of the (gradual) one affecting
+5, the values of CPk (and Pk as well) are heavily inﬂuenced by      the transaction stream, which we have previously discussed.
+the number of frauds occurring every day. Since this number         As in [20], we prepared 10 short streams by juxtaposing
+heavily ﬂuctuates over time (see Figure 3), it is reasonable to     transactions authorized in two non consecutive months. Each
+expect such a large dispersion. We remark that the comparison
+between classiﬁers in Table III indicates that differences in
+terms of performance are always signiﬁcant, despite such a
+large standard deviation. Notice that the values of NCPk (see
+Table VI) are less affected by such ﬂuctuations.
+
+D. Concept Drift
+
+   In this section we ﬁrst analyze the 2014-2015 dataset
+which contains more than 54 millions transaction authorized
+                                                                                                                                                  11
+
+                                                                               TABLE III
+                    FRAUD-DETECTION PERFORMANCE WHEN USING 15 DAYS OF TRANSACTIONS (δ = 7, M = 8, Q = 15)
+
+Classiﬁer     Dataset  mean (std)     Average Pk    comparison      mean (std)   Average CPk   comparison  mean (std)   Average AUC   comparison
+                                     sum of ranks                                sum of ranks                           sum of ranks
+  AW        2014-2015  0.77 (0.21)                        a         0.37 (0.18)                      a     0.94 (0.02)                      b
+    F       2014-2015  0.73 (0.23)      1796.50           b         0.32 (0.17)     1824.00          b     0.87 (0.05)     1396.00          e
+    R       2014-2015  0.63 (0.24)      1632.00           c         0.30 (0.18)     1505.00          c     0.96 (0.02)      409.00          a
+    W       2014-2015  0.61 (0.25)      1156.00           d         0.25 (0.14)     1354.50          d     0.91 (0.04)     1822.00          d
+            2014-2015  0.57 (0.26)      1055.50           e         0.25 (0.14)     955.00           e     0.94 (0.03)      865.00          c
+  WD                   0.75 (0.20)      889.00            a         0.35 (0.12)     885.00           a     0.94 (0.03)     1315.00          b
+  AW           2013    0.73 (0.21)      732.00            b         0.32 (0.13)     754.50           b     0.89 (0.05)      631.00          e
+               2013    0.58 (0.22)      693.00            c         0.25 (0.11)     670.50           c     0.96 (0.01)      229.00          a
+    F          2013    0.54 (0.25)      493.50            d         0.22 (0.11)     514.00           d     0.91 (0.05)      736.00          d
+    R          2013    0.50 (0.23)      434.00            e         0.21 (0.09)     387.00           e     0.93 (0.03)      355.00          c
+    W          2013                     345.00                                      330.00                                  539.00
+  WD                   0.77 (0.21)                        a         0.39 (0.17)                      a     0.94 (0.03)                      b
+            2014-2015  0.73 (0.23)      981.50            b         0.36 (0.17)     940.00           b     0.87 (0.06)      873.00          d
+   AE       2014-2015  0.66 (0.25)      827.50            c         0.26 (0.14)     800.50           c     0.94 (0.03)      294.00          a
+    F       2014-2015  0.54 (0.26)      637.50            d         0.23 (0.12)     533.50           d     0.93 (0.03)      943.00          c
+    E       2014-2015  0.76 (0.20)      323.50            a         0.37 (0.14)     276.00           a     0.94 (0.02)      660.00          a
+   ED                  0.73 (0.21)      410.50            b         0.35 (0.15)     335.00           b     0.89 (0.04)      380.00          c
+   AE          2013    0.62 (0.23)      354.00            c         0.24 (0.11)     285.00           c     0.93 (0.03)      129.00          a
+    F          2013    0.48 (0.24)      246.50            d         0.20 (0.11)     193.00           d     0.93 (0.03)      374.00          b
+    E          2013                     119.00                                       97.00                                  247.00
+   ED          2013
+
+of these streams contains an abrupt concept drift in the middle,                                            TABLE IV
+                                                                                 AVERAGE Pk , CPk AND AUC FOR Ft WHEN Q = 15.
+which should be more clearly perceivable when the time
+                                                                                               metric mean sd           dataset
+distance between the juxtaposed months increases. To assess
+                                                                                               Pk          0.68 0.26 2014-2015
+the adaptation ability of the proposed learning strategy, we
+compare the performance of AW and WD in terms of CPk.                                          Pk          0.59 0.26    2013
+In particular, we measure the relative performance loss due to
+                                                                                               CPk 0.26 0.16 2014-2015
+concept drift as the difference between the CPk in the ﬁrst
+and the second month, divided by the value of CPk in the ﬁrst                                  CPk 0.25 0.13            2013
+month. Our experiments show that on these 10 datasets the
+CPk of AW decays of 7.7%, while the CPk of WD decays of                                        AUC 0.85 0.06 2014-2015
+12.5%, conﬁrming the superior adaptation performance of the
+                                                                                               AUC 0.85 0.06            2013
+proposed learning strategy.
+                                                                          that these are lower than the performance achieved by F in
+E. Sample Selection Bias Due to Alert-Feedback Interaction                Table III. Importance weighting does not actually improve the
+                                                                          performance of F, which we interpret as a failure when com-
+Here we investigate whether importance weighting [19], a                  pensating the SSB introduced by the alert-feedback interaction.
+
+mainstream solution to correct SSB, can successfully compen-                 We believe that importance weighting turns to be ineffective
+                                                                          since P(s = 1|x, y) and P(+|x) in (10) are highly correlated,
+sate the SSB introduced by the alert-feedback interaction. To             due to the alert-feedback interaction. It means that, the more
+                                                                          a transaction is likely to be considered risky, the larger the
+this purpose, we consider the feedback classiﬁer Ft, as this              probability P(s = 1|x, y) and the lower is its weight in (10),
+is the one mainly affected by the SSB due to alert-feedback               accordingly. Thus, importance weighting lowers the inﬂuence
+                                                                          of those samples within the feedbacks that are more likely to
+interaction, and use a weight-sensitive implementation of the             be a fraud, and this negatively impacts on the alert precision.
+
+Random Forests based on conditional inference trees [40].                    As a sanity check, we repeated this experiment in a frame-
+                                                                          work where recent supervised samples are not provided by
+Importance weighting [32], [69], [70] consists of re-                     the alert-feedback interaction but are randomly selected (in the
+                                                                          same number and class proportions of the above experiment)
+weighting each training sample in Ft using the following                  among transactions having amount larger than e 500. This
+                                                                          form of SSB is referred to as covariate shift [42], [59], [68],
+weight:                                                                   since we have P(s|y, x) = P(s|x), i.e., given the input x,
+                                                                          the selection variable s is independent of the class y. In this
+                    w  =    P(s = 1)                                (10)  case, importance weighting was able to correctly compensate
+                          P(s = 1|x, y) ,                                 for this bias, and the de-biased classiﬁer outperforms a similar
+                                                                          classiﬁer trained without correcting the SSB.
+where s is a selection variable that associates to each sample in
+Tt the value 1 if the transaction is in Ft and 0 otherwise. Thus,         F. Inﬂuence of Parameters
+P(s = 1|x, y) corresponds to the probability for a sample
+(x, y) to be in the training set Ft. The deﬁnition of weights                Here we show how the performance of Ft and AtW are
+in (10) follows from the Bayes theorem and the fact that it is            inﬂuenced by: i) the number of feedback days considered to
+                                                                          train our classiﬁers (i.e., Q), ii) the number of cards that are
+possible to express (as in [19]) the unbiased join distribution           everyday controlled by investigators, iii) the parameter α that
+P(x, y) w.r.t. the biased joint distribution P(x, y|s = 1) as
+
+P(x, y)  =    P (s  = 1)     P  (x,  y|s  =  1)  =  wP (x,  y|s  =  1).
+            P(s =   1|x, y)
+
+   Table IV reports the performance achieved when correcting
+the SSB using weights provided by (10) and it emerges
+                                                                                                                          12
+
+                                    TABLE V                                                         TABLE VI
+AVERAGE CPk WHEN USING 30 DAYS (δ = 15, M = 15, Q = 30).         AVERAGE NCPk WHEN k ≥ 100 IN THE 2013 DATASET (δ = 15).
+
+classiﬁer mean sd sum of ranks comparison dataset                classiﬁer mean sd sum of ranks comparison k
+
+AW  0.38 0.17  1671.00  a  2014-2015                             AW  0.48 0.09  506.00  a  300
+
+F   0.36 0.17 1482.50   b  2014-2015                             F   0.46 0.10  448.00  b  300
+
+R   0.31 0.17 1234.50   c  2014-2015                             W   0.38 0.11  283.00  c  300
+
+W   0.25 0.13  850.50   d  2014-2015                             WD  0.35 0.10  172.50  d  300
+
+WD  0.24 0.12  705.50   e  2014-2015                             AW  0.41 0.10  519.50  a  150
+
+S   0.23 0.12  605.50   f  2014-2015                             F   0.38 0.10  441.50  b  150
+
+AW  0.38 0.14  609.00   a  2013                                  W   0.29 0.10  272.50  c  150
+
+F   0.35 0.14  541.00   b  2013                                  WD  0.27 0.09  179.50  d  150
+
+R   0.27 0.11  411.50   c  2013                                  AW  0.40 0.13  518.50  a  100
+
+W   0.25 0.13  325.50   d  2013                                  F   0.37 0.13  443.00  b  100
+
+WD  0.24 0.12  281.00   e  2013                                  R   0.29 0.10  342.50  c  100
+
+S   0.20 0.12  198.00   f  2013                                  WD  0.26 0.11  249.00  d  100
+
+regulates the aggregation classiﬁer in (9). To this purpose we   seldom the best option. In these extreme cases, At approaches
+consider δ = 15 days of veriﬁcation latency, such that Ft        either Dt or Ft (which are shown not to be the best options)
+is trained on 30 days of feedbacks (Q = 30, M = 15,              and the classiﬁer receiving the lowest weight has little chances
+δ = 15) and the delayed supervised samples come after 15         to request feedbacks in order to improve its performance and
+days. Table V shows that F is better in terms of CPk when        increase its weight.
+it is trained using Q = 30 days of feedbacks than Q = 15
+(see Table III). The same holds for AW , as a consequence of                              VII. CONCLUSIONS
+the superior performance achieved by F. Therefore, the larger
+amount of feedbacks used during training well compensate in         The majority of works addressing the fraud-detection prob-
+                                                                 lem in credit card transactions (e.g. [5], [23], [63]) unrealisti-
+this case the increase of veriﬁcation latency.                   cally assumes that the class of each transaction is immediately
+                                                                 provided for training the classiﬁer. Here we analyze in detail
+   We repeat this experiment by considering a larger number      the real-world working conditions of FDS and provide a formal
+                                                                 description of the articulated classiﬁcation problem involved.
+of feedbacks per day, to show how this parameter inﬂuences       In particular, we have described the alert-feedback interaction,
+the performance of F and AW . In Table VI we assume that         which is the mechanism providing recent supervised samples
+investigators are able to check more than 100 cards, and         to train/update the classiﬁer. We also claim that, in contrast
+                                                                 with traditional performance measures used in the literature,
+report the fraud-detection performance in terms of NCPk to       in a real-world FDS, the precision of the reported alerts is
+properly assess the alert precision when more cards can be       probably the most meaningful one, since investigators can
+                                                                 check only few alerts.
+controlled. This result conﬁrms that having more feedbacks
+                                                                    Our experiments on two vast datasets of real-world transac-
+guarantees superior fraud-detection performance. This analysis   tions show that, in order to get precise alerts, it is mandatory
+                                                                 to assign larger importance to feedbacks during the learning
+can be considered as a guideline for companies that have         problem. Not surprisingly, feedbacks play a central role in
+                                                                 the proposed learning strategy, which consists in separately
+to decide whether the costs of hiring more investigators         training a classiﬁer on feedbacks and a classiﬁer on delayed
+                                                                 supervised samples, and then aggregating their posteriors to
+is compensated by the expected improvement in the fraud-         identify alerts. Our experiments also show that solutions which
+                                                                 lower the inﬂuence of feedbacks in the learning process (e.g.
+detection performance.                                           classiﬁers that mix feedbacks and delayed supervised samples
+                                                                 or that implement instance weighting schemes) are often
+   Another important parameter in our learning strategy is α,    returning less precise alerts.
+
+which balances the contribution of the feedback and delayed         Future work concerns the study of adaptive and possibly
+classiﬁers in (9). This was empirically set to 0.5 after having  non-linear aggregation methods for the classiﬁers trained on
+investigated multiple strategies to make this parameter adap-    feedbacks and delayed supervised samples. We also expect to
+                                                                 further increase the alert precision by implementing a learning
+tive on a daily basis. Our idea was to take into account the     to rank approach [46] that would be speciﬁcally designed to
+                                                                 replace the linear aggregation of the posterior probabilities.
+precision (or other performance measures) achieved during day    Finally, a very promising research direction concerns semi-
+t − 1 by the Ft−1 and Dt−1, and then assigning weights to Ft     supervised learning methods [16], [39] for exploiting in the
+and Dt accordingly (the best the classiﬁer was during day t−1,   learning process also few recent, unlabeled transactions.
+the larger the weight during day t). Unfortunately, none of the
+                                                                                         ACKNOWLEDGMENT
+implemented solutions seemed to outperforms the average of
+the two posteriors, i.e., αt = 0.5 ∀t.                              A. Dal Pozzolo was supported by the Doctiris scholarship,
+                                                                 G. Bontempi by the projects BridgeIRIS and BruFence funded
+   Thus, we ran an extensive simulation on the sliding window    by Innoviris, Belgium.
+solution, where we tested everyday αt ∈ {0.1, 0.2, . . . , 0.9}
+and then we choose αt∗ as the one yielding the aggregation
+performing at best in terms of Pk. Such an optimal selec-
+tion of weights is of course not feasible in a real-world
+
+FDS, as it would necessary require to request feedbacks for
+each αt ∈ {0.1, 0.2, . . . , 0.9}. However, setting everyday
+αt∗ yielded minimal improvements with respect to setting
+αt = 0.5 ∀t. This can be explained by the fact that αt∗ had a
+peaked distribution about 0.5, having mean(αt∗) ≈ 0.52. The
+Pk value was steadily decreasing when approaching α = 0.1
+and α = 0.9, indicating that extreme values of α are very
+                                                                                   13
+
+                             REFERENCES                                            [27] G. Ditzler, M. Roveri, C. Alippi, and R. Polikar. Learning in nonsta-
+                                                                                         tionary environments: A survey. Computational Intelligence Magazine,
+ [1] E. Aleskerov, B. Freisleben, and B. Rao. Cardwatch: A neural network                IEEE, 10(4):12–25, 2015.
+      based database mining system for credit card fraud detection. In
+      Computational Intelligence for Financial Engineering, pages 220–226.         [28] J. Dorronsoro, F. Ginel, C. Sgnchez, and C. Cruz. Neural fraud detection
+      IEEE/IAFE, 1997.                                                                   in credit card operations. Neural Networks, 8(4):827–834, 1997.
+
+ [2] C. Alippi, G. Boracchi, and M. Roveri. A just-in-time adaptive                [29] C. Elkan. The foundations of cost-sensitive learning. In International
+      classiﬁcation system based on the intersection of conﬁdence intervals              Joint Conference on Artiﬁcial Intelligence, volume 17, pages 973–978.
+      rule. Neural Networks, 24(8):791–800, 2011.                                        Citeseer, 2001.
+
+ [3] C. Alippi, G. Boracchi, and M. Roveri. Hierarchical change-detection          [30] R. Elwell and R. Polikar. Incremental learning of concept drift in nonsta-
+      tests. Transactions on Neural Networks and Learning Systems,                       tionary environments. Transactions on Neural Networks,, 22(10):1517–
+      PP(99):1–13, 2016.                                                                 1531, 2011.
+
+ [4] C. Alippi, G. Boracchi, and M. Roveri. Just-in-time classiﬁers for            [31] W. Fan and I. Davidson. On sample selection bias and its efﬁcient
+      recurrent concepts. Transactions on Neural Networks and Learning                   correction via model averaging and unlabeled examples. In SDM, pages
+      Systems, 24(4):620–634, April.                                                     320–331. SIAM, 2007.
+
+ [5] B. Baesens, V. Van Vlasselaer, and W. Verbeke. Fraud Analytics Using          [32] W. Fan, I. Davidson, B. Zadrozny, and P. S. Yu. An improved
+      Descriptive, Predictive, and Social Network Techniques: A Guide to                 categorization of classiﬁer’s sensitivity on sample selection bias. In
+      Data Science for Fraud Detection. John Wiley & Sons, 2015.                         5th International Conference on Data Mining, pages 4–pp. IEEE, 2005.
+
+ [6] A. C. Bahnsen, D. Aouada, and B. Ottersten. Example-dependent cost-           [33] M. Friedman. The use of ranks to avoid the assumption of normality
+      sensitive decision trees. Expert Systems with Applications, 2015.                  implicit in the analysis of variance. Journal of the American Statistical
+                                                                                         Association, 32(200):675–701, 1937.
+ [7] A. C. Bahnsen, D. Aouada, A. Stojanovic, et al. Detecting credit card
+      fraud using periodic features. In 14th International Conference on           [34] J. Gama, P. Medas, G. Castillo, and P. Rodrigues. Learning with
+      Machine Learning and Applications, pages 208–213. IEEE, 2015.                      drift detection. In Advances in artiﬁcial intelligence, pages 286–295.
+                                                                                         Springer, 2004.
+ [8] S. Bhattacharyya, S. Jha, K. Tharakunnel, and J. C. Westland. Data
+      mining for credit card fraud: A comparative study. Decision Support          [35] J. Gama, I. Zˇ liobaite˙, A. Bifet, M. Pechenizkiy, and A. Bouchachia. A
+      Systems, 50(3):602–613, 2011.                                                      survey on concept drift adaptation. ACM Computing Surveys (CSUR),
+                                                                                         46(4):44, 2014.
+ [9] A. Bifet and R. Gavalda. Learning from time-changing data with
+      adaptive windowing. In SDM, volume 7, page 2007. SIAM, 2007.                 [36] J. Gao, B. Ding, W. Fan, J. Han, and P. S. Yu. Classifying data streams
+                                                                                         with skewed class distributions and concept drifts. Internet Computing,
+[10] R. Bolton and D. Hand. Statistical fraud detection: A review. Statistical           12(6):37–49, 2008.
+      Science, pages 235–249, 2002.
+                                                                                   [37] D. Hand. Measuring classiﬁer performance: a coherent alternative to the
+[11] R. J. Bolton and D. J. Hand. Unsupervised proﬁling methods for fraud                area under the roc curve. Machine learning, 77(1):103–123, 2009.
+      detection. Credit Scoring and Credit Control VII, pages 235–255, 2001.
+                                                                                   [38] H. He and E. A. Garcia. Learning from imbalanced data. Transactions
+[12] R. Brause, T. Langsdorf, and M. Hepp. Neural data mining for credit                 on Knowledge and Data Engineering, 21(9):1263–1284, 2009.
+      card fraud detection. In Tools with Artiﬁcial Intelligence, pages 103–106.
+      IEEE, 1999.                                                                  [39] M. J. Hosseini, A. Gholipour, and H. Beigy. An ensemble of cluster-
+                                                                                         based classiﬁers for semi-supervised classiﬁcation of non-stationary data
+[13] L. Breiman. Random forests. Machine learning, 45(1):5–32, 2001.                     streams. Knowledge and Information Systems, 46(3):567–597, 2016.
+[14] M. Carminati, R. Caron, F. Maggi, I. Epifani, and S. Zanero. BankSealer:
+                                                                                   [40] T. Hothorn, P. Bu¨hlmann, S. Dudoit, A. Molinaro, and M. J. Van
+      An Online Banking Fraud Analysis and Decision Support System, pages                Der Laan. Survival ensembles. Biostatistics, 7(3):355–373, 2006.
+      380–394. Springer Berlin Heidelberg, Berlin, Heidelberg, 2014.
+[15] P. Chan, W. Fan, A. Prodromidis, and S. Stolfo. Distributed data mining       [41] S. Jha, M. Guillen, and J. C. Westland. Employing transaction ag-
+      in credit card fraud detection. Intelligent Systems and their Applications,        gregation strategy to detect credit card fraud. Expert systems with
+      14(6):67–74, 1999.                                                                 applications, 39(16):12650–12657, 2012.
+[16] O. Chapelle, B. Scho¨lkopf, A. Zien, et al. Semi-supervised learning.
+      page 528, 2006.                                                              [42] M. G. Kelly, D. J. Hand, and N. M. Adams. The impact of changing
+[17] N. Chawla, K. Bowyer, L. O. Hall, and W. P. Kegelmeyer. Smote:                      populations on classiﬁer performance. In 25th International Conference
+      synthetic minority over-sampling technique. Journal of Artiﬁcial Intel-            on Knowledge Discovery and Data Mining, pages 367–371. ACM, 1999.
+      ligence Research (JAIR), 16:321–357, 2002.
+[18] S. Chen and H. He. Towards incremental learning of nonstationary              [43] J. Z. Kolter and M. A. Maloof. Dynamic weighted majority: An
+      imbalanced data stream: a multiple selectively recursive approach.                 ensemble method for drifting concepts. The Journal of Machine
+      Evolving Systems, 2(1):35–50, 2011.                                                Learning Research, 8:2755–2790, 2007.
+[19] C. Cortes, M. Mohri, M. Riley, and A. Rostamizadeh. Sample selection
+      bias correction theory. In Algorithmic learning theory, pages 38–53.         [44] G. Krempl and V. Hofer. Classiﬁcation in presence of drift and latency.
+      Springer, 2008.                                                                    In 11th Data Mining Workshops, pages 596–603. IEEE, 2011.
+[20] A. Dal Pozzolo, G. Boracchi, O. Caelen, C. Alippi, and G. Bontempi.
+      Credit card fraud detection and concept-drift adaptation with delayed        [45] M. Krivko. A hybrid model for plastic card fraud detection systems.
+      supervised information. In International Joint Conference on Neural                Expert Systems with Applications, 37(8):6070–6076, 2010.
+      Networks. IEEE, 2015.
+[21] A. Dal Pozzolo, O. Caelen, and G. Bontempi. When is undersampling             [46] T.-Y. Liu. Learning to rank for information retrieval. Foundations and
+      effective in unbalanced classiﬁcation tasks? In Machine Learning and               Trends in Information Retrieval, 3(3):225–331, 2009.
+      Knowledge Discovery in Databases. Springer, 2015.
+[22] A. Dal Pozzolo, O. Caelen, R. A. Johnson, and G. Bontempi. Cal-               [47] N. Mahmoudi and E. Duman. Detecting credit card fraud by mod-
+      ibrating probability with undersampling for unbalanced classiﬁcation.              iﬁed ﬁsher discriminant analysis. Expert Systems with Applications,
+      In Computational Intelligence, 2015 IEEE Symposium Series on, pages                42(5):2510–2516, 2015.
+      159–166. IEEE, 2015.
+[23] A. Dal Pozzolo, O. Caelen, Y.-A. Le Borgne, S. Waterschoot, and               [48] H. B. Mann and D. R. Whitney. On a test of whether one of two
+      G. Bontempi. Learned lessons in credit card fraud detection from a                 random variables is stochastically larger than the other. The annals of
+      practitioner perspective. Expert Systems with Applications, 41(10):4915–           mathematical statistics, pages 50–60, 1947.
+      4928, 2014.
+[24] A. Dal Pozzolo, R. A. Johnson, O. Caelen, S. Waterschoot, N. V. Chawla,       [49] J. G. Moreno-Torres, T. Raeder, R. Alaiz-Rodr´ıguez, N. V. Chawla, and
+      and G. Bontempi. Using HDDT to avoid instances propagation in                      F. Herrera. A unifying view on dataset shift in classiﬁcation. Pattern
+      unbalanced and evolving data streams. In International Joint Conference            Recognition, 45(1):521–530, 2012.
+      on Neural Networks, pages 588–594. IEEE, 2014.
+[25] J. Demsˇar. Statistical comparisons of classiﬁers over multiple data sets.    [50] K. Nishida and K. Yamauchi. Detecting concept drift using statistical
+      The Journal of Machine Learning Research, 7:1–30, 2006.                            testing. In Discovery Science, pages 264–269. Springer, 2007.
+[26] G. Ditzler and R. Polikar. Incremental learning of concept drift from
+      streaming imbalanced data. Transactions on Knowledge and Data                [51] D. Olszewski. Fraud detection using self-organizing map visualizing the
+      Engineering, 25(10):2283–2301, 2013.                                               user proﬁles. Knowledge-Based Systems, 70:324–334, 2014.
+
+                                                                                   [52] C. Phua, V. Lee, K. Smith, and R. Gayler. A comprehensive survey of
+                                                                                         data mining-based fraud detection research. arXiv:1009.6119, 2010.
+
+                                                                                   [53] J. Plasse and N. Adams. Handling delayed labels in temporally evolving
+                                                                                         data streams. In International Conference on Big Data, pages 2416–
+                                                                                         2424. IEEE, 2016.
+
+                                                                                   [54] J. T. Quah and M. Sriganesh. Real-time credit card fraud detection
+                                                                                         using computational intelligence. Expert Systems with Applications,
+                                                                                         35(4):1721–1732, 2008.
+
+                                                                                   [55] Y. Sahin, S. Bulkan, and E. Duman. A cost-sensitive decision tree
+                                                                                         approach for fraud detection. Expert Systems with Applications,
+                                                                                         40(15):5916–5923, 2013.
+                                                                               14
+
+[56] D. Sa´nchez, M. Vila, L. Cerda, and J. Serrano. Association rules                                        Giacomo Boracchi received the M.S. degree in
+                                                                                                              Mathematics from the Universita` degli Studi di
+applied to credit card fraud detection. Expert Systems with Applications,                                     Milano, Italy, and the Ph.D. degree in Information
+                                                                                                              Technology at the Politecnico di Milano, Italy, in
+36(2):3630–3640, 2009.                                                                                        2004 and 2008, respectively. He was researcher at
+                                                                                                              the Tampere International Center for Signal Pro-
+[57] J. C. Schlimmer and R. H. Granger Jr. Incremental learning from noisy                                    cessing, Finland, in 2004-2005. Currently, he is an
+                                                                                                              assistant professor at the Dipartimento di Elettronica,
+data. Machine learning, 1(3):317–354, 1986.                                                                   Informazione e Bioingegneria of the Politecnico di
+                                                                                                              Milano, Italy. His main research interests include
+[58] B. Settles. Active learning literature survey. University of Wisconsin,                                  learning methods for nonstationary environments,
+                                                                               as well as mathematical and statistical methods for image processing and
+Madison, 52:55–66, 2010.                                                       analysis. In 2015 he received the IBM Faculty Award, in 2016 the IEEE
+                                                                               Transactions on Neural Networks and Learning Systems Outstanding Paper
+[59] H. Shimodaira. Improving predictive inference under covariate shift by    Award, and in 2017 he received the Nokia visiting professor grant.
+
+weighting the log-likelihood function. Journal of statistical planning                                        Olivier Caelen got his PhD at the Machine Learning
+                                                                                                              Group of the Universite´ Libre de Bruxelles under
+and inference, 90(2):227–244, 2000.                                                                           the supervision of Prof. Gianluca Bontempi. He
+                                                                                                              currently works at Worldline (an Atos company).
+[60] P. Sobhani and H. Beigy. New drift detection method for data streams.                                    After spending 5 years in the credit card fraud
+                                                                                                              detection team, he is now working in the R&D High
+Springer, 2011.                                                                                               Processing & Volume team. His researches mainly
+                                                                                                              focus on Machine Learning techniques for anomaly
+[61] W. N. Street and Y. Kim. A streaming ensemble algorithm (SEA) for                                        and fraud detection.
+
+large-scale classiﬁcation. In 7th International Conference on Knowledge                                       Cesare Alippi is a Professor with the Politecnico di
+                                                                                                              Milano, Milano, Italy and Universit della Svizzera
+Discovery and Data Mining, pages 377–382. ACM, 2001.                                                          italiana, Lugano, Switzerland. Alippi is an IEEE
+                                                                                                              Fellow, Member of the Administrative Committee of
+[62] D. K. Tasoulis, N. M. Adams, and D. J. Hand. Unsupervised clustering in                                  the IEEE Computational Intelligence Society, Board
+                                                                                                              of Governors member of the International Neural
+streaming data. In Intenational Conference on Data Mining Workshops,                                          Network Society, Board of Directors member of
+                                                                                                              the European Neural Network Society. In 2016 he
+pages 638–642, 2006.                                                                                          received the Gabor award from the International
+                                                                                                              Neural Networks Society and the IEEE Computa-
+[63] V. Van Vlasselaer, C. Bravo, O. Caelen, T. Eliassi-Rad, L. Akoglu,                                       tional Intelligence Society Outstanding Transactions
+                                                                               on Neural Networks and Learning Systems Paper Award; in 2004 the IEEE
+M. Snoeck, and B. Baesens. Apate: A novel approach for automated               Instrumentation and Measurement Society Young Engineer Award. Current
+                                                                               research activity addresses adaptation and learning in non-stationary environ-
+credit card transaction fraud detection using network-based extensions.        ments and Intelligence for embedded and cyber-physical systems.
+
+Decision Support Systems, 2015.
+
+[64] S. Wang, L. L. Minku, and X. Yao. Resampling-based ensemble methods
+
+for online class imbalance learning. Transactions on Knowledge and
+
+Data Engineering, 27(5):1356–1368, May 2015.
+
+[65] D. Weston, D. Hand, N. Adams, C. Whitrow, and P. Juszczak. Plastic
+
+card fraud detection using peer group analysis. Advances in Data
+
+Analysis and Classiﬁcation, 2(1):45–62, 2008.
+
+[66] C. Whitrow, D. J. Hand, P. Juszczak, D. Weston, and N. M. Adams.
+
+Transaction aggregation as a strategy for credit card fraud detection.
+
+Data Mining and Knowledge Discovery, 18(1):30–55, 2009.
+
+[67] G. Widmer and M. Kubat. Learning in the presence of concept drift
+
+and hidden contexts. Machine learning, 23(1):69–101, 1996.
+
+[68] K. Yamazaki, M. Kawanabe, S. Watanabe, M. Sugiyama, and K.-R.
+
+Mu¨ller. Asymptotic bayesian generalization error when training and test
+
+distributions are different. In 24th International Conference on Machine
+
+learning, pages 1079–1086. ACM, 2007.
+
+[69] B. Zadrozny. Learning and evaluating classiﬁers under sample selection
+
+bias. In 21st International Conference on Machine learning, page 114.
+
+ACM, 2004.
+
+[70] B. Zadrozny, J. Langford, and N. Abe. Cost-sensitive learning by cost-
+
+proportionate example weighting. In International Confernece on Data
+
+Mining, pages 435–442. IEEE, 2003.
+
+[71] V. Zaslavsky and A. Strizhak. Credit card fraud detection using self-
+
+organizing maps. Information and Security, 18:48, 2006.
+
+[72] I. Zˇ liobaite˙.  Learning under concept drift: an overview.
+
+arXiv:1010.4784, 2010.
+
+                       Andrea Dal Pozzolo received in 2011 a master                                           Gianluca Bontempi is Full Professor in the Com-
+                       degree cum laude from the faculty of Statistics,                                       puter Science Department of ULB, coHead of the
+                       Universita´ di Bologna (Italy) and later in 2015 a PhD                                 ULB Machine Learning Group and Director of
+                       from the Machine Learning Group of the Universite´                                     the Interuniversity Institute of Bioinformatics in
+                       Libre de Bruxelles (Belgium). During his PhD the                                       Brussels. His interests cover data mining, scalable
+                       research focused on Machine Learning and statis-                                       machine learning, bioinformatics and time series
+                       tical techniques for Fraud Detection. His interests                                    prediction. He graduated with honors in Electronic
+                       cover techniques for unbalanced data streams, cost-                                    Engineering (Politecnico of Milan, Italy) and ob-
+                       sensitive learning and concept drift. Currently he                                     tained his PhD in Applied Sciences (ULB, Brus-
+                       works as a consultant for major Banks and Insurance                                    sels, Belgium). He took part to research projects in
+                       companies.                                                                             academy and private companies all over Europe. He
+                                                                               is author of more than 200 scientiﬁc publications and IEEE Senior Member.
+                                                                               He is also co-author of software for data mining and prediction, which was
+                                                                               awarded in two international competitions.
+

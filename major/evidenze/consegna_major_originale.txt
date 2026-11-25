@@ -1,0 +1,179 @@
+TECHNOLOGY RISK GOVERNANCE.
+                    MA JOR ASSIGNMENT
+
+                                                             Instructions
+MAJOR ASSIGNMENT                                                                                            2
+
+Course written assignments
+
+-- Students are asked for preparing a mandatory (group) major assignment selecting one of the
+
+    following options:
+
+        · Critical Incident Analysis: description and in-depth analysis of an industrial accident/disaster
+
+            involving cyber or IT risk factors
+
+        · Technology Risk Assessment: perform a preliminary risk assessment of a digital solution for a
+
+            specific product/system/process of your interest
+
+-- To improve your final mark, you may voluntary complete one or two
+
+    (group) minor assignments:
+
+        · Analysis of the accident in a Co-generation Plant (Class 9)
+
+        · Critical discussion of a critical incident in an interdependent networked infrastructure system
+
+            (Class 19).
+
+-- Submission deadlines:
+
+        · Minor Assignment reports: by Monday, Dec 22, 2025
+
+        · Major Assignment report: at least one week before the oral exam session you want to attend
+MAJOR ASSIGNMENT                                                                             3
+
+Objectives and Deliverable
+
+-- The assignment is intended to deepen your capability of critically apply Technology Risk
+
+    Governance principles and methods
+
+-- Deliverable: prepare a report of about 15 pages
+
+-- Groups of max three (3) students are accepted
+MAJOR ASSIGNMENT                                                                                         4
+
+Critical Incident Report
+
+AIM AND STRUCTURE
+
+Students should identify a relevant industrial accident/disaster involving cyber or IT risk factors,
+for which enough secondary data are available from different sources (technical and scientific
+literature)
+
+All the industrial and service sectors are eligible.
+
+-- The paper should cover this core contents:
+
+        · Description of the company/system of interest and of the event, based on publicly available
+
+            documentation
+
+        · Model-based in-depth analysis of the accident by applying the most appropriate technique,
+
+            considering both technical and organizational factors
+
+        · Critical discussion of the appropriateness of the implemented countermeasures, and
+
+            generalization of the lesson learned to improve safety performance in the specific industry
+MAJOR ASSIGNMENT                                                                                          5
+
+Technology Risk Assessment report
+
+AIM AND STRUCTURE
+
+Referring to a specific industrial (e.g. manufacturing, process industry, transportation, etc.) or
+service (e.g. banking, healthcare, transport) domains students should select an existing or
+emerging digital solution at either product, system o process level, and perform a preliminary risk
+assessment using secondary data
+
+-- The paper should cover this core contents:
+
+        · Introduction. Brief description of the area of investigation (industry/ies and business model,
+
+            product, system, processes)
+
+        · Business case. Description of the technological solution and the main specifications for
+
+            implementation (or main use cases)
+
+        · Reference documentation. Search methodology and the knowledge base selected for the analysis
+
+        · Risk Assessment. Selection and justification of the RA method. Reporting of all the Risk
+
+            Assessment phases (identification/analysis/ evaluation)
+
+        · Discussion. Suggest possible risk mitigation options and assess residual risk
+MAJOR ASSIGNMENT                                                                                                6
+
+About the use of GenAI
+
+The final report            General principles
+should transparently        · Gen AI is a powerful tool in the hands of engineers and managers
+report about the use        · Under no circumstances should we allow GenAI to guide our actions and make
+of GenAI.
+                                  decisions on our behalf
+This information
+should be reported          Permitted and encouraged uses of GenAI:
+and justified:              · Support the collection and critical analysis of relevant information and data
+                            · Encoding of heterogeneous information/data within a framework provided by the
+· In the Introduction or
+                                  analyst
+     Methodology Sections
+                            · Development of an AI agent that implements the solution developed by the analyst
+· With a specific GenAI     · Proof reading and language sanity check of the final report
+
+     Disclosure Statement   Prohibited uses of GenAI:
+     appended to the        · Selection of study contents and methodology
+     report                 · Selection of existing frameworks or methods
+                            · Development of new analytical frameworks
+      (see the next slide)
+MAJOR ASSIGNMENT                                                                                                        7
+
+GenAI Disclosure Statement
+
+(to be appended to the final report and signed by all the team members)
+
+The project and the final report were developed with the assistance of generative AI (GenAI) tools. The following
+details the extent and nature of AI involvement:
+
+· GenAI Tool(s) Used: [Specify the tool(s), e.g., 'ChatGPT-4o' or 'Google Gemini'].
+
+· Purpose of Use: [Describe how AI was used, e.g., 'for brainstorming initial ideas', 'generating outlines', 'drafting
+
+      sections', or 'editing for clarity'].
+
+· Specific Contributions: [Detail AI-generated content, e.g., 'AI assisted in summarizing literature on topic X, which
+
+      informed the benchmarking of Risk Assessment methos and the final selection'].
+
+· Human Oversight: All AI outputs were reviewed, edited, and verified by the authors for accuracy, originality, and
+
+      relevance. No AI-generated content was submitted verbatim without substantial modification.
+
+· Ethical Considerations: This usage aligns with Politecnico di Milano's policy and guidelines. The authors take full
+
+      responsibility for the final content and attest that it represents their own intellectual effort.
+
+NOTE: If relevant, some prompts could be included in Annex for methodological transparency and replicability
+MAJOR ASSIGNMENT                                                                                    8
+
+Deadlines for the Major Assignment
+
+-- On line review sessions on Thursday 10/12/2026 and Tuesday 15/12/2026.
+
+-- Composition of the group (names and contacts) the type and a tentative title of the report must
+
+    be communicated by email to paolo.trucco@polimi.it no later than Friday 13/11/26
+
+-- The final manuscript must be submitted at least one week before the oral exam call you want to
+
+    attend
+
+-- Submission: submit a digital copy (Word or PDF) of your final report on WeBeep
+MAJOR ASSIGNMENT                                                      9
+
+Useful Resources
+
+-- Google Scholar, https://scholar.google.com/
+-- Scopus, https://www.scopus.com/search/form.uri?display=basic
+-- ProQuest, https://www.proquest.com/index
+
+-- POLIMI and Bocconi Libraries and electronic resources
+
+-- Books and other documents that you may ask for to the instructors
+THANKS.
+

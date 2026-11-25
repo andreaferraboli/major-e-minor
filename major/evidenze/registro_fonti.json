@@ -1,0 +1,460 @@
+{
+  "access_date": "2026-11-25",
+  "source_count": 14,
+  "id_note": "P13 reserved for an ECB explanatory page; not retained because local retrieval failed and P01/P02 supply stronger evidence.",
+  "sources": [
+    {
+      "id": "P01",
+      "title": "2025 SEPA Instant Credit Transfer Scheme Rulebook, version 1.2",
+      "author": "European Payments Council",
+      "date": "2026-09-30",
+      "original_url": "https://www.europeanpaymentscouncil.eu/document-library/rulebooks/2025-sepa-instant-credit-transfer-rulebook-version-1-2",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P01_EPC_SCT_Inst_2025_v1_2.pdf",
+      "relevant_pages_or_sections": [
+        "pp. 13-17 conceptual workflow",
+        "pp. 23-25 roles and four-corner model",
+        "pp. 26-33, sections 4.2.1-4.2.3 timing",
+        "pp. 36-46 exception/recall flows"
+      ],
+      "supported_claims": [
+        "Current version 1.2 effective 30 September 2026; supersedes 1.1",
+        "Execution clock starts at receipt defined by authorisation plus receipt; screening cannot reset clock",
+        "Target five seconds and timeout sub-timelines must be distinguished from ten-second legal requirement",
+        "Recall is an exception process and does not guarantee recovery"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Scheme rules are not a bank-specific technical design; no measured model performance or internal latency budget"
+      ],
+      "verification": {
+        "download_signature": "PDF",
+        "bytes": 2020117,
+        "sha256": "ef67afbfc1e03071a0fb7503f087f831988501395cf5b3a6ce1f95934934b059",
+        "opened": true,
+        "method": "PyMuPDF + pdftotext UTF-8; relevant full pages checked",
+        "pages": 142
+      },
+      "retrieval_url": "https://www.europeanpaymentscouncil.eu/sites/default/files/kb/file/2026-09/EPC004-16%202025%20SCT%20Instant%20Rulebook%20v1.2.pdf"
+    },
+    {
+      "id": "P02",
+      "title": "Regulation (EU) 2024/886 on instant credit transfers in euro",
+      "author": "European Parliament and Council",
+      "date": "2024-03-13",
+      "original_url": "https://eur-lex.europa.eu/eli/reg/2024/886/oj",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P02_Instant_Payments_Regulation_2024_886.pdf",
+      "relevant_pages_or_sections": [
+        "pp. 8-10, Article 1 inserting Article 5a into Regulation 260/2012",
+        "pp. 11-13, inserted Article 5c verification of payee",
+        "p. 10, Article 5a(8) phased deadlines"
+      ],
+      "supported_claims": [
+        "Ten-second period begins at payer PSP receipt, not AI completion; restoration requirement if confirmation absent",
+        "Euro-area credit institutions sending deadline 9 October 2025, with category-specific exceptions",
+        "Verification of payee checks identifier/name discrepancy before authorisation; does not establish benign payment intent"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Amending act must be read with Regulation 260/2012; deadlines vary by PSP category and currency jurisdiction"
+      ],
+      "verification": {
+        "download_signature": "PDF",
+        "bytes": 681822,
+        "sha256": "3ab34a7009e24e3ee797a16b1942f04649c64dd1b1bd8c27dd98f0eaf16b527a",
+        "opened": true,
+        "method": "PyMuPDF + pdftotext UTF-8; relevant full pages checked",
+        "pages": 21
+      },
+      "retrieval_url": "https://op.europa.eu/o/opportal-service/download-handler?identifier=d395dbf7-e597-11ee-8b2b-01aa75ed71a1&format=pdfa1a&language=en&productionSystem=cellar&part="
+    },
+    {
+      "id": "P03",
+      "title": "Regulation (EU) 2024/1689, consolidated text at 27 July 2026 (AI Act)",
+      "author": "European Parliament and Council / Publications Office consolidation",
+      "date": "2026-07-27",
+      "original_url": "https://eur-lex.europa.eu/eli/reg/2024/1689/2026-07-27/eng",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P03_AI_Act_consolidated_2026_07_27.pdf",
+      "relevant_pages_or_sections": [
+        "PDF p. 11 Article 4 AI literacy",
+        "PDF pp. 17-19 Article 6 classification",
+        "PDF p. 127 Article 113",
+        "PDF pp. 131-133 Annex III; point 5(b) on p.132"
+      ],
+      "supported_claims": [
+        "Financial-fraud detection is excepted from the Annex III 5(b) creditworthiness/credit-scoring use case; not a blanket exclusion from the Act",
+        "Screening purpose as scoped does not itself establish an Annex III high-risk category; reassess for changed purposes",
+        "Amended Article 4 requires measures supporting literacy development, without guaranteeing individual level",
+        "Annex III high-risk sections 1-3 apply from 2 December 2027; Annex I from 2 August 2028"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Consolidation is a documentation tool without independent legal effect; authentic amending act P04 checked; classification is a scoped analysis, not a legal opinion"
+      ],
+      "verification": {
+        "download_signature": "PDF",
+        "bytes": 1309163,
+        "sha256": "1ccd38d1c78482cf2053b70110115adcc5080700acc8bd7bead8cb3579143ccf",
+        "opened": true,
+        "method": "PyMuPDF + pdftotext UTF-8; relevant full pages checked",
+        "pages": 151
+      },
+      "retrieval_url": "https://op.europa.eu/o/opportal-service/download-handler?identifier=b1730fb2-8f1c-11f1-9262-01aa75ed71a1&format=pdfa1a&language=en&productionSystem=cellar&part="
+    },
+    {
+      "id": "P04",
+      "title": "Regulation (EU) 2026/1744 (Digital Omnibus on AI)",
+      "author": "European Parliament and Council",
+      "date": "2026-07-08",
+      "original_url": "https://eur-lex.europa.eu/eli/reg/2026/1744/oj",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P04_AI_Omnibus_2026_1744.pdf",
+      "relevant_pages_or_sections": [
+        "p. 35 amended Article 113",
+        "p. 41 Article 4 entry into force",
+        "pp. 15-16 amended Article 4 literacy"
+      ],
+      "supported_claims": [
+        "Published 24 July 2026 and entered into force third day thereafter, 27 July 2026",
+        "High-risk application timetable was amended in enacted law, not merely a pending proposal"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Only relevant changes inspected in depth; no comprehensive analysis of all Omnibus changes"
+      ],
+      "verification": {
+        "download_signature": "PDF",
+        "bytes": 1121625,
+        "sha256": "0bea4d808256b08275777949ba9cb3c70b7d02e4ebb3ac9b205671b1f552d386",
+        "opened": true,
+        "method": "PyMuPDF + pdftotext UTF-8; relevant full pages checked",
+        "pages": 41
+      },
+      "retrieval_url": "https://op.europa.eu/o/opportal-service/download-handler?identifier=b459c07f-86fb-11f1-bf5e-01aa75ed71a1&format=pdfa1a&language=en&productionSystem=cellar&part="
+    },
+    {
+      "id": "P05",
+      "title": "Regulation (EU) 2022/2554 (Digital Operational Resilience Act)",
+      "author": "European Parliament and Council",
+      "date": "2022-12-14",
+      "original_url": "https://eur-lex.europa.eu/eli/reg/2022/2554/oj",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P05_DORA_2022_2554.pdf",
+      "relevant_pages_or_sections": [
+        "p. 24 Article 2 scope",
+        "p. 29 Article 5 governance",
+        "p. 30 Article 6 ICT risk framework",
+        "p. 39 Article 17 incident management",
+        "p. 45 Article 24 resilience testing",
+        "pp. 48-53 Articles 28-30 ICT third-party risk/contracts",
+        "p. 79 Article 64"
+      ],
+      "supported_claims": [
+        "Applicable from 17 January 2025 to credit institutions within scope",
+        "Financial entity remains responsible when using ICT third-party services",
+        "Governance, ICT risk management, incidents, testing and provider contracts inform screening deployment controls",
+        "Additional contractual requirements depend on support of critical or important functions"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Level-1 act; detailed RTS and bank-specific critical-function assessment are not reproduced; avoid claiming every provider is designated critical"
+      ],
+      "verification": {
+        "download_signature": "PDF",
+        "bytes": 1493241,
+        "sha256": "85307f9e2a0409826dd0f54489645935816d16e929f0db4db3ef15badd11d38c",
+        "opened": true,
+        "method": "PyMuPDF + pdftotext UTF-8; relevant full pages checked",
+        "pages": 79
+      },
+      "retrieval_url": "https://op.europa.eu/o/opportal-service/download-handler?identifier=0caf473a-85bd-11ed-9887-01aa75ed71a1&format=pdfa1a&language=en&productionSystem=cellar&part="
+    },
+    {
+      "id": "P06",
+      "title": "Regulation (EU) 2016/679 (GDPR), consolidated text",
+      "author": "European Parliament and Council / Publications Office consolidation",
+      "date": "2016-05-04",
+      "original_url": "https://eur-lex.europa.eu/eli/reg/2016/679/2016-05-04",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P06_GDPR_2016_679.pdf",
+      "relevant_pages_or_sections": [
+        "pp. 6-8 Articles 5-6",
+        "p. 21 Article 22 automated decisions",
+        "p. 23 Article 25 privacy by design",
+        "pp. 28-31 Articles 32-35 security and DPIA"
+      ],
+      "supported_claims": [
+        "Data minimisation, lawful basis, security and privacy by design apply to personal-data processing",
+        "Article 22 assessment depends on solely automated decisions producing legal or similarly significant effects; cannot assume fraud purpose automatically exempts processing",
+        "Article 35 requires a DPIA where processing is likely high risk, including certain extensive automated evaluations"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Consolidation lacks recitals; bank must determine actual lawful bases, significance and appropriate safeguards, with DPO input"
+      ],
+      "verification": {
+        "download_signature": "PDF",
+        "bytes": 623086,
+        "sha256": "18e6c90c505143021c086d72fb93ac898ba2e078e2f1b8236e8ce2ff237c052c",
+        "opened": true,
+        "method": "PyMuPDF + pdftotext UTF-8; relevant full pages checked",
+        "pages": 78
+      },
+      "retrieval_url": "https://op.europa.eu/o/opportal-service/download-handler?identifier=5f2552c2-cc45-11e6-ad7c-01aa75ed71a1&format=pdfa1a&language=en&productionSystem=cellar&part="
+    },
+    {
+      "id": "P07",
+      "title": "Commission Delegated Regulation (EU) 2018/389, consolidated at 12 September 2023",
+      "author": "European Commission / Publications Office consolidation",
+      "date": "2023-09-12",
+      "original_url": "https://eur-lex.europa.eu/eli/reg_del/2018/389/2023-09-12",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P07_RTS_2018_389_consolidated_2023_09_12.pdf",
+      "relevant_pages_or_sections": [
+        "pp. 2-3 Article 2 transaction monitoring",
+        "p. 3 Article 3 periodic review",
+        "Article 18 transaction risk analysis exemption"
+      ],
+      "supported_claims": [
+        "Transaction monitoring mechanisms must detect unauthorised or fraudulent transactions using specified risk factors",
+        "This monitoring duty is broader than Article 18 exemption-based transaction risk analysis; AI does not automatically justify dispensing with SCA"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "No requirement to use AI; source does not prescribe the proposed model or thresholds"
+      ],
+      "verification": {
+        "download_signature": "PDF",
+        "bytes": 332156,
+        "sha256": "b807feb999b405d122544ad81b71bbc9d34e932dd7dc9211d7e09970c4d56130",
+        "opened": true,
+        "method": "PyMuPDF + pdftotext UTF-8; relevant full pages checked",
+        "pages": 26
+      },
+      "retrieval_url": "https://op.europa.eu/o/opportal-service/download-handler?identifier=b4132ce8-5736-11ee-9220-01aa75ed71a1&format=pdfa1a&language=en&productionSystem=cellar&part=",
+      "additional_local_files": [
+        "major/fonti/P07_RTS_2018_389.pdf"
+      ]
+    },
+    {
+      "id": "P08",
+      "title": "2025 Report on Payment Fraud, EBA/REP/2025/40",
+      "author": "European Banking Authority and European Central Bank",
+      "date": "2025-12",
+      "original_url": "https://www.ecb.europa.eu/press/intro/publications/pdf/ecb.ebaecb202512.en.pdf",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P08_EBA_ECB_Fraud_Report_2025.pdf",
+      "relevant_pages_or_sections": [
+        "pp. 6-9 executive summary, sample and limitations",
+        "pp. 10-11 fraud value versus volume",
+        "pp. 13-14 Box 1 instant transfers",
+        "pp. 19-21 main fraud types",
+        "pp. 23-27 SCA",
+        "pp. 34-35 losses and bearers",
+        "pp. 47-49 reporting methodology"
+      ],
+      "supported_claims": [
+        "2024 fraudulent credit-transfer value EUR2.5bn differs from recorded credit-transfer losses EUR2.200bn",
+        "Manipulation of payer accounts for over half of fraudulent credit-transfer value",
+        "Instant box has restricted country coverage, use-case differences and Italian data revisions",
+        "Aggregates motivate the problem, not bank fraud probability or AI effectiveness"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Observational aggregates for H1 2022-H2 2024, retrospective revisions/misclassification possible; non-causal SCA comparisons; pre-2025 regulatory rollout; value rates are not transaction probabilities"
+      ],
+      "verification": {
+        "download_signature": "PDF",
+        "bytes": 1040568,
+        "sha256": "c381792ccd350abeb4ed7cbd6d41daae0c0a7d79d8659e1a29a326b8817bb747",
+        "opened": true,
+        "method": "PyMuPDF + pdftotext UTF-8; relevant full pages checked",
+        "pages": 49
+      },
+      "retrieval_url": "https://www.eba.europa.eu/sites/default/files/2025-12/1709846a-84d9-47cf-86a0-b155efb34d66/EBA%20and%20ECB%20Report%20on%20Payment%20Fraud.pdf"
+    },
+    {
+      "id": "P09",
+      "title": "Credit Card Fraud Detection: A Realistic Modeling and a Novel Learning Strategy",
+      "author": "Andrea Dal Pozzolo, Giacomo Boracchi, Olivier Caelen, Cesare Alippi, Gianluca Bontempi",
+      "date": "2017 online / 2018 journal",
+      "original_url": "https://doi.org/10.1109/TNNLS.2017.2736643",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P09_DalPozzolo_TNNLS_2017.pdf",
+      "relevant_pages_or_sections": [
+        "author manuscript pp. 1-3 problem and operating conditions",
+        "pp. 4-7 temporal setup, feedback/delayed labels, metrics",
+        "pp. 8-12 experiments"
+      ],
+      "supported_claims": [
+        "Class imbalance, evolving behaviour and delayed verification complicate fraud learning",
+        "Temporal evaluation and separation of immediate investigator feedback from delayed labels are relevant design concerns",
+        "Accuracy alone can hide poor minority-class detection"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Original research on card payments, not SEPA instant transfers; no transfer of numerical performance, fraud rates or ROI to this case"
+      ],
+      "verification": {
+        "download_signature": "PDF",
+        "bytes": 1479023,
+        "sha256": "88871f6c4c904860087c4b258d4da550f9484dc1b0b320793e95e8a3ae01f38a",
+        "opened": true,
+        "method": "PyMuPDF + pdftotext UTF-8; relevant full pages checked",
+        "pages": 14
+      },
+      "retrieval_url": "https://dalpozz.github.io/static/pdf/TNNLS_2017.pdf"
+    },
+    {
+      "id": "P10",
+      "title": "Directive (EU) 2015/2366 (PSD2), original OJ text",
+      "author": "European Parliament and Council",
+      "date": "2015-11-25",
+      "original_url": "https://eur-lex.europa.eu/eli/dir/2015/2366/oj",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P10_PSD2_2015_2366.pdf",
+      "relevant_pages_or_sections": [
+        "PDF p. 60 / OJ p.94 Article 68 blocking",
+        "PDF p. 65 / OJ p.99 Articles 79-80 refusal/irrevocability",
+        "PDF p. 72 / OJ p.106 Article 97 authentication"
+      ],
+      "supported_claims": [
+        "SCA and dynamic linking are distinct controls from fraud intent detection",
+        "Payment refusal and instrument blocking require legally justified policy; the AI score is not an unlimited legal power",
+        "Late recall is not equivalent to revoking an already-received order"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Original directive, subsequently amended and nationally implemented; P02 covers instant-specific changes; PSD3/PSR status separately checked in P14/P15; bank legal review remains necessary"
+      ],
+      "verification": {
+        "download_signature": "PDF",
+        "bytes": 1467309,
+        "sha256": "adb1a81b9cecaf8caba510cf4c84b93bf607c7ccef6475777e981c957fae851b",
+        "opened": true,
+        "method": "PyMuPDF + pdftotext UTF-8; relevant full pages checked",
+        "pages": 93
+      },
+      "retrieval_url": "https://op.europa.eu/o/opportal-service/download-handler?identifier=dd85ef2e-a953-11e5-b528-01aa75ed71a1&format=pdfa1a&language=en&productionSystem=cellar&part="
+    },
+    {
+      "id": "P11",
+      "title": "AI Act: regulatory framework and implementation timeline",
+      "author": "European Commission, DG CONNECT",
+      "date": "updated 2026-11-25",
+      "original_url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P11_EC_AI_Act_implementation.html",
+      "relevant_pages_or_sections": [
+        "Application timeline",
+        "How has the Commission simplified the implementation of the AI Act?"
+      ],
+      "supported_claims": [
+        "Commission confirms July 2026 entry into force of enacted AI Omnibus and updated high-risk timetable"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Explanatory page; authoritative legal text in P03/P04 prevails"
+      ],
+      "verification": {
+        "download_signature": "HTML",
+        "bytes": 97145,
+        "sha256": "ba3b873c135d9684a4f716db6cb5de283a57d1eefa40443684ce8a0ab4c9d7a1",
+        "opened": true,
+        "method": "HTML retrieved, parsed and relevant body sections checked"
+      }
+    },
+    {
+      "id": "P12",
+      "title": "AI Act Service Desk: Annex III",
+      "author": "European Commission, DG CONNECT",
+      "date": "accessed 2026-11-25",
+      "original_url": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/annex-3",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P12_EC_AI_Act_Annex_III.html",
+      "relevant_pages_or_sections": [
+        "point 5(b)",
+        "points 1-8 for scope comparison"
+      ],
+      "supported_claims": [
+        "Official accessible annex confirms fraud-detection exception within creditworthiness category"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Service-desk reproduction; checked against consolidated PDF P03"
+      ],
+      "verification": {
+        "download_signature": "HTML",
+        "bytes": 87456,
+        "sha256": "9c752d225a9fe7882aeced2c7ec5d9d524095584f525c9d475274058156006a0",
+        "opened": true,
+        "method": "HTML retrieved, parsed and relevant body sections checked"
+      }
+    },
+    {
+      "id": "P14",
+      "title": "Legislative procedure 2023/0210(COD): Payment services in the internal market (PSR)",
+      "author": "European Parliament, Legislative Observatory",
+      "date": "status accessed 2026-11-25",
+      "original_url": "https://oeil.europarl.europa.eu/oeil/en/procedure-file?reference=2023%2F0210%28COD%29",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P14_EP_PSR_Procedure.html",
+      "relevant_pages_or_sections": [
+        "Basic information/status",
+        "Key events",
+        "Forecasts",
+        "Documentation gateway"
+      ],
+      "supported_claims": [
+        "Status awaiting Parliament second reading; Council position published 5 November 2026; referral 12 November 2026; plenary date 14 December 2026 is indicative",
+        "PSR is not an already-applicable rule at assessment date"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Live procedural record, not enacted operative law; forecast may change"
+      ],
+      "verification": {
+        "download_signature": "HTML",
+        "bytes": 157117,
+        "sha256": "997268056fcae159d2d85126ffcccf866bc01e21850d8770d8bc81a42e67cc62",
+        "opened": true,
+        "method": "HTML retrieved, parsed and relevant body sections checked"
+      }
+    },
+    {
+      "id": "P15",
+      "title": "Legislative procedure 2023/0209(COD): Payment and electronic money services (PSD3)",
+      "author": "European Parliament, Legislative Observatory",
+      "date": "status accessed 2026-11-25",
+      "original_url": "https://oeil.europarl.europa.eu/oeil/en/procedure-file?reference=2023%2F0209%28COD%29",
+      "access_date": "2026-11-25",
+      "local_path": "major/fonti/P15_EP_PSD3_Procedure.html",
+      "relevant_pages_or_sections": [
+        "Basic information/status",
+        "Key events",
+        "Forecasts"
+      ],
+      "supported_claims": [
+        "Status awaiting Parliament second reading; do not treat PSD3 as already in force or infer application dates from political agreement"
+      ],
+      "evidence_quality": "Primary source, original document opened and checked locally",
+      "limitations": [
+        "Live procedural record, not enacted operative law"
+      ],
+      "verification": {
+        "download_signature": "HTML",
+        "bytes": 152716,
+        "sha256": "9eb3d94892a49aba438be61c7def6b94704741f518633c4ff3beb168db4d89f1",
+        "opened": true,
+        "method": "HTML retrieved, parsed and relevant body sections checked"
+      }
+    }
+  ],
+  "access_limits": [
+    "EUR-Lex direct retrieval returned a JavaScript challenge or empty content; official Publications Office download endpoints supplied original PDFs instead.",
+    "ECB direct TLS verification failed in local Python; EBA official duplicate of the joint report downloaded successfully.",
+    "JEV and Firecrawl tools were not exposed in the live tool inventory; they were not used."
+  ]
+}

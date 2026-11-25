@@ -1,0 +1,38 @@
+[
+  {
+    "id": "C",
+    "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\08_readings_TRG_Accident analysis-HOF involved_txt.pdf",
+    "sha256": "64727c656cd828b165dbeaf083cbda1b246167c69ab877dc0ccd6c0f64ed8b5f",
+    "role": "used source"
+  },
+  {
+    "id": "R",
+    "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\07_SLIDES_TRG_HOF_Class 7.pdf",
+    "sha256": "6e9babfb46700604f277a48cbe692109ad8fd6799e6a0c05fb5aaa8240935abd",
+    "role": "used source"
+  },
+  {
+    "id": "S",
+    "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\major e minor\\08_SLIDES_TRG_Class 8_HOF Analysis case_Presentation.pdf",
+    "sha256": "dce6030af71da2c5cf66cfab2419ed6b8bfb2763a73ba4f25981881623f6a3fd",
+    "role": "used source"
+  },
+  {
+    "id": "L",
+    "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\major e minor\\trascrizione_lezione_caso.txt",
+    "sha256": "703deb70b13245f10b11ff3188d6671bac4297222ad7aa387c568b703137b3c6",
+    "role": "used source"
+  },
+  {
+    "id": "S-notes",
+    "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\major e minor\\08_SLIDES_TRG_Class 8_HOF Analysis case_Presentation.annotations.md",
+    "sha256": "a81181c54d9a006cd08b5a17fe624e162548feca3078b533f624a1a0204f507f",
+    "role": "navigation notes only"
+  },
+  {
+    "id": "C-notes",
+    "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\08_readings_TRG_Accident analysis-HOF involved_txt.annotations.md",
+    "sha256": "f8f322d6cf1e0c276416bf87b22b35292edd619e7f0b5c29110381592b384a11",
+    "role": "navigation notes only"
+  }
+]
