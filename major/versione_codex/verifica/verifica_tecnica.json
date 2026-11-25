@@ -1,0 +1,59 @@
+{
+  "date": "2026-11-25",
+  "documents": [
+    {
+      "document": "major/versione_codex/major_codex.pdf",
+      "pages": 15,
+      "expected_pages": 15,
+      "sha256": "b1f7873ee34471fa1a168dc6557167d3372fa4bc08833b5561882f4748f87a79",
+      "text_edge_issues": [],
+      "extracted_characters": [
+        2973,
+        3388,
+        3508,
+        3254,
+        3243,
+        3103,
+        2806,
+        4053,
+        4158,
+        4149,
+        3135,
+        3163,
+        3600,
+        3314,
+        2800
+      ]
+    },
+    {
+      "document": "minor_HOF/soluzione_codex/versione_rivista/minor_HOF_codex_rivisto.pdf",
+      "pages": 8,
+      "expected_pages": 8,
+      "sha256": "846ab78efabd405a3f499d94595166a49b497293152dee305c007b6abae72b39",
+      "text_edge_issues": [],
+      "extracted_characters": [
+        1987,
+        3457,
+        1787,
+        3195,
+        2057,
+        3268,
+        2144,
+        4332
+      ]
+    },
+    {
+      "document": "major/versione_codex/disclosure_firme.pdf",
+      "pages": 1,
+      "expected_pages": 1,
+      "sha256": "658286cc012c6335ae5685032d087fa19cf88b8a3eaa3e0a2357f924482b7843",
+      "text_edge_issues": [],
+      "extracted_characters": [
+        2804
+      ]
+    }
+  ],
+  "unknown_source_ids": [],
+  "review": "AI review; not human validation",
+  "signatures": "Blank; no signature generated or applied"
+}

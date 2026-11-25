@@ -1,3 +1,64 @@
+# Scelta finale approvata — major assignment TRG
+
+**Titolo:** AI-Based fraud detection for SEPA instant credit transfers: a technology risk assessment
+
+**Tipologia scelta:** Technology risk assessment.
+
+**Stato:** tema scelto dal gruppo e approvato dal professor Paolo Trucco con la risposta: «OK, good topic! Copy.»
+
+### Perimetro e obiettivo
+
+Valutare l'adozione, da parte di una banca retail, di un sistema di rilevamento delle frodi basato su AI per controllare i bonifici istantanei SEPA in uscita prima della loro esecuzione.
+
+L'obiettivo è ridurre le perdite da frode, preservando la velocità di elaborazione e limitando il rifiuto di pagamenti legittimi.
+
+### Componenti del gruppo
+
+- Michele Attilio Arici — micheleattilio.arici@mail.polimi.it
+- Andrea Ferraboli — andrea.ferraboli@mail.polimi.it
+- Michelangelo Brusamarello — michelangelo.brusamarello@mail.polimi.it
+
+### Minor assignments
+
+Il gruppo ha comunicato l'intenzione di completare e consegnare entrambi i minor assignments facoltativi.
+
+## Corrispondenza con il docente
+
+Fonte: scambio email riportato da Andrea nella chat. La data dello scambio non è indicata nel testo fornito.
+
+### Proposta inviata
+
+> Dear Professor Trucco,
+>
+> We are writing to communicate our group composition and proposed topic for the Technology Risk Governance major assignment.
+>
+> Our group consists of:
+> - Michele Attilio Arici (micheleattilio.arici@mail.polimi.it)
+> - Andrea Ferraboli (andrea.ferraboli@mail.polimi.it)
+> - Michelangelo Brusamarello (michelangelo.brusamarello@mail.polimi.it)
+>
+> We have chosen the technology risk assessment option, with the following title: "AI-Based fraud detection for SEPA instant credit transfers: a technology risk assessment"
+>
+> We propose to assess the adoption of an AI-based fraud detection system by a retail bank to screen outgoing SEPA instant credit transfers before execution. The objective is to reduce fraud losses while preserving processing speed and limiting the rejection of legitimate payments.
+>
+> We also plan to complete and submit both optional minor assignments.
+>
+> Could you please confirm us if the proposed topic is eligible for the assignment?
+>
+> Thank you for your time.
+>
+> Regards,
+> Michele, Andrea, Michelangelo
+
+### Risposta di Paolo Trucco
+
+> OK, good topic! Copy.
+>
+> Best
+> pt
+
+---
+
 # Tabella unica delle proposte (aggiornata 10/11)
 
 | # | Caso (anno) | Settore | Opzione (A incidente / B risk assessment) | Cosa è successo (1-2 frasi) | Fattori per Reason (tecnici e organizzativi, sintetici) | Legame con il fisico | Fonti principali | Materiale 1-5 | Punto debole |
@@ -25,7 +86,7 @@
 | B2 | Credit scoring con AI | Banca o BNPL | B | Use case: scoring del merito creditizio con AI. | Rischi: bias, spiegabilità, deriva del modello, dipendenza dal fornitore | n.d. | AI Act Allegato III (alto rischio); linee guida EBA sulla concessione del credito; GDPR art. 22 e sentenza SCHUFA | n.d. (letteratura molto ampia) | n.d. |
 | B3 | Robot collaborativi e AMR in magazzino | Logistica | B | Perimetro: una zona di picking con 5-10 AMR e operatori a piedi. | Rischi: collisioni uomo-robot, incendio batterie, perdita di rete o del fleet manager, manomissione delle zone di sicurezza, attacco al fleet manager | Robot e operatori nello stesso spazio | ISO 10218-1/-2 (2025); ISO 3691-4 e ANSI/A3 R15.08; Regolamento macchine 2023/1230 | n.d. (la meglio documentata) | Standard ISO e ANSI letti solo in riassunti di terzi |
 | B4 | Manutenzione predittiva con AI | Food o logistica | B | Perimetro: un solo modello su una classe di asset (es. compressori o celle frigorifere). | Rischi: falsi negativi sui guasti, deriva del modello, dati avvelenati, fiducia eccessiva dell'operatore, perdita della catena del freddo | Compressori, celle frigorifere, catena del freddo | AI Act (Reg. 2024/1689, date posticipate dal Digital Omnibus); NIST AI RMF 1.0; ISO 31000 e ISO/IEC 42001 | n.d. | Pochi casi reali pubblici; classificazione ad alto rischio con pareri non unanimi |
-| B5 | Antifrode con AI su pagamenti istantanei | Banca | B | Perimetro: SEPA Instant con verifica del beneficiario. | Rischi: falsi positivi che bloccano pagamenti legittimi, spiegabilità, bias, attacchi avversari, frodi, disponibilità 24/7, terze parti ICT | n.d. | Reg. UE 2024/886; DORA; PSD2 e proposta PSD3 (più il regime UK di rimborso frodi APP) | n.d. (molte fonti di regolatori) | n.d. (punto forte: si collega a Tesco Bank, 13) |
+| B5 | **SCELTA FINALE APPROVATA — Antifrode con AI su pagamenti istantanei** | Banca retail | B — Technology risk assessment | Perimetro approvato: controllo AI dei bonifici istantanei SEPA in uscita prima dell'esecuzione, per ridurre le perdite da frode preservando la velocità e limitando il rifiuto di pagamenti legittimi. | Rischi: falsi positivi che bloccano pagamenti legittimi, spiegabilità, bias, attacchi avversari, frodi, disponibilità 24/7, terze parti ICT | n.d. | Reg. UE 2024/886; DORA; PSD2 e proposta PSD3 (più il regime UK di rimborso frodi APP) | n.d. (molte fonti di regolatori) | n.d. (punto forte: si collega a Tesco Bank, 13) |
 | B6 | Migrazione del core banking su cloud | Banca | B | Perimetro: migrazione anche ibrida del core banking. | Rischi: sistemi legacy, concentrazione sul fornitore, resilienza | n.d. | DORA; casi RBS 2012 e Barclays 2025; revisione ECB su TARGET2 | n.d. | n.d. |
 | B7 | Computer vision o digital twin in linea automotive o semiconduttori | Manifattura | B | Use case: visione artificiale o gemello digitale su una linea di fabbrica. | Rischi: falsi negativi, convergenza IT/OT, avvelenamento dei dati | Linea di fabbrica | IEC 62443; ISO 23247; NIS2 (più AI Act, Reg. macchine 2023/1230, NIST AI RMF) | n.d. | Si sovrappone a B8 |
 | B8 | Digital twin di una linea produttiva | Manifattura | B | Perimetro: una linea di confezionamento con il suo gemello. | Rischi: twin come porta verso l'OT, desincronizzazione col reale, manipolazione dei dati, furto di proprietà intellettuale, decisioni errate sul modello | Linea di confezionamento | ISO 23247; IEC 62443-3-2; Gehrmann e Gunnarsson, IEEE TII 2020 (più CRA) | n.d. | Pochi incidenti documentati; stato di ISO 23247-5 contraddittorio |

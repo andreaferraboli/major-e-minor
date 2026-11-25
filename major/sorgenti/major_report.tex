@@ -1,0 +1,314 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[a4paper,margin=19mm,headheight=15pt,headsep=7mm,footskip=10mm]{geometry}
+\usepackage{array,tabularx,booktabs,enumitem,xcolor,graphicx,tikz,amsmath,fancyhdr}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\definecolor{ink}{RGB}{22,46,62}
+\definecolor{light}{RGB}{237,243,246}
+\hypersetup{pdftitle={AI-Based fraud detection for SEPA instant credit transfers: a technology risk assessment},pdfauthor={Working draft for Arici, Ferraboli and Brusamarello}}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small Technology Risk Governance | Major assignment}
+\fancyhead[R]{\small 25 November 2026}
+\fancyfoot[L]{\scriptsize AI-assisted draft | student content and method decisions pending}
+\fancyfoot[R]{\small\thepage/15}
+\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}
+\setlist[itemize]{nosep,leftmargin=16pt,topsep=3pt}
+\setlist[enumerate]{nosep,leftmargin=18pt,topsep=3pt}
+\renewcommand{\arraystretch}{1.17}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\heading}[2]{\vspace*{1mm}{\small\color{ink}\textbf{#1}}\par\vspace{2mm}{\LARGE\color{ink}\textbf{#2}}\par\vspace{3mm}}
+\newcommand{\sub}[1]{\par\vspace{2mm}\textbf{\color{ink}#1}\par}
+\newcommand{\src}[1]{{\small[#1]}}
+\newcommand{\newpageof}[2]{\clearpage\normalsize\fontsize{10.5}{12.5}\selectfont\heading{#1}{#2}}
+\newcommand{\risk}[2]{\sub{#1. #2}}
+\begin{document}
+\fontsize{10.5}{12.5}\selectfont
+\heading{Approved topic | Technology risk assessment}{AI-Based fraud detection for SEPA instant credit transfers: a technology risk assessment}
+\vspace{2mm}
+\textbf{Group}\par
+Michele Attilio Arici --- \href{mailto:micheleattilio.arici@mail.polimi.it}{micheleattilio.arici@mail.polimi.it}\\
+Andrea Ferraboli --- \href{mailto:andrea.ferraboli@mail.polimi.it}{andrea.ferraboli@mail.polimi.it}\\
+Michelangelo Brusamarello --- \href{mailto:michelangelo.brusamarello@mail.polimi.it}{michelangelo.brusamarello@mail.polimi.it}
+\sub{Executive assessment}
+This preliminary assessment examines a retail bank's adoption of an AI system that screens outgoing SEPA instant credit transfers before execution. The objective is to reduce fraud loss while preserving payment speed and limiting rejection of legitimate payments. The bank is an analytical reference organisation; no institution, dataset or vendor performance is represented as observed.
+
+AI may identify suspicious combinations that static rules miss, but can also add false rejections, operational dependencies and an additional attack surface. A model's predictive score is therefore insufficient evidence for adoption. The decision concerns the entire payment service: data, decision policy, authorisation, technical execution, customer response and ongoing governance.
+
+The proposed assessment identifies twelve scenarios, evaluates their consequences and evidence gaps, and links each to controls, accountable roles and residual concerns. It deliberately avoids numerical likelihoods and composite risk scores unsupported by bank data. The central finding is that controls can make a bounded evaluation defensible, while public evidence cannot establish that production risk is acceptable for a particular bank.
+
+\textbf{Recommendation proposed to the group:} retain the existing controlled service and progress only to an authorised shadow evaluation, followed by a restricted pilot if legal, operational and performance gates are met. Unconditional production adoption is not supported. This is an analytical recommendation, not a decision or approval by the bank, the group or the instructor.
+\sub{Status and reading guide}
+The instructor approved the topic and perimeter, as recorded in \texttt{ricerca\_idee\_major.md}. Approval did not select the analytical method. The proposed PHA and scenario register on pp.~5--10 require independent student selection and justification. Course instructions prohibit delegating content and method selection to GenAI. Accordingly this AI-authored working draft requires substantive student reworking; its disclosure on p.~15 does not certify compliance or completed human oversight.
+
+Pages 2--4 define the business case, system and evidence. Pages 5--10 cover identification, analysis and evaluation. Pages 11--13 address treatment, sensitivity and the adoption decision. References and disclosure complete the report. Evidence files preserve fuller source locations and limitations.
+
+\newpageof{1 | Business case}{Adoption options and value at risk}
+\sub{Service context and loss mechanisms}
+Instant transfers are a continuously available retail payment service. A payer may be deceived into authorising a transfer, or an attacker may act through compromised credentials or a compromised session. A valid authentication and a matching payee name do not establish that the payer's economic intention is legitimate. Once the payment is executed, recovery can be difficult and is not a substitute for prevention. \src{P01, P02, P07, P08}
+
+The business case concerns the \emph{incremental} effect of AI relative to a competent existing fraud-control baseline, including applicable authentication, transaction monitoring and verification of payee (VoP). It does not compare AI with an unprotected bank. Benefits include avoided unrecovered losses and reduced unnecessary interventions; costs include false rejection, customer remediation, validation, infrastructure, investigation and operational disruption. The allocation of losses between bank and customer affects private incentives, but both remain relevant to the service objective.
+\sub{Options considered; no group choice is assumed}
+\par{\small\begin{tabularx}{\textwidth}{@{}P{25mm}YY@{}}\toprule
+Option & Expected contribution & Main trade-off and decision evidence\\\midrule
+A. Retain rules & Known operating process; strengthen current controls and data. & Adapting to new fraud patterns may require manual rule changes. Provides the comparator for every experiment.\\
+B. AI in shadow & Score the same requests without controlling execution. & Tests data quality and timing; cannot directly prove counterfactual losses avoided by blocking. Preferred first evaluation stage.\\
+C. AI plus rules & Model informs a bounded, versioned decision policy with independent safeguards. & Potential better detection; adds latency, model risk and intervention costs. Conditional pilot candidate.\\
+D. Broad automatic rejection & AI-led blocking across the eligible portfolio. & Largest exposure to error, legal and availability consequences. Not justified by available evidence.\\\bottomrule
+\end{tabularx}\par}
+\sub{Implementation concept}
+The reference solution is a supervised tabular classifier, for example a gradient-boosted model, trained on properly matured fraud outcomes. This is a design assumption rather than a selected vendor, algorithm or claimed result. It returns a score and supporting reason codes. A separate policy engine combines this output with rules, data-quality flags and service-state information. No generative model is required to decide whether to execute a payment.
+
+Build and buy alternatives share the same assurance obligations. An internal build increases control of features and retraining but requires specialist capacity. A vendor service may accelerate implementation while creating data, audit, concentration and exit dependencies. The bank retains accountability. \src{P05}
+\sub{Business decision to resolve}
+Value is demonstrated only if incremental fraud benefit exceeds incremental friction and lifecycle cost within binding constraints. Lower average fraud loss cannot compensate for an unlawful decision process or an unsafe execution state. A quantitative net benefit cannot be estimated without bank-specific exposure, label maturity, customer impact and cost data. Page 12 specifies the required comparison without filling gaps with invented figures.
+
+\newpageof{2 | System description}{Boundary, payment flow and responsibilities}
+\begin{center}
+\begin{tikzpicture}[node distance=4mm,>=Latex,every node/.style={font=\small},box/.style={draw=ink,rounded corners=1mm,align=center,text width=40mm,minimum height=11mm}]
+\node[box](a){Payer channel\\VoP before authorisation};
+\node[box,right=7mm of a](b){Authorised order received\\start scheme clock};
+\node[box,right=7mm of b](c){Validate request and\\fetch bounded features};
+\node[box,below=8mm of c](d){Rules + AI score\\versioned policy};
+\node[box,left=7mm of d](e){Execute or reject\\explicit status};
+\node[box,left=7mm of e](f){CSM / receiving PSP\\confirmation / timeout};
+\draw[->](a)--(b);\draw[->](b)--(c);\draw[->](c)--(d);\draw[->](d)--(e);\draw[->](e)--(f);
+\end{tikzpicture}
+\end{center}
+{\small Figure 1. Reference architecture proposed for analysis. Simplified sequence; bank-specific VoP, authentication and funds checks require implementation validation. No serial online analyst queue is assumed.}
+\sub{Timing and decision semantics}
+The statutory execution window starts at receipt of the payment order, not after completion of AI scoring. The current EPC rulebook is the 2025 SCT Inst rulebook v1.2, effective 30 September 2026; its operational sequence includes 5/7/9-second sub-timelines within the regulatory ten-second limit. Ten seconds is not an AI-processing allowance. The system must measure the entire request path and reserve time for downstream execution and confirmation. \src{P01, P02}
+
+The decision policy returns a definite outcome within the available budget; rejection requires a valid contractual/legal basis, including refusal of an order under PSD2 Article 79, distinct from blocking a payment instrument under Article 68. It is not an unlimited model discretion. \src{P10} Additional customer interaction is not assumed to pause the clock. If more investigation is needed, the order must follow a legally valid, explicitly defined outcome and any later instruction must be a new authorised request. On timeout or uncertain settlement, the system reconciles status and applies required restoration and notification rules; it never silently resubmits an uncertain payment.
+\sub{Boundary and dependencies}
+For legal applicability, assume an EU retail credit institution established in the euro area. This is a declared analytical assumption; SEPA membership alone does not establish EU regulatory scope. Inside: channel integration, point-in-time features, score service, policy engine, payment interface, logs, model deployment, monitoring and fallback. External dependencies: core banking, identity/authentication, VoP service, clearing and settlement mechanism (CSM), receiving PSP, cloud/vendor and telecommunications. Fraudsters and customers interact with the boundary. Sanctions and AML remain separate obligations and controls; this report does not redesign them.
+
+Data include amount, beneficiary identifier, transaction history, device/session signals where lawful, and subsequent fraud outcomes. Exclude features unavailable at the decision instant. Separate training and production access; minimise and protect identifiers, define retention, and preserve provenance. Labels arrive after the payment and can be incomplete or selectively observed. \src{P06, P09}
+\sub{Accountability assumptions}
+The payments owner owns service outcomes and timing; fraud operations owns intervention policy; the model owner owns training and monitoring; independent validation challenges the model. IT operations owns restoration and reconciliation, the CISO owns security assurance, procurement owns supplier evidence, and the DPO/legal function assesses processing and decision rights. A risk committee or delegated accountable executive accepts residual risk. These are proposed responsibilities, not observed organisational facts.
+
+\newpageof{3 | Reference documentation}{Evidence base and course alignment}
+\sub{Search and selection}
+Research was conducted on 25 November 2026. Queries targeted SCT Inst timing and current rulebook, EU payment fraud, financial-fraud AI classification, operational resilience, privacy, authentication, and realistic fraud-model evaluation. Official EPC, ECB/EBA, EUR-Lex and Commission sources were prioritised. An original peer-reviewed fraud-modelling study was selected to explain methodological pitfalls, not to supply SEPA performance estimates. No vendor accuracy claim is used to infer benefit.
+
+Candidate documents were screened for primary authorship, explicit scope, current version, access to substantive text and relevance to one of the twelve scenarios. Downloaded files were reopened and checked. The machine-readable register records original URL, date, local path or retrieval limitation, relevant locations, supported claims and evidence quality. Search and retrieval logs distinguish full documents from official explanatory pages and inaccessible downloads. JEV and Firecrawl tools were not exposed in this session; web search and direct lawful retrieval were used instead.
+\sub{What the evidence supports}
+The EBA/ECB 2025 report provides EEA payment-fraud context for 2022--2024. It reports EUR 2.5 billion in fraudulent credit-transfer value in 2024, distinct from EUR 2.200 billion in credit-transfer losses. These are different measures with potentially different reporting periods. Its instant-transfer box has incomplete country coverage and identifies Italian submissions under revision. Neither aggregate measure establishes this bank's instant-transfer fraud probability or AI effectiveness. \src{P08, pp.~6, 10, 13--14, 34--35}
+
+The scientific study addresses realistic fraud-detection evaluation, including imbalance, changing patterns and delayed verification. Its card-payment setting supports a warning about evaluation design, not transfer of reported performance to SEPA. \src{P09} Legal and scheme sources define applicable constraints; they do not establish that the proposed controls work in a particular bank.
+\sub{Concepts applied from the course}
+\par{\small\begin{tabularx}{\textwidth}{@{}P{38mm}YP{20mm}@{}}\toprule
+Course source, PDF page & Application in this assessment & Report\\\midrule
+Class 1--2, pp.~29--35 & Risk as uncertainty affecting objectives; hazard, vulnerability and event distinguished; barriers. & 1--3, 7--10\\
+SSE Class 3, pp.~13, 29--33, 43 & Context and criteria before evaluation; preliminary qualitative analysis; proportional treatment. & 5--6\\
+SSE Classes 3--4, pp.~47--53 / 6--9, 27 & Compare FMEA, FTA and ETA with PHA; avoid unsupported quantification. & 5, 9\\
+Cyber governance 2026--27, pp.~20, 42--43, 48, 53 & Appetite, organisational vulnerabilities, treatment and risk register. & 6--11\\
+IT Risk Management, pp.~15--18, 33--34 & Objectives to process/assets; controls, coverage and residual risk. & 7--13\\
+HOF Class 7; HRO pp.~9, 13 & Latent conditions, active errors, expertise and recovery capability. & 10--11\\\bottomrule
+\end{tabularx}\par}
+{\small Full filenames and finer references are in the course evidence map. PDF page numbers are used; they may differ from printed slide numbers. English is an operational choice, not an explicit language requirement.\par}
+
+\newpageof{4 | Assessment method}{A proposed preliminary qualitative assessment}
+\sub{Method choice remains a student responsibility}
+The official assignment asks students to select and justify a risk-assessment method. This draft proposes course-taught preliminary hazard analysis (PHA), organised through the ISO 31000 stages of identification, analysis and evaluation, with a scenario register. The group must independently compare, select and justify its method before treating this as its own analysis. The following comparison is decision support, not a recorded group choice. \src{course assignment pp.~5--7; SSE Class 3 pp.~13, 29--33}
+\par{\small\begin{tabularx}{\textwidth}{@{}P{27mm}YY@{}}\toprule
+Candidate & Fit to available information & Limitation / proposed use\\\midrule
+PHA / scenario register & Early design, secondary evidence, heterogeneous technical and organisational causes. & Coarse and judgement-dependent; document causation, uncertainty and control evidence. Proposed primary method.\\
+FMEA / FMECA & Component functions, failure modes and effects; valuable for integration design. & Component detail unavailable; deceptive but technically valid payments can occur without component failure. No unsupported RPN.\\
+FTA & Deductive causes of a defined top event, useful for timeout or unsafe release. & Numerical propagation requires credible basic-event data and dependencies. Qualitative reasoning only here.\\
+ETA & Sequence of barrier success/failure after an initiating event. & Branch probabilities unavailable; useful for discussing fallback consequences, not for loss estimates.\\
+Quantitative loss model & Direct business comparison when exposure, losses and intervention costs are known. & Public aggregates cannot calibrate the bank. Use symbolic sensitivity on p.~12, not simulation.\\\bottomrule
+\end{tabularx}\par}
+\sub{Execution of the proposed method}
+\textbf{Context:} define objectives, boundary, stakeholders and decision criteria (pp.~1--3, 6). \textbf{Identification:} identify threat or initiating condition, vulnerability, event and consequence across lifecycle stages (p.~7). \textbf{Analysis:} examine cause, existing baseline, proposed barriers, dependencies and uncertainty (pp.~8--10). \textbf{Evaluation:} apply explicit gates and assign a treatment disposition rather than inventing a risk number (pp.~6--10). \textbf{Treatment and review:} assign ownership, evidence and monitoring requirements (pp.~11--13).
+
+Consequence descriptors are \emph{severe} where material loss, widespread service disruption, or unlawful processing is credible; \emph{significant} where bounded customer or operational harm is credible. These are proposed ordinal descriptors, not a bank impact scale. Frequency remains unestimated. Evidence confidence is separate: timing and legal requirements are directly documented; R2--R3 use transferable card-fraud research; R4--R10 and R12 are design inferences informed by course mechanisms. All bank-specific frequencies and control effectiveness remain unknown.
+
+This is a preliminary design assessment, not a calibrated enterprise risk ranking. A severe scenario with unresolved likelihood is not described as low risk. ALARP informs proportionate further treatment and explicit acceptance, but industrial safety boundaries are not imported as banking risk limits. \src{SSE Class 3 p.~43}
+
+\newpageof{5 | Evaluation criteria}{Acceptability is constrained by evidence}
+\sub{Proposed decision rules}
+\textbf{N --- Not acceptable:} a design breaches a binding legal or scheme requirement, permits an uncontrolled unsafe payment state, or lacks an accountable owner for severe exposure. \textbf{G --- Gated:} a credible severe or significant scenario has unresolved effectiveness, likelihood or impact evidence; continue analysis or bounded testing, not broad production. \textbf{C --- Conditionally tolerable:} a specified limited use has passed relevant tests and has documented monitoring, rollback and residual-risk acceptance. No scenario is assigned C as an observed result in this study.
+
+These dispositions avoid arithmetic on arbitrary likelihood scores. They are a proposed way to apply the course evaluation stage. The bank must replace qualitative severity and symbolic thresholds with its own approved materiality and risk appetite before production. Unknown critical evidence keeps a scenario at G; a proposed control alone never closes it.
+\par{\small\begin{tabularx}{\textwidth}{@{}P{27mm}YP{44mm}@{}}\toprule
+Objective & Acceptance criterion / threshold & Evidence required\\\midrule
+Execution integrity & Meet applicable ten-second duties and EPC sub-timelines; no duplicate posting or silent replay of an uncertain order. & End-to-end traces, clock synchronisation, late-response and reconciliation tests. \src{P01, P02}\\
+AI latency & $L_{\rm screen} \leq B_{\rm screen}$, with $B_{\rm screen}$ allocated from the full service deadline after measured downstream and safety margins. & Tail distributions at peak load and fault conditions; no universal millisecond budget asserted.\\
+Fraud outcome & Incremental unrecovered loss must improve against the same baseline and observation window; uncertainty must be acceptable to the risk owner. & Mature labels, amount-weighted loss, confidence intervals and scam/unauthorised breakdown.\\
+Legitimate access & False-rejection rate $\leq F^*$ and incremental rate $\leq\Delta F^*$; complaint and subgroup harms within approved tolerance. & $F^*,\Delta F^*$ to be set by the bank; sample review and appeal outcomes.\\
+Availability & Service and fallback must remain within approved interruption and recovery tolerances; model availability alone is insufficient. & Business impact analysis, dependency tests and recovery exercises. No invented availability percentage.\\
+Lawful decisions & Established lawful basis, purpose limitation, security and appropriate rights/safeguards; intended-use AI classification recorded. & Legal/DPO assessment and required impact assessment before affected deployment. \src{P03--P07, P10}\\\bottomrule
+\end{tabularx}\par}
+\sub{What would stop a pilot}
+Stop or rollback on an execution-integrity defect, missing critical telemetry, an unapproved policy/model change, unlawful processing, or an exceeded approved harm/latency limit. A test plan must define triggers before observing outcomes. Pilot scope, duration, exposure caps and escalation authority are bank decisions; none is invented here. A shadow study still needs lawful data access and operational isolation.
+
+\newpageof{6 | Identification}{Twelve scenarios linked to business objectives}
+Each row identifies an event, rather than labelling a technology as a risk. Baseline controls are assumed functional for comparison, not audited. R1 concerns fraud that remains despite adoption; R2--R12 include risks introduced or amplified by AI and its operating system. All have unresolved bank-specific frequency and start at G under p.~6; specified design defects would trigger N.
+\par{\small\begin{tabularx}{\textwidth}{@{}P{9mm}P{35mm}YP{27mm}@{}}\toprule
+ID & Initiating condition / vulnerability & Event and consequence & Main objective\\\midrule
+R1 & Deceptive instruction lacks detectable intent signals & Fraudulent payment is released; bank/customer bears unrecovered loss. & Fraud loss\\
+R2 & Fraud pattern changes; monitoring misses shift & Previously acceptable model stops detecting relevant attacks. & Fraud loss\\
+R3 & Biased, immature or leaked labels/features & Validation overstates benefit; harmful model is deployed. & Valid decisions\\
+R4 & Threshold or features misclassify legitimate behaviour & Legitimate payment rejected; exclusion, remediation and loss of trust. & Access / friction\\
+R5 & Slow feature lookup, model or queue & Screening consumes execution budget; late or failed transfer. & Speed\\
+R6 & Model/dependency outage and unsafe fallback & Uncontrolled releases or mass legitimate rejection during degraded service. & Continuity / fraud\\
+R7 & Attacker manipulates inputs, model artefacts or credentials & Evasion, poisoned decisions or data exposure undermines control. & Security / fraud\\
+R8 & Stale score, wrong transaction binding or replay & A correct score applies to a different order; duplicate or wrong execution. & Payment integrity\\
+R9 & Workload, incentives or automation bias & Staff override or ignore warnings without adequate justification. & Human control\\
+R10 & Supplier concentration or opaque service change & Unassessed common failure or inability to restore/exit service. & Resilience\\
+R11 & Excessive data or significant automated rejection without safeguards & Unlawful processing or inability to contest decisions. & Rights / compliance\\
+R12 & Uncontrolled retraining, thresholds or fragmented ownership & Combined controls degrade after change; harm persists undetected. & Lifecycle governance\\\bottomrule
+\end{tabularx}\par}
+\sub{Coverage and prioritisation}
+Priority follows dependency and decision relevance, not an unsupported frequency ranking. Establish payment integrity, legality and bounded fallback (R5--R8, R11) before exposing customers. Validate benefit and friction (R1--R4) before widening adoption. Governance, supplier and human controls (R9--R10, R12) enable every stage and cannot be deferred until after rollout.
+
+Interdependencies matter: a data incident may cause R3, R4 and R5 together; a cloud failure may disable both AI and its fallback; an apparently beneficial threshold change may reduce fraud while increasing exclusion. Separate entries preserve distinct consequences, while scenario evaluation must also test these combined paths. They must not be added as independent loss estimates.
+
+\newpageof{7 | Analysis and evaluation}{Fraud, model evidence and false rejection}
+\risk{R1}{Undetected scams and unauthorised transfers}
+\textbf{Cause and consequence.} A scam can produce a correctly authenticated, plausible transfer to an account whose name matches. AI scores reflect available patterns, not access to the payer's true intention. Severe unrecovered harm remains credible even when all technical components work. Authentication and VoP address different mechanisms; neither is equivalent to fraud detection. \src{P02, P07, P08}
+
+\textbf{Treatment / owner.} Fraud operations combines independent rules, contextual signals, clear warnings and appropriate interventions. The payments owner preserves lawful execution semantics. Evaluate scams separately from compromised-account fraud and monitor realised loss after recovery, not just alert counts. \textbf{Residual / disposition.} Novel, low-signal scams can pass every barrier. G: quantify bank exposure and establish credible offline evidence before a live pilot; verify realised incremental benefit during that authorised trial; do not claim eradication.
+\risk{R2}{Drift and adaptive behaviour}
+\textbf{Cause and consequence.} Changes in customers, products or adversaries alter input or fraud relationships. Stable average accuracy can conceal an emerging loss channel. Delayed labels postpone detection. \src{P09}
+
+\textbf{Treatment / owner.} The model owner monitors feature quality, score shifts and matured outcomes by time and relevant segment; fraud operations reviews new typologies. Independent validation approves retraining, challenge datasets and rollback. Drift indicators prompt investigation rather than automatically proving fraud. \textbf{Residual / disposition.} Monitoring necessarily lags some attacks. Severe residual concern remains; G until review cadence, mature-label testing and tested rollback are demonstrated.
+\risk{R3}{Misleading training and validation evidence}
+\textbf{Cause and consequence.} Future information in features, random rather than temporal splits, delayed fraud confirmation and investigation-selected labels can make validation optimistic. Class imbalance makes raw accuracy uninformative. A high apparent score can justify deployment of an ineffective control. \src{P09}
+
+\textbf{Treatment / owner.} Data and model owners enforce point-in-time lineage and temporal holdouts; exclude post-decision variables. Record label maturity, disputed cases and selection effects. Compare precision/recall with legitimate false-rejection and amount-weighted loss, using a fixed baseline and independent validation. \textbf{Residual / disposition.} Never-observed fraud and biased investigations remain. G until these limitations are quantified or bounded; validated research on cards does not establish SEPA efficacy.
+\risk{R4}{Legitimate payments rejected}
+\textbf{Cause and consequence.} Rare legitimate behaviour, proxy features or overly aggressive thresholds can produce repeated blocks, urgent-payment harm and unequal burdens. Significant customer harm may become severe at scale.
+
+\textbf{Treatment / owner.} Fraud operations and the customer-service owner set documented intervention rules, understandable reason categories, an accessible contestation route and monitored remediation. Test relevant segments using lawful data and investigate disparities without assuming equal error rates are automatically the correct fairness criterion. \textbf{Residual / disposition.} Appeals cannot repair every time-critical payment. G until $F^*,\Delta F^*$, customer outcomes and a feasible response process are approved and evidenced. A lower missed-fraud rate does not by itself close R4.
+
+\newpageof{8 | Analysis and evaluation}{Time, degradation and security interactions}
+\risk{R5}{End-to-end latency exceeds the budget}
+A feature store can be slower than the model itself; queueing, cold starts and network retries can exhaust the execution window. Consequences include failed legitimate payments and uncertain state. The payments owner allocates a measured screening budget; IT operations applies bounded calls, load isolation, deadlines and backpressure, and tests tails under peak load and partial failure. \src{P01, P02} Mean latency is insufficient. Residual uncertainty lies in correlated peaks and remote dependencies. \textbf{G}; a design that resets the statutory clock after scoring is \textbf{N}.
+\risk{R6}{Fallback defeats either fraud control or continuity}
+Fail-open can release fraud; fail-closed can reject a portfolio of legitimate orders. A human queue cannot be presumed to operate inside the scheme window. The accountable payments owner must approve a \emph{state-dependent} policy: a tested local rules baseline for eligible requests when trustworthy data and execution state remain available; otherwise an explicit lawful rejection or other authorised outcome. This is a proposal, not universal permission to execute.
+
+\textbf{Qualitative barrier sequence:} model unavailable $\rightarrow$ assess feature integrity and remaining budget $\rightarrow$ bounded baseline available? $\rightarrow$ execute only if that policy permits; otherwise return explicit outcome. If transaction state is uncertain, reconcile rather than retry. IT operations tests that fallback does not share the failed feature store, credentials or hosting zone. Residual exposure includes concurrent baseline/AI failure and attacks timed to degradation. \textbf{G}; an unbounded default or ambiguous payment state is \textbf{N}.
+\risk{R7}{Adversarial manipulation or compromise}
+An adversary may vary transaction attributes to evade scoring, corrupt an accessible data pipeline, steal model-service credentials, or replace a model artefact. These are credible design scenarios, not reported bank incidents. Consequences span missed fraud, false rejection and personal-data leakage. The CISO and model owner restrict access, authenticate service calls, sign and verify artefacts, segregate training/production, monitor integrity and rate anomalies, and test evasion and tampering in a controlled environment. \src{P05, P06}
+
+Input consistency checks and independent rules offer diverse protection, but model and rules may still use the same compromised data. Reason outputs and customer messages must not expose sensitive features or make evasion unnecessarily easy. This must be reconciled with customer explanation and contestation rights. Residual concern remains severe under credential or pipeline compromise; \textbf{G} until adversarial and incident-response tests demonstrate bounded outcomes.
+\risk{R8}{Score and payment are incorrectly bound}
+The right prediction can authorise the wrong order if identifiers are reused, payloads change after scoring, features are stale, or retries create a duplicate posting. The payment-system owner binds score, request hash, customer authorisation, model/policy version and timestamp to one immutable instruction; applies idempotent handling; and tests late responses and reconciliation across systems. Counterfactual testing includes an altered beneficiary, duplicate message and delayed confirmation. \textbf{G} until integrity tests pass; any known unsafe binding or replay path is \textbf{N}. AI accuracy cannot mitigate a transaction-binding defect.
+
+\newpageof{9 | Analysis and evaluation}{People, suppliers, rights and change}
+\risk{R9}{Human and organisational control breaks down}
+Targets for low loss may encourage excessive blocking; targets for conversion may encourage routine overrides. Workload and opaque score explanations can produce automation bias. These are inferred latent conditions, not facts about a named bank. Course HOF reasoning links organisational conditions to local work and active errors, rather than treating staff as the root cause. The fraud lead sets realistic escalation capacity, training, sampled decision review and balanced service/loss measures. Override authority, rationale and time limits are explicit. Residual concern persists during novel events and shift handovers. \textbf{G}: exercise the actual roles and workload; never assume an analyst approves each instant payment.
+\risk{R10}{Supplier or common dependency failure}
+An externally managed score service can change without adequate notification, become unavailable, or be impossible to exit promptly. The vendor may share cloud, data and network dependencies with the bank's fallback. Under DORA the bank retains responsibility for its ICT third-party arrangements; contractual clauses are only part of assurance. \src{P05, Arts.~5--6, 28--30}
+
+Procurement, IT operations and the service owner require audit/assurance evidence, incident notification, subprovider visibility, controlled releases, data portability and a tested exit plan. Evaluate concentration and substitutability at the service level. Residual concern includes correlated provider failure and information asymmetry. \textbf{G} until recovery and exit are demonstrated; a signed service-level agreement alone does not establish tolerability.
+\risk{R11}{Data and automated-decision safeguards are inadequate}
+Transaction/device histories are personal data where identifiable. Legal/DPO review must establish purpose, lawful basis, minimisation, retention, security and whether GDPR Article 22 applies to the envisaged solely automated rejection and its effects. If applicable, assess lawful exceptions and safeguards; perform an Article 35 DPIA where the statutory conditions are met. A generic fraud objective is not itself a blanket exemption. \src{P06, Arts.~5--6, 13--15, 22, 25, 32, 35}
+
+The AI Act Annex III 5(b) financial-fraud exception prevents automatic classification under the creditworthiness use case; it is not an exemption from the entire Act. The defined purpose is payment fraud screening, not credit scoring. Legal must still assess Article 6, other use cases, operator roles and general applicable duties. The 2026 amendment changes high-risk application dates: Annex III to 2 December 2027, Annex I to 2 August 2028. \src{P03, P04, P11, P12} \textbf{G}; an identified unlawful deployment is \textbf{N}.
+\risk{R12}{Uncontrolled lifecycle change defeats assurance}
+Retraining, threshold, feature-schema or vendor changes can invalidate a previously tested payment/control combination. Fragmented ownership can leave loss, friction and latency dashboards individually acceptable while the overall service worsens. The service owner runs one change process covering model, rules, data and fallback, with independent validation, versioned evidence and rollback rehearsals. No silent automatic online learning is assumed. Residual concern is interaction with unanticipated changes and delayed feedback. \textbf{G} until a complete change/recovery exercise passes; ongoing review remains necessary after any conditional acceptance.
+
+\newpageof{10 | Treatment and governance}{Controls must have owners and closure evidence}
+\par{\small\begin{tabularx}{\textwidth}{@{}P{22mm}YP{32mm}P{33mm}@{}}\toprule
+Risks & Treatment package & Accountable owner & Closure evidence / monitor\\\midrule
+R1--R4 & Mature-label temporal validation, typology review, threshold comparison, customer remediation. & Fraud lead + model owner; independent validator challenges. & Baseline comparison, matured loss, false rejection, appeals, segment review.\\
+R5, R8 & Deadline propagation, immutable request binding, idempotency, reconciliation. & Payments-system owner. & Peak/fault traces; altered-payload, duplicate and late-response tests.\\
+R6, R10 & Independent baseline, degraded-state decision table, recovery and exit. & Service owner + IT operations; procurement supports. & Common-cause analysis; rehearsed outage and supplier exit; recovery time.\\
+R7 & Least privilege, signed artefacts, protected pipelines and service security. & CISO with data/model owners. & Tamper and evasion exercises; integrity/credential incident monitoring.\\
+R9 & Capacity, balanced incentives, explainable workflows, bounded override. & Fraud operations lead. & Scenario exercise, sampled overrides, shift handover and complaint review.\\
+R11 & Lawful processing and intended-use assessment, minimisation and rights handling. & Service owner accountable; DPO/legal advice. & Required impact assessment, rights testing, data-access and retention audit.\\
+R12 & Controlled release for model/rules/features, independent validation, rollback. & Service owner + change authority. & Version-consistent release record and tested rollback; drift and change reviews.\\\bottomrule
+\end{tabularx}\par}
+\sub{Evaluate effectiveness, coverage and dependencies}
+Following the course treatment of residual risk, a control's documented existence is not proof of effectiveness. For each package record design suitability, implementation, coverage of channels/customer groups and operating evidence. Separate the team that develops a control from the function challenging its adequacy. Quantified risk reduction is not asserted until evidence supports it. \src{IT Risk Management pp.~33--34}
+
+Several controls create countervailing risks. More features can improve discrimination while increasing latency and privacy exposure. Tighter thresholds may reduce fraud at the cost of false rejection. More retries may improve a component's apparent reliability while creating duplicate payments. A fallback using the same dependency has little protection against a common failure. These interactions require end-to-end testing, not separate component certificates.
+\sub{Residual-risk acceptance and review}
+The accountable executive or delegated risk committee records scope, evidence, unresolved issues, maximum authorised exposure, monitoring triggers and expiry/review conditions. Fraud operations can propose thresholds but cannot alone accept all service, legal and security risks. Review follows material model/data changes, incidents, emerging fraud and scheduled assurance cycles. Regulators, payment scheme obligations and customer rights constrain risk acceptance; an internal committee cannot waive them.
+
+\newpageof{11 | Business evaluation}{Sensitivity without invented bank figures}
+\sub{A decision equation, not an estimated return}
+For the same eligible payment population and observation period, define $N$ payment attempts, fraud-attempt share $p$, unrecovered loss per released fraud $L$, effective fraud-prevention rate $r$, legitimate false-rejection rate $f$, impact per false rejection $c$, and lifecycle cost $K$. Each needs a clear definition, measured denominator and uncertainty. With baseline 0 and candidate 1:
+\[
+\Delta V = NpL(r_1-r_0)-N(1-p)c(f_1-f_0)-\Delta K.
+\]
+Here $r$ is the share of fraud exposure effectively prevented, not alert recall. The model assumes comparable fraud amounts, recovery and customer mix; scoring without effective intervention earns no avoided-loss benefit. In practice use transaction-level or segment/amount-weighted estimates, separate authorised scams from unauthorised fraud, and include outages, investigation, complaints and remediation without double-counting them in $c$ and $K$. Statutory constraints remain hard gates outside this equation.
+\sub{Sensitivity and break-even conditions}
+Write $d=r_1-r_0$ and $e=f_1-f_0$. For $pL>0$, positive value requires:
+\[
+d > \frac{(1-p)ce+\Delta K/N}{pL}.
+\]
+For fixed $p,L,c$ and comparable exposures, doubling incremental prevention doubles the gross avoided-loss term; doubling excess false rejection doubles its incremental cost term. These are algebraic sensitivities, not forecasts. If $e<0$, reduced false rejection is a benefit; if $d<0$, AI worsens prevention. Low prevalence makes even small increases in false rejection consequential. Higher unrecovered fraud severity increases the value of prevention, but cannot justify an unlawful decision.
+
+For pilot estimates obtain plausible intervals from the bank: $p\in[p_-,p_+]$, $L\in[L_-,L_+]$, $d\in[d_-,d_+]$, $e\in[e_-,e_+]$, $c\in[c_-,c_+]$ and $\Delta K\in[K_-,K_+]$. Evaluate the original equation over admissible combinations, preserving correlations and amount mix. When $d,e\geq0$, a conservative corner uses lower $p,L,d$ and higher $c,e,\Delta K$. If signs or dependencies differ, enumerate valid cases rather than applying that corner blindly. No numerical range is supplied without evidence.
+\sub{How to collect decision-quality evidence}
+Use a frozen, point-in-time temporal holdout with mature outcomes before shadow scoring. Track the same eligible requests, decision versions and failed attempts. A subsequent authorised limited trial needs an ethical and operationally acceptable comparator design, independent review and predefined stopping rules. Blocking changes which outcomes are observable; shadow scoring alone does not reveal what losses a blocked payment would have caused.
+
+\textbf{Conclusion of sensitivity:} no single detection metric establishes benefit. The adoption case is sensitive to prevalence, loss severity, false rejection and lifecycle cost. Because their bank-specific intervals are missing, a claim of positive ROI or a numerical optimal threshold would exceed the evidence. The proposed business decision therefore remains gated rather than filled with illustrative percentages.
+
+\newpageof{12 | Discussion and recommendation}{A staged decision with explicit limits}
+\sub{Proposed adoption sequence}
+\textbf{Stage 0 --- Baseline and legality.} Confirm the bank's relevant obligations and payment-state design; measure present fraud, legitimate rejection, tail latency and service incidents. Assign accountable roles, risk appetite and data permissions. A missing baseline prevents attributing any improvement to AI.
+
+\textbf{Stage 1 --- Offline and shadow assurance.} Validate point-in-time data and matured labels; compare alternative thresholds and a rules baseline. Shadow scoring must not alter payment execution or overload the live system. Test security, latency, dependency loss, binding and rollback. Record unsuccessful tests and limitations as evidence, not merely successful demonstrations.
+
+\textbf{Stage 2 --- Restricted live pilot.} Only after authorised acceptance of the relevant gates, apply a bounded decision policy to an explicitly approved population. Set exposure, observation period and stop rules in advance. Maintain customer remediation, on-call expertise and verified fallback. Scope and thresholds are decisions for the bank; this report supplies no fictional authorisation.
+
+\textbf{Stage 3 --- Consider expansion.} Require mature outcome evidence of incremental business value within friction, rights and resilience limits. Reassess remaining G scenarios and common causes. Expansion is a new acceptance decision, not an automatic result of completing a pilot.
+\sub{Critical limitations}
+Public evidence describes obligations and plausible mechanisms but does not supply the bank's fraud exposure, model, labels, architecture, supplier contract or tested controls. Consequently frequency, expected loss, implementation cost and numerical residual risk are not estimated. The proposed register is comprehensive relative to the stated boundary, not an assertion that every possible threat has been found. A bank workshop and architecture/data review could add or merge scenarios.
+
+Rules and data can be shared between baseline and AI, weakening independence. Scam victims may authorise genuinely intended instructions under deception. Recorded fraud can be incomplete, and delayed labels create apparent early success. Customer harm may be asymmetric and difficult to monetise. These limitations prevent a simple ranking based on published model accuracy or aggregate EEA fraud rates.
+
+As of the research date, PSR and PSD3 procedures were awaiting Parliament's second reading. They are tracked as legislative developments, not operative obligations in this assessment. Existing PSD2/RTS, the amended SEPA Regulation, GDPR and DORA remain the relevant assessed baseline, subject to bank-specific applicability. \src{P10, P14, P15}
+\sub{Recommendation and unresolved student decisions}
+The proposed recommendation is a conditional evaluation of AI layered onto a controlled service, with no conclusion that production risk is already acceptable. Before submission the students must independently select and justify content and method, examine the primary evidence, substantially rework this draft and complete truthful disclosure. The group must also confirm the additional minor events and clarify the contradictory minor deadline. These are recorded in the decision register; absent bank data is a declared study limitation, not a request to fabricate it.
+
+\newpageof{References | Primary and course sources}{Bibliography and traceability}
+\small
+Stable IDs below match \texttt{evidenze/registro\_fonti.json}. Access date: 25 November 2026. Local downloads and retrieval limitations are recorded there. Statutory claims use article/annex locations; EPC and research claims use sections/pages. Original URLs are clickable; fuller titles and evidence notes remain in the register.
+\begin{enumerate}[label={},leftmargin=0pt,itemsep=5pt]
+\item \textbf{P01.} European Payments Council (2026). \emph{2025 SCT Inst Scheme Rulebook}, v1.2, 30 September. Sections 4.2, 4.3. \url{https://www.europeanpaymentscouncil.eu/document-library/rulebooks/2025-sepa-instant-credit-transfer-rulebook-version-1-2}
+\item \textbf{P02.} EU (2024). Regulation 2024/886, amending the SEPA Regulation. Article 1: new Articles 5a--5c; execution, verification of payee and implementation dates. \url{https://eur-lex.europa.eu/eli/reg/2024/886/oj}
+\item \textbf{P03--P04.} EU (2024/2026). Regulation 2024/1689, consolidated 27 July 2026, Articles 6 and 113, Annex III 5(b); amending Regulation 2026/1744. \url{https://eur-lex.europa.eu/eli/reg/2024/1689} ; \url{https://eur-lex.europa.eu/eli/reg/2026/1744/oj}
+\item \textbf{P05.} EU (2022). Regulation 2022/2554 (DORA), Articles 5--6, 11--12, 24, 28--30, 64. \url{https://eur-lex.europa.eu/eli/reg/2022/2554/oj}
+\item \textbf{P06.} EU (2016). Regulation 2016/679 (GDPR), Articles 5--6, 13--15, 22, 25, 32 and 35. \url{https://eur-lex.europa.eu/eli/reg/2016/679/oj}
+\item \textbf{P07.} European Commission (2018). Delegated Regulation 2018/389, consolidated 12 September 2023, authentication and secure communication RTS, especially Articles 2 and 18. \url{https://eur-lex.europa.eu/eli/reg_del/2018/389/oj}
+\item \textbf{P08.} EBA and ECB (2025). \emph{2025 Report on Payment Fraud}, December. Payment-fraud value, instant-transfer coverage/limitations and loss allocation, pp.~6, 10, 13--14, 34--35. \url{https://www.ecb.europa.eu/press/intro/publications/pdf/ecb.ebaecb202512.en.pdf}
+\item \textbf{P09.} Dal Pozzolo, A., Boracchi, G., Caelen, O., Alippi, C. and Bontempi, G. (2018; online 2017). Credit Card Fraud Detection: A Realistic Modeling and a Novel Learning Strategy. \emph{IEEE Transactions on Neural Networks and Learning Systems}, 29(8), 3784--3797. \url{https://doi.org/10.1109/TNNLS.2017.2736643}
+\item \textbf{P10.} EU (2015). Directive 2015/2366 (PSD2), especially Articles 68, 79 and 97. \url{https://eur-lex.europa.eu/eli/dir/2015/2366/oj}
+\item \textbf{P11--P12.} European Commission, official explanatory resources: \href{https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai}{AI Act implementation} and \href{https://ai-act-service-desk.ec.europa.eu/en/ai-act/annex-3}{AI Act Service Desk, Annex III}. Used for cross-checking. Explanations do not replace binding text; snapshots are in the source register.
+\item \textbf{P14--P15.} European Parliament, Legislative Observatory. Procedures 2023/0210 (PSR) and 2023/0209 (PSD3), status checked 25 November 2026. \url{https://oeil.europarl.europa.eu/oeil/en/procedure-file?reference=2023/0210(COD)} ; \url{https://oeil.europarl.europa.eu/oeil/en/procedure-file?reference=2023/0209(COD)}
+\end{enumerate}
+\textbf{Course sources.} Official \emph{TRG Major Assignment Instructions 26--27}, pp.~2--8; Class 1--2 (2026--27), SSE Classes 3--4, Cybersecurity Governance (2026--27), HOF Class 7, HRO and \emph{IT Risk Management -- complete version}. Course documents were supplied locally, not retrieved from the web. Exact filenames and page mappings are in the course evidence map. Annotations are student notes; they are not automatically treated as verbatim instructor statements.
+
+\newpageof{Disclosure | Required human work}{GenAI use and decisions still open}
+\sub{GenAI disclosure: factual working version, not signed}
+\textbf{Tool used.} OpenAI Codex with cooperating AI agents, web search, source retrieval, local text extraction and LaTeX compilation. The exact model variant was not independently verified and is not asserted.
+
+\textbf{Purpose and actual contributions.} AI read permitted course materials, extracted requirements, searched and summarised external sources, proposed the PHA/scenario-register method, proposed content and adoption options, drafted this report and the independent HOF minor, generated editable sources, and performed automated and visual checks. A different AI agent reviewed each draft. AI-to-AI review is not human oversight.
+
+\textbf{Human oversight status.} This working version does not attest that the students have reviewed, edited, verified or selected its content or method. No student signature or approval has been generated. The only instructor approval relied on is the recorded approval of the topic/perimeter, not this manuscript.
+
+\textbf{Course-policy limitation.} Assignment p.~6 permits information support and analysis within an analyst-provided framework, but prohibits GenAI selection of contents, methodology and frameworks. This task requested AI proposals and a full draft; its actual AI contribution extends into those reserved activities. Labelling a proposal, signing a statement, or accepting the AI output does not alone remedy that conflict. Students must make and substantiate their own analytical choices, substantially rework the report and describe the actual assistance honestly. Seek instructor clarification if uncertain whether the revised use is permissible.
+
+\textbf{Independence and provenance.} No excluded prior solution or related copy, export or historical version was consulted. Searches used original-source allowlists and excluded graphs/caches. No claim of a bank experiment or dataset is made. Assumptions, mechanisms inferred by the analysis, and observed public evidence are distinguished throughout.
+\sub{Student decisions required before submission}
+\begin{enumerate}[itemsep=4pt]
+\item Independently choose and justify contents and risk-assessment method; record the decision and rework the proposed assessment accordingly.
+\item Review and substantively edit the report against original course and external sources, including current law, then complete the required truthful disclosure and obtain all three actual signatures.
+\item Confirm HOF additional events (the independent minor proposes Events 5 and 7), and resolve the inconsistent minor deadline with the current course communication.
+\item Select the oral examination session to determine the major deadline (at least one week before it); submit personally on WeBeep. No oral date or submission is assumed here.
+\end{enumerate}
+\sub{Signature section to complete only after actual review}
+Michele Attilio Arici: \rule{55mm}{0.4pt}\quad Date: \rule{24mm}{0.4pt}\\[3mm]
+Andrea Ferraboli: \rule{61mm}{0.4pt}\quad Date: \rule{24mm}{0.4pt}\\[3mm]
+Michelangelo Brusamarello: \rule{48mm}{0.4pt}\quad Date: \rule{24mm}{0.4pt}
+\end{document}

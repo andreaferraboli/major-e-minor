@@ -1,0 +1,254 @@
+{
+  "verified_on": "2026-11-25",
+  "page_convention": "physical PDF page number starting at 1",
+  "excluded_material_read": false,
+  "graph_cache_git_content_used": false,
+  "sources": [
+    {
+      "id": "D01",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\major e minor\\TRG_Major Assignment Instructions_26-27 (1).pdf",
+      "sha256": "96a706b4f71dc77d9a931b3028bb66f149e303647e59058cc38d5882c68089e7",
+      "coverage": "all",
+      "note": "official assignment"
+    },
+    {
+      "id": "D02",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\major e minor\\trascrizione_20_ottobre.txt",
+      "sha256": "e87f69b7be13076ef1b4a707d523a8d804f81a2b6bcd3b633f0e96bf5a85a8d6",
+      "coverage": "selected lines 1-99 and 175-231",
+      "note": "lecture transcript; later assignment explanation lacks timestamps"
+    },
+    {
+      "id": "D03",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\major e minor\\transcription-7.txt",
+      "sha256": "e9c0702aa56522b7bf21e2d0c1875890d9d683f7a883fede750b59ca9d3f5693",
+      "coverage": "selected lines 1-205",
+      "note": "HOF lecture transcript"
+    },
+    {
+      "id": "D04",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\major e minor\\trascrizione_lezione_caso.txt",
+      "sha256": "703deb70b13245f10b11ff3188d6671bac4297222ad7aa387c568b703137b3c6",
+      "coverage": "selected sections including 13:53-15:40",
+      "note": "derived lecture guide; not certified verbatim"
+    },
+    {
+      "id": "D05",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\01-02_SLIDES_TRGCyber_Class 1-2_2026-27.pdf",
+      "sha256": "7856cdb0d0f6c283a8f4cdec11deef52c4e46f7b8cadd1f93059527f9cb3f31b",
+      "coverage": [
+        17,
+        29,
+        30,
+        33,
+        35
+      ],
+      "note": "original slides; all page titles indexed"
+    },
+    {
+      "id": "D06",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\03_SLIDES_TRG_SSE_Class 3.pdf",
+      "sha256": "a8e19be4b81463cd1892c90a9be04983494d67793cfaf7ce62158c7bd89b0712",
+      "coverage": [
+        13,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        43,
+        47,
+        52,
+        53
+      ],
+      "note": "original slides; all page titles indexed"
+    },
+    {
+      "id": "D07",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\05-06_SLIDES_cybersecurity_governance_and_risk_management_2026-27.pdf",
+      "sha256": "90b0668ed75179bf52a694b16fbbc696f8c03d5160c04a5dbc54a3cb56111c73",
+      "coverage": [
+        11,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        42,
+        43,
+        44,
+        45,
+        46,
+        48,
+        49,
+        53
+      ],
+      "note": "original slides; all page titles indexed"
+    },
+    {
+      "id": "D08",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\07_SLIDES_TRG_HOF_Class 7.pdf",
+      "sha256": "6e9babfb46700604f277a48cbe692109ad8fd6799e6a0c05fb5aaa8240935abd",
+      "coverage": [
+        9,
+        13,
+        14,
+        18,
+        19
+      ],
+      "note": "original slides; all page titles indexed"
+    },
+    {
+      "id": "D09",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\major e minor\\08_SLIDES_TRG_Class 8_HOF Analysis case_Presentation.pdf",
+      "sha256": "dce6030af71da2c5cf66cfab2419ed6b8bfb2763a73ba4f25981881623f6a3fd",
+      "coverage": "all extractable text; pp10-11 instructor diagrams traced via annotations",
+      "note": "original slides; instructor solution allowed"
+    },
+    {
+      "id": "D10",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\09_SLIDES_TRG_HRO.pdf",
+      "sha256": "7aa6cd874c6fc5b7c4fc38cc1e1bf5041a9d0357f9992441ac8fef2f73804659",
+      "coverage": [
+        5,
+        9,
+        13,
+        15,
+        16,
+        17,
+        18
+      ],
+      "note": "original slides; titles and annotations inspected"
+    },
+    {
+      "id": "D11",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\04_SLIDES_TRG_SSE_Class 4.pdf",
+      "sha256": "003e993bf04c3367ee50da1527ce850ea1ffef7d1f00f8697659366c47bd0b94",
+      "coverage": [
+        6,
+        9,
+        26,
+        27,
+        28
+      ],
+      "note": "original slides; relevant annotations inspected"
+    },
+    {
+      "id": "D12",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\10_SLIDES_IT Risk Management - complete version.pdf",
+      "sha256": "323065804dd8eb94d29e6d62ccb050ea877939cd30fbce93e1dd593b7491a801",
+      "coverage": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        24,
+        25,
+        26,
+        33,
+        34
+      ],
+      "note": "2025 teaching seminar, not evidence of current law"
+    },
+    {
+      "id": "D13",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\12_SLIDES_MODULE 2 - ANALYSIS AND SOLUTIONS DESIGN_2025.pdf",
+      "sha256": "34ebac2cf94df3ad7ef9e33e33b63a17ef5a4f0e1cdfe43eafd25b53c206e80e",
+      "coverage": [
+        10,
+        13,
+        14,
+        15,
+        18,
+        19,
+        27,
+        31,
+        38
+      ],
+      "note": "teaching slides"
+    },
+    {
+      "id": "D14",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\15_SLIDES_MODULE 3 - IMPLEMENTATION-VALIDATION_2025.pdf",
+      "sha256": "39ed1025a045aff0d2d02bab758453b9e15cb50c4e23744b3a790320e51aa5c9",
+      "coverage": [
+        18,
+        20,
+        34,
+        35,
+        37,
+        38,
+        43,
+        48
+      ],
+      "note": "teaching slides"
+    },
+    {
+      "id": "D15",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\13_SLIDES_MODULE 4 - CERTFIN.pdf",
+      "sha256": "a1da73f231417e38286443d675c937beb3949a2c3eca62fa4457100abe6b0e18",
+      "coverage": [
+        11,
+        12,
+        13
+      ],
+      "note": "teaching slides"
+    },
+    {
+      "id": "ANNOT-16",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\01-02_SLIDES_TRGCyber_Class 1-2_2026-27.annotations.md",
+      "sha256": "1259fb81c6ad9c2f84049a0a0a5f53a16d4cdbe6f45a6fc9736122431dda70fa",
+      "coverage": "relevant comments inspected; personal notes, not authoritative lecture quotations"
+    },
+    {
+      "id": "ANNOT-17",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\03_SLIDES_TRG_SSE_Class 3.annotations.md",
+      "sha256": "32370ce270f376ccc1fd2588943f4ba3027859a07f529899ecef81e82302c62e",
+      "coverage": "relevant comments inspected; personal notes, not authoritative lecture quotations"
+    },
+    {
+      "id": "ANNOT-18",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\04_SLIDES_TRG_SSE_Class 4.annotations.md",
+      "sha256": "e9377acebb41b730576cb42e65a6b950472f908a637e5e34032f6321c87fb8fa",
+      "coverage": "relevant comments inspected; personal notes, not authoritative lecture quotations"
+    },
+    {
+      "id": "ANNOT-19",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\05-06_SLIDES_cybersecurity_governance_and_risk_management_2026-27.annotations.md",
+      "sha256": "6024bd50706189779ec62d3328c377e3fc94909f2d0ff0dcdd9356a56526163a",
+      "coverage": "relevant comments inspected; personal notes, not authoritative lecture quotations"
+    },
+    {
+      "id": "ANNOT-20",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\07_SLIDES_TRG_HOF_Class 7.annotations.md",
+      "sha256": "4234f7693966b635a9a73eb721854ce0f550478c37f01fc21cd2b2d5ea8a4ccc",
+      "coverage": "relevant comments inspected; personal notes, not authoritative lecture quotations"
+    },
+    {
+      "id": "ANNOT-21",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\09_SLIDES_TRG_HRO.annotations.md",
+      "sha256": "35b1c8a15e5722856847ecff4a3a6586ad2223871a601a06c70fe9b38d2aa8fa",
+      "coverage": "relevant comments inspected; personal notes, not authoritative lecture quotations"
+    },
+    {
+      "id": "ANNOT-22",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\16_SLIDES_Polimi_AC_19.11.26.annotations.md",
+      "sha256": "fed6e4769469f60df7b895f2d0d19e3bd114c2b5ac132db5d6cba160598af93b",
+      "coverage": "relevant comments inspected; personal notes, not authoritative lecture quotations"
+    },
+    {
+      "id": "ANNOT-HOFcase",
+      "path": "C:\\Users\\andre\\Desktop\\studio\\TRG\\materials\\source\\major e minor\\08_SLIDES_TRG_Class 8_HOF Analysis case_Presentation.annotations.md",
+      "sha256": "a81181c54d9a006cd08b5a17fe624e162548feca3078b533f624a1a0204f507f",
+      "coverage": "all",
+      "note": "personal annotations with instructor diagram descriptions; original slides remain authoritative"
+    }
+  ]
+}

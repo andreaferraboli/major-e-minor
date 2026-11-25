@@ -1,0 +1,178 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype}
+\usepackage[margin=18mm,headheight=15pt,footskip=10mm]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage{xcolor,enumitem,fancyhdr,hyperref}
+\definecolor{ink}{HTML}{173347}
+\definecolor{soft}{HTML}{F2F5F7}
+\definecolor{edge}{HTML}{8496A3}
+\hypersetup{colorlinks=true,urlcolor=ink,linkcolor=ink,pdftitle={HOF analysis - co-generation plant - revised Codex analysis},pdfauthor={Codex analysis for Arici, Ferraboli and Brusamarello}}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\textcolor{ink}{Technology Risk Governance | Minor HOF}}
+\fancyhead[R]{\small Revised Codex analysis | 25 Nov 2026}
+\fancyfoot[L]{\scriptsize F: case fact \quad T: taught interpretation \quad I: analytical inference}
+\fancyfoot[R]{\small\thepage/8}
+\renewcommand{\headrulewidth}{0.3pt}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}
+\setlist[itemize]{leftmargin=14pt,itemsep=3pt,topsep=3pt}
+\newcommand{\evtitle}[3]{\vspace*{-3mm}{\LARGE\bfseries\color{ink}Event #1: #2}\par{\large #3}\par\vspace{2mm}}
+\newcommand{\sect}[1]{\par\vspace{2mm}{\bfseries\color{ink}#1}\par}
+\newcommand{\tagline}[1]{{\small\textcolor{ink}{#1}}\par}
+\newcommand{\sourcebar}[1]{\vfill{\footnotesize\textbf{Source key.} #1}}
+\newif\ifhumanpath\humanpathtrue
+\newif\iftechnicaldesign\technicaldesigntrue
+\newcommand{\reason}[8]{%
+\begin{center}\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,
+ box/.style={draw=edge,rounded corners=1mm,fill=soft,align=left,text width=4.8cm,inner sep=7pt,font=\small},
+ top/.style={box,text width=8cm},
+ event/.style={box,fill=ink,text=white,text width=4.6cm,align=center,font=\small\bfseries},
+ conn/.style={->,thick,draw=ink},context/.style={->,dashed,draw=edge}]
+\node[top] (org) at (0,0) {\textbf{Organisational vulnerabilities / cross-path latent conditions}\\#1};
+\node[font=\bfseries\small,text=ink] at (-5,-2.1) {Human error path};
+\node[font=\bfseries\small,text=ink] at (5,-2.1) {System failure path};
+\node[box] (local) at (-4.9,-4.2) {\textbf{Local working conditions}\\#2};
+\node[box] (latent) at (4.9,-4.2) {\textbf{Latent errors}\\#3};
+\node[box] (active) at (-4.9,-8.4) {\textbf{Active errors}\\#4};
+\node[box] (fail) at (4.9,-8.4) {\textbf{Failures of defences, barriers and safeguards}\\#5};
+\node[event] (ev) at (0,-13.1) {#6};
+\node[box,text width=4.1cm] (human) at (-5.7,-13.1) {\textbf{Personal / external factors}\\#7};
+\node[box,text width=4.1cm] (system) at (5.7,-13.1) {\textbf{Local / external factors}\\#8};
+\draw[conn] (org.south) -- (0,-2.1) -- (-2,-2.1) -- (local.north east);
+\iftechnicaldesign
+\draw[conn] (org.south) -- (0,-2.1) -- (2,-2.1) -- (latent.north west);
+\draw[conn] (latent) -- (fail);
+\else
+\draw[context] (org.south) -- (0,-2.1) -- (2,-2.1) -- (latent.north west);
+\draw[context] (latent) -- (fail);
+\fi
+\draw[conn] (local) -- (active);
+\ifhumanpath\draw[conn] (active.south east) -- (ev.north west);\fi
+\draw[conn] (fail.south west) -- (ev.north east);
+\draw[context] (human.east) -- (ev.west);
+\draw[context] (system.west) -- (ev.east);
+\end{tikzpicture}\end{center}}
+\begin{document}
+\evtitle{1}{Start of transient depressurisation}{02:00 | Reason template | Required classroom event}
+\tagline{Group: Michele Attilio Arici; Andrea Ferraboli; Michelangelo Brusamarello.}
+\tagline{This Codex analysis uses Reason for Events 1, 3, 5 and 7. F/T/I distinguish evidence from interpretation; GenAI disclosure is on p.8.}
+\reason
+{Control-system design errors and electrical-circuit design/maintenance weaknesses [T, S10]. They undermine both reliable information and operator diagnosis [I].}
+{Poor automatic control/HMI; no emergency procedures [T, S10; F, C\,\S3.3--3.4].}
+{Pressure-transducer location exposed to freezing; insufficient control-logic redundancy [T, S10]. No abnormal-measure warning [F, C\,\S3.3].}
+{Operators did not understand the DCS automatic routine: \textit{mistake} [T, S10]. This explains failure to recognise the developing state, rather than the initiating sensor fault.}
+{Pressure transducer fails and supplies a false high-pressure signal; automatic controls act on it [F, C\,\S2; T, S10].}
+{EVENT 1\\False 1.76 MPa indication triggers depressurisation although actual pressure was normal [F].}
+{Night shift [F]. Low production and low attention are classroom interpretations [T, S10], not established individual behaviour.}
+{Low winter temperature; freezing of signal piping [F]. Temperature of -5\,$^{\circ}$C is from the teaching solution [T, S10].}
+\tagline{Read causal arrows as contributory mechanisms, not quantified probabilities. Dashed arrows show contextual influences.}
+\sourcebar{C: Trucco, \textit{Accident in a co-generation plant}, 2014, pp.6--10. S: Class 8 presentation, PDF pp.7--10. R: Class 7 HOF, PDF pp.9,14,19.}
+\newpage
+\evtitle{1}{Justification and scope}{A failed information barrier, compounded by loss of situational awareness}
+\sect{Mechanism: a false safety signal creates the unsafe state}
+\textbf{F.} C\,\S2 (pp.6--8) places the transducer outdoors, describes freezing during an unusually cold but \emph{not exceptional} night, and records the erroneous 1.76 MPa indication against a normal system pressure near 0.95 MPa. The control system reduced pressurising-pump speed, opened relief/expansion-tank valves and stopped main feed pumps. The equipment responded to the wrong information; the case does not establish that all these actuators themselves malfunctioned.
+
+\textbf{T/I.} S10 separates the failed transducer (failed defence) from its exposed location and missing control redundancies (latent errors). The decisive design problem is that a single implausible indication can drive a coherent but hazardous automatic response. The top box is labelled \emph{latent error} in S10 and \emph{organisational vulnerabilities} in R19: its function here is the cross-path weakness in designing and maintaining both information integrity and operator recovery. Allocation follows the scope-of-influence rule discussed in L (42:25--43:35 / 00:00--01:45).
+
+\textbf{F/T.} C\,\S3.3--3.4 (p.9) establishes no abnormal-measure alarm, a poorly designed heater-supply monitoring system, layered HMI windows without overview and no emergency procedures. S10 calls the human active error a \emph{mistake}: operators misunderstood the DCS routine. The subsequent restart of circulation pumps supports that classroom interpretation (L, 18:19--24:15); it is not an independent observation of their mental state.
+\sect{Why these are distinct categories}
+The transducer defect initiates the technical sequence; misunderstanding compromises the opportunity for recovery. A location/control-design weakness predates the incident, so it is latent. The HMI and unavailable procedures are the conditions experienced by operators. The inferred failure of understanding concerns intention/diagnosis, so \emph{mistake} is consistent with Reason's taxonomy (R14), rather than an execution slip. No claim is made that an operator should have prevented an instantaneous automatic response.
+\sect{Uncertainties and proportionate implications}
+Low attention is retained solely as a taught interpretation. Night shift alone does not demonstrate fatigue, sleep or misconduct; such claims are excluded. C\,\S3.6 and \S3.8 explicitly lack detailed shift/team information. The awkward wording about thermo-hydraulic knowledge in C\,\S3.1 is interpreted using the classroom explanation and C\,\S3.7, which directly states inadequate emergency skills.
+
+\textbf{I, improvement logic.} The first barrier must reject or flag an inconsistent critical measurement; the recovery layer must then make the automatic response diagnosable. Protect and supervise the sensor/heating circuit, compare suitably independent process information and display control mode with pressure and valve states. Drills must test recognition of this specific false-signal sequence. Adding another sensor without checking common exposure or logic does not demonstrate a second effective barrier.
+\sourcebar{L: supplied \texttt{trascrizione\_lezione\_caso.txt}, sections on Event 1 and methodological questions. L is a structured guide derived from a reordered video, not a verbatim transcript; C and S take priority.}
+\newpage
+\evtitle{3}{Flooding of the pumping room}{02:41 | Reason template | Required classroom event}
+\reason
+{Alarm-system design and overflow-emergency logic [T, S11]. Inadequate alignment of containment capacity with detection and intervention [I, following L].}
+{High-level alarm buried among lower-priority alarms; layered displays obscure overall plant condition [F, C\,\S3.3; T, S11].}
+{Discharge line/tank undersized; insufficient isolation of the pump room [T, S11]. Inadequate emergency discharge capacity is explicit in the case [F].}
+{Omitted valve closure: \textit{mistake}; high water level not noticed: \textit{slip} [T, S11]. Late closure is documented separately as Event 4 [F].}
+{Storage/overflow system cannot contain or discharge the incoming water; boiling water reaches the pumping room [F, C\,\S2; T, S11].}
+{EVENT 3\\Storage-tank overflow and flooding of the pumping room [F].}
+{Limited emergency response time [F, C\,\S3.5]. No event-specific personal state is established; no individual misconduct inferred.}
+{Earlier manual activation of circulation pumps (Event 2) [F; external input in the event-specific teaching solution, T, S11].}
+\tagline{Event 2 is a prior human action in the accident sequence, but an external input to this Event 3 boundary. The classification changes with the event boundary.}
+\sourcebar{C, \S2 pp.7--8; \S3.3--3.5 pp.9--10. S11, official classroom analysis of Event 3. Generic Reason scheme: S7 / R19.}
+\newpage
+\evtitle{3}{Justification and scope}{Containment capacity must match the time needed for an effective response}
+\sect{Evidence and causal allocation}
+\textbf{F.} C\,\S2, Event 3 (p.8), states that maximum storage-tank level led to discharge and that the emergency system could not fully handle the flow; boiling water flooded the pumping room. C\,\S3.3 (p.9) states that a high-level warning existed but was dispersed among less important alarms and that layered HMI windows prevented an overview. This is a failure of effective warning presentation, not evidence that no level alarm was installed.
+
+\textbf{T.} S11 assigns deficient pump-room isolation and discharge-line/tank sizing to latent technical errors, and overflow to failure in defence. Omitted valve closure is a \emph{mistake}; missed high water level is a \emph{slip}. The distinction matters: a better response plan addresses the first, whereas making the cue salient addresses the second. C directly documents late closure in Event 4; it does not record individual intentions. The psychological labels are therefore attributed to the teaching interpretation rather than asserted as directly observed facts.
+
+\textbf{T/I.} L (29:00--29:49 and 00:50--01:45) emphasises alignment of technical sizing with organisational response. Finite capacity is useful only when detection, diagnosis and closure can occur before it is exhausted. Placing the joint design weakness at the top connects both causal paths without claiming a documented management decision or a numerical capacity deficit.
+\sect{Boundary and taxonomy}
+The manual pump restart is external to \emph{this sub-event}, as in S11. Its consequences increased the demand on discharge/containment; the full sequence still includes the human decision in Event 2. Generic training shortcomings exist in C\,\S3.7, but are not inserted as the explanation for every box. L's SRK discussion (35:05--39:50) distinguishes basic monitoring/closure from the deeper diagnosis required in Event 1, and allows justified alternative allocations. The present diagram stays close to S11.
+\sect{Uncertainties and proportionate implications}
+No tank volume, discharge flow, time-to-overflow or individual alarm-response record is supplied. Classroom claims about flow multiples are therefore not used as measured design data. The report does not infer staffing numbers, fatigue or a particular maintenance failure.
+
+\textbf{I, improvement logic.} Treat containment and intervention as one protection function: the warning must be detected and the inflow controlled before usable capacity is exhausted. Review credible inflows with detection/diagnosis/closure time, segregate vulnerable equipment, prioritise the level alarm and test the valve/pump sequence. The available record supports this qualitative criterion, not a numerical design margin. Neither larger storage nor a written procedure establishes adequacy without the other barriers working.
+\sourcebar{C pp.8--10; S11; R14--19. L Event 3 and methodological questions, cited by supplied guide section/minute range. The case's repeated \S3.4 numbering is preserved when locating sources.}
+\newpage
+\evtitle{5}{Loss of power and remote control}{03:20 | Reason template | Additional event: automatic safeguard interaction}
+\humanpathfalse
+\reason
+{The protection strategy does not preserve an effective recovery capability after the steam-triggered trip [I]. No emergency procedures and inadequate emergency competence [F, C\,\S3.4,3.7].}
+{Remote control becomes unavailable; recovery must use local/manual arrangements [F, C\,\S1.2--1.3,2]. Emergency staffing is inadequate [F, C\,\S3.1].}
+{Fire protection cannot distinguish vapour from smoke [F]. The architecture couples protective shutdown to loss of usable remote control under this disturbance [I].}
+{No distinct operator error is established for triggering Event 5 [F boundary]. Human recovery difficulties are consequences/conditions, not an invented unsafe act.}
+{The steam-triggered trip cuts electrical power and stops pumps; the remote-control layer is also lost [F, C\,\S2]. Effective remote recovery is unavailable [I].}
+{EVENT 5\\Fire-protection intervention produces complete power cut-off and remote-control outage [F].}
+{Night shift and limited emergency time [F]. No documented individual attention or physiological state.}
+{Boiling-water flooding and vapour-saturated atmosphere from earlier events [F]. No actual fire is reported in this sequence.}
+\humanpathtrue
+\tagline{Event 5 marks the transition from remote intervention to constrained local recovery. The human branch describes recovery conditions; it is not an established cause of the automatic trip.}
+\sourcebar{C, \S1.2--1.3 pp.5--6; \S2 pp.6--8; context pp.9--10. R5--9,19: layered defences and active/latent conditions. Classification of this additional event is analytical inference.}
+\newpage
+\evtitle{5}{Justification and scope}{A protective action creates a new loss of control capability}
+\sect{Evidence and causal allocation}
+\textbf{F.} C\,\S2 (p.8) directly links flooding and vapour saturation to fire-protection intervention. That system could not distinguish vapour from smoke and cut off electrical power; pumps stopped and remote control went out of service. These are the documented proximal mechanisms. The water/steam condition is an input from the preceding sequence, not a spontaneous fire or a cyber incident.
+
+\textbf{F/I.} C\,\S2 (pp.6--7) also describes a backup supply intended to retain the minimum power for automatic-control settings during a fire trip. Its coexistence with the recorded remote-control outage reveals a continuity question. It does \emph{not} prove that a particular UPS, battery, wiring circuit or component failed. Retaining settings and sustaining remote operation may require different capabilities. The diagram records the observed loss and the inferred dependency concern, without inventing its electrical failure mechanism.
+
+\textbf{F/I.} C\,\S1.2 (p.5) defines manual operation as an emergency backup, rarely used because of complexity/difficulty. C\,\S1.3 (pp.5--6) describes separated control areas and local panels. Their contribution here is to recovery conditions after remote control is lost. Inadequate staffing, absence of emergency procedures and inadequate emergency skills are case facts (pp.9--10); their placement as cross-path organisational vulnerabilities is our causal interpretation.
+\sect{A protection can act and still leave the system unsafe}
+The trip is automatic; no documented operator error causes it. Its role must be assessed at two levels: the fire-protection function removes power, while the wider system loses observation and remote action during a developing hydraulic emergency. That interaction, rather than a conjectured human mistake, is the Event 5 failure mechanism. Reason therefore identifies a supported technical path; recovery conditions on the human side do not become an invented second cause.
+\sect{Why this analysis selects Event 5}
+\textbf{I.} Event 5 adds a mechanism not resolved by analysing sensor integrity or overflow alone: a safeguard removes another layer's usable capability under the same disturbance (R5--9). It is also the causal hinge between control-room diagnosis and local manual recovery. This makes it complementary to Event 7 rather than a repetition of Events 1 and 3.
+
+\textbf{I, improvement logic.} Verify steam/fire discrimination while preserving effective fire protection, and establish which essential monitoring/control functions survive the trip and flood. Test backup capability against those functions, not merely the retention of settings; rehearse safe local recovery. The acceptance question is whether the plant can reach a safe state after this credible trip. The record does not justify specifying battery autonomy, a particular detector replacement or suppression of genuine fire trips.
+\sourcebar{Primary evidence: C pp.5--10, especially \S2 Event 5 on p.8. Method: R5--9,19. Event 5 is selected by this Codex analysis for safeguard interaction and loss of recovery capability.}
+\newpage
+\evtitle{7}{Pump restart with protection bypassed}{04:39 | Reason template | Additional event: manual recovery defeats an inhibition}
+\technicaldesignfalse
+\reason
+{Priority given to heating continuity, conflicting restoration/safe-state goals, no emergency procedures and inadequate emergency competence [F, C\,\S3]. Their joint influence is inferred [I].}
+{Remote control already lost; complex manual recovery; limited time; supervisor moving between separated rooms [F, C\,\S1.2,2,3.2,3.5].}
+{A bypassable inhibition is documented [F]. Whether the manual mode has adequate restart conditions/authorisation is unknown: a latent technical defect is not established.}
+{Manual restart while bypassing low-pressure protection, after three attempts [F]. This analysis classifies the action as a diagnosis/planning \textit{mistake} [I], not a proven procedural violation.}
+{Low-pressure protection no longer inhibits the manually initiated restart [F]. Safe recovery is not ensured: further pressure reduction then violent pressurisation [F].}
+{EVENT 7\\Recirculation pumps manually activated with low-pressure protection bypassed [F].}
+{Night shift; mainly on-the-job training without periodic reinforcement; inadequate emergency skills [F]. No individual intent or fatigue evidence.}
+{System already at low pressure after earlier transients; flooding, steam and previous power/control loss constrain recovery [F].}
+\technicaldesigntrue
+\tagline{Dashed upper technical links mark an unestablished design mechanism. The two lower paths describe one intervention and its defeated defence, not independent failures. The final shock wave remains Event 9.}
+\sourcebar{C, Fig.3 p.7; \S2 Event 7 p.8; context pp.9--10. R13--16,19: violation, mistake and conditions. No additional-event solution from an excluded source was consulted.}
+\newpage
+\evtitle{7}{Justification and scope}{A bypass is documented; the operator's intent and the bypass design are not}
+\sect{Evidence, interpretation and alternatives}
+\textbf{F.} C\,\S2, Event 7 (p.8), states that manual pump activation bypassed low-pressure protection, that three attempts preceded activation, and that further pressure reduction was followed by violent pressurisation. Fig.3 (p.7) places this at 04:39. The bypass defeats a specific inhibition; it does not establish the complete control/protection architecture or prove that bypass hardware was defective.
+
+\textbf{I.} This analysis adopts \emph{mistake} as the best-supported interpretation of diagnosis/planning: the restart sought restoration while failing to secure the hydraulic state. The competing service/safety goals, inadequate emergency competence and missing procedures (C pp.9--10) support that interpretation. It is not an observation of individual intent. \emph{Violation} would additionally require a known rule/practice deliberately departed from (R13); bypassing a protection does not alone prove that condition. Nor is there evidence of a correct safe plan spoiled by an execution slip or a memory lapse.
+
+\textbf{I.} The technical latent-error box remains an investigation question; its upper links are dashed. The record supports a bypassable protection, but not a conclusion that a second interlock was absent, that authorisation rules were ignored, or that design standards were breached. The active intervention and defeated inhibition describe one causal action, not statistically independent failures. This distinguishes direct defence defeat from its unverified design causes; the organisational conditions are grounded in C.
+\sect{Chronology and selection}
+\textbf{F.} Timeline (C Fig.3): 02:00 E1 false-pressure/depressurisation; 02:04 E2 pump restart; 02:41 E3 overflow; 03:00 E4 late valve closure; 03:20 E5 fire trip/control loss; 03:45 E6 outlet-temperature rise; 04:39 E7 protection-bypassed restart; 05:15 E8 heat recovery started; 06:15 E9 shock wave. C p.8 specifies 90\,mm displacement and 3--4\,MPa peak. A conflicting classroom-guide phrase suggesting nearly one metre is rejected in favour of the case.
+
+\textbf{I.} Events 5 and 7 are selected together because they expose successive failures of recovery: automatic shutdown removes remote control, then manual restoration defeats a remaining inhibition. E2/E4 overlap more closely with the diagnosis and valve response already examined in E1/E3; E6/E8 add thermal evolution with less contextual evidence for a separate HOF mechanism. These are choices of the Codex analysis, not a claim of prior human selection. E8 and the evolving two-phase state prevent assigning E9 solely to the bypass.
+
+\textbf{I, improvement logic.} Restoration must be conditional on verified pressure/temperature/flow and a coordinated safe-state decision. A restart checklist, explicit bypass authority, joint command and hydraulic-emergency drills address the identified human/organisational path. Additional interlocks require design evidence: their absence is not assumed. Unlike blanket training, these controls test the precise conflict between restoring service and preserving the inhibition.
+\sect{GenAI disclosure and references}
+Codex selected E5/E7, developed the inferences and recommendations, drafted/reworked the text and produced the source/PDF. Another AI agent reviewed the earlier draft. Human selection, substantive review and verification are not attested; no signature is supplied. Course GenAI restrictions apply to both assignments (20 October lesson, line221). This AI reworking does not itself satisfy those restrictions or establish readiness for submission. The separate factual disclosure must reflect actual work and authentic signatures.
+
+\textbf{References.} C: P. Trucco (2014), \emph{Accident in a co-generation plant: analysis of the HOF involved}, pp.1--12. R: \emph{07\_SLIDES\_TRG\_HOF\_Class 7}, pp.5--19. S: \emph{08\_SLIDES\_TRG\_Class 8\_HOF Analysis case\_Presentation}, pp.7--12. L: supplied derived lesson guide, \texttt{trascrizione\_lezione\_caso.txt}, especially 13:53--15:40 (four events; one template page plus at most one justification page each). Original case/slides prevail over annotations and guide; detailed source paths and decisions accompany this report.
+\end{document}

@@ -33,7 +33,7 @@ Per **ciascuno dei 4 eventi**:
 - **1 pagina** con il template di Reason compilato (elenchi puntati, descrizioni brevi);
 - **massimo 1 pagina** di giustificazioni: quali informazioni abbiamo preso dal testo del caso (e dalla discussione in aula) per compilare il template in quel modo.
 
-Formato: Word o PowerPoint a scelta, ma la **consegna è obbligatoriamente in PDF**. Noi l'abbiamo fatto in LaTeX (file `minor_latex/`), quindi il PDF è già pronto.
+Formato: Word o PowerPoint a scelta, ma la **consegna è obbligatoriamente in PDF**. La soluzione fatta da Claude, con PDF e sorgenti LaTeX, si trova nella cartella [`soluzione_claude/`](soluzione_claude/).
 
 > Il nostro minor contiene **tutti e 9 gli eventi** della timeline. Serve per scegliere: si tengono E1, E3 e i due eventi preferiti, e si escludono gli altri dal file principale prima di consegnare.
 

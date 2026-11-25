@@ -1,0 +1,121 @@
+{
+  "date": "2026-11-25",
+  "documents": [
+    {
+      "document": "major/report_major.pdf",
+      "pages": 15,
+      "sha256": "605c6a0b25277f1226f4573e3ed863ee5e07a2f1ea2885ba37e3d68743e64200",
+      "text_edge_issues": [],
+      "extracted_characters": [
+        2871,
+        3407,
+        3465,
+        3264,
+        3261,
+        3029,
+        3059,
+        3658,
+        3574,
+        3594,
+        3145,
+        3173,
+        3455,
+        3324,
+        3045
+      ]
+    },
+    {
+      "document": "minor_HOF/soluzione_codex/minor_HOF_codex.pdf",
+      "pages": 8,
+      "sha256": "8e44ab6ae1fab1c57edaf56f2b147d96981df3020a3b816a65d6758fb7802636",
+      "text_edge_issues": [],
+      "extracted_characters": [
+        1974,
+        3320,
+        1786,
+        3065,
+        2073,
+        3196,
+        2071,
+        3808
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "P01",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P02",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P03",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P04",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P05",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P06",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P07",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P08",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P09",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P10",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P11",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P12",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P14",
+      "exists": true,
+      "hash_matches": true
+    },
+    {
+      "id": "P15",
+      "exists": true,
+      "hash_matches": true
+    }
+  ],
+  "unknown_external_source_ids": [],
+  "pdf_expected_pages_pass": [
+    true,
+    true
+  ]
+}
